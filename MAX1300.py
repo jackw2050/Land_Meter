@@ -6,6 +6,30 @@ SPI_PORT = 0
 SPI_DEVICE = 0
 
 
+class MCP3(object):
+    """Class to represent an Adafruit MCP3008 analog to digital converter.
+    """
+
+    def __init__(self, clk=None, cs=None, miso=None, mosi=None, spi=None, gpio=None):
+        """Initialize MAX31855 device with software SPI on the specified CLK,
+        CS, and DO pins.  Alternatively can specify hardware SPI by sending an
+        Adafruit_GPIO.SPI.SpiDev device in the spi parameter.
+        """
+        self._spi = None
+        # Handle hardware SPI
+        if spi is not None:
+            self._spi = spi
+        elif clk is not None and cs is not None and miso is not None and mosi is not None:
+            # Default to platform GPIO if not provided.
+            if gpio is None:
+                gpio = GPIO.get_platform_gpio()
+            self._spi = SPI.BitBang(gpio, clk, mosi, miso, cs)
+        else:
+            raise ValueError('Must specify either spi for for hardware SPI or clk, cs, miso, and mosi for softwrare SPI!')
+        self._spi.set_clock_hz(1000000)
+        self._spi.set_mode(0)
+        self._spi.set_bit_order(SPI.MSBFIRST)
+
 class MAX1300:
 
 
@@ -107,11 +131,13 @@ spi.writebytes([0x83])
 
 print "Using interanl clock"
 
-while True:
+# while True:
+data_val = 0
+for x in range (100):
 
     spi.writebytes([CHAN0_READ])
     print "Preparing to sleep..."
-    time.sleep(.01)
+    time.sleep(.1)
     print "Done sleeping.  Reading bytes"
     chan0_data = spi.readbytes(2)
     # print chan0_data
@@ -121,10 +147,12 @@ while True:
     
     chan0_16bit_data = (chan0_data[0]<<8 ) + chan0_data[1]
     dec_data = 1.0 * chan0_16bit_data
-    print chan0_16bit_data
-    print  dec_data / 65535 * 6
+    # print chan0_16bit_data
+    data_val = data_val + dec_data / 65535 * (4.096 *1.5)
     
-    
+    print "data ", 0, "is ", dec_data / 65535 * (4.096 *1.5)
+    print "sum = ", data_val
+print "Average of ", x + 1, "readings is ", data_val / (x + 1)    
       
 # hex_string =  hex(GET_CHAN0_DATA)
 # print hex_string
