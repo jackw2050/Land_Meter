@@ -12,7 +12,26 @@ import smbus
 
 bus = smbus.SMBus(1)    # 0 = /dev/i2c-0 (port I2C0), 1 = /dev/i2c-1 (port I2C1)   
 
-class DS1307():		
+
+
+SECONDS_ADDRESS = 0x00
+MINUTES_ADDRESS = 0x01
+HOUR_ADDRESS = 0x02
+DAY_ADDRESS = 0x03
+DATE_ADDRESS = 0x04
+MONTH_ADDRESS = 0x05
+YEAR_ADDRESS = 0x06
+CONTROL_ADDRESS = 0x0E
+STATUS_ADDRESS = 0x0F
+AGING_OFFSET = 0x10
+TEMPERATURE_MSB = 0x11
+TEMPERATURE_LSB = 0x12
+
+
+
+
+
+class DS3231M():		
 	def __init__(self):
 		self.MON = 1
 		self.TUE = 2
@@ -21,7 +40,7 @@ class DS1307():
 		self.FRI = 5
 		self.SAT = 6
 		self.SUN = 7
-		self.DS1307_I2C_ADDRESS = 0x68
+		self.DS3231M_I2C_ADDRESS = 0x68
 		
 		print 'begin' 
 		
@@ -35,16 +54,16 @@ class DS1307():
 		print news
 		
 	def startClock(self):	
-		bus.write_byte(self.DS1307_I2C_ADDRESS, 0x00)
-		self.second = bus.read_byte(self.DS1307_I2C_ADDRESS) & 0x7f
-		bus.write_byte_data(self.DS1307_I2C_ADDRESS, 0x00, self.second)
+		bus.write_byte(self.DS3231M_I2C_ADDRESS, 0x00)
+		self.second = bus.read_byte(self.DS3231M_I2C_ADDRESS) & 0x7f
+		bus.write_byte_data(self.DS3231M_I2C_ADDRESS, 0x00, self.second)
 		
 		print 'startClock..'
 		
 	def stopClock(self):						
-		bus.write_byte(self.DS1307_I2C_ADDRESS, 0x00)
-		self.second = bus.read_byte(self.DS1307_I2C_ADDRESS) | 0x80
-		bus.write_byte_data(self.DS1307_I2C_ADDRESS, 0x00, self.second)			
+		bus.write_byte(self.DS3231M_I2C_ADDRESS, 0x00)
+		self.second = bus.read_byte(self.DS3231M_I2C_ADDRESS) | 0x80
+		bus.write_byte_data(self.DS3231M_I2C_ADDRESS, 0x00, self.second)			
 		
 		print 'stopClock..'
 		
@@ -54,14 +73,14 @@ class DS1307():
 				self.decToBcd(self.dayOfMonth), self.decToBcd(self.month), \
 				self.decToBcd(self.year)]
 		
-		bus.write_byte(self.DS1307_I2C_ADDRESS, 0x00)
-		bus.write_i2c_block_data(self.DS1307_I2C_ADDRESS,0x00,data)
+		bus.write_byte(self.DS3231M_I2C_ADDRESS, 0x00)
+		bus.write_i2c_block_data(self.DS3231M_I2C_ADDRESS,0x00,data)
 		
 		print 'setTime..'
 		
 	def getTime(self):
-		bus.write_byte(self.DS1307_I2C_ADDRESS, 0x00)
-		data = bus.read_i2c_block_data(self.DS1307_I2C_ADDRESS,0x00)
+		bus.write_byte(self.DS3231M_I2C_ADDRESS, 0x00)
+		data = bus.read_i2c_block_data(self.DS3231M_I2C_ADDRESS,0x00)
 		#A few of these need masks because certain bits are control bits
 		self.second = self.bcdToDec(data[0] & 0x7f)
 		self.minute = self.bcdToDec(data[1])
@@ -93,7 +112,7 @@ class DS1307():
 		print 'fillDayOfWeek..'
 		
 if __name__ == "__main__": 
-	clock = DS1307()
+	clock = DS3231M()
 	clock.fillByYMD(2015,3,5)
 	clock.fillByHMS(12,42,30)
 	clock.fillDayOfWeek(clock.THU)	
