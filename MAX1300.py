@@ -47,7 +47,7 @@ class MAX1300M:
 	CHAN0_RANGE_P3VREF = 0x86	# Unipolar 0 to +3 x VREF. FSR = 3 x VREF.
 	CHAN0_RANGE_M3VREF = 0x85	# Unipolar -3 x VREF to 0. FSR = 3 x VREF.
 	CHAN0_RANGE_3VREF = 0x84	# Bipolar (-3 x VREF)/2 to (+3 x VREF)/2. FSR = 3 x VREF.
-	CHAN0_RANGE_P1P5VREF = 0x83	# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.ß
+	CHAN0_RANGE_P1P5VREF = 0x83	# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.
 	CHAN0_RANGE_M1P5VREF = 0x82	# Unipolar (-3 x VREF)/2 to 0. FSR = (3 x VREF)/2.
 	CHAN0_RANGE_1P5VREF = 0x81	# Bipolar (-3 x VREF)/4 to (+3 x VREF)/4. Full-Scale Range (FSR) = (3 x VREF)/2.
 
@@ -55,7 +55,7 @@ class MAX1300M:
 	CHAN1_RANGE_P3VREF = 0x96	# Unipolar 0 to +3 x VREF. FSR = 3 x VREF.
 	CHAN1_RANGE_M3VREF = 0x95	# Unipolar -3 x VREF to 0. FSR = 3 x VREF.
 	CHAN1_RANGE_3VREF = 0x94	# Bipolar (-3 x VREF)/2 to (+3 x VREF)/2. FSR = 3 x VREF.
-	CHAN1_RANGE_P1P5VREF = 0x93	# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.ß
+	CHAN1_RANGE_P1P5VREF = 0x93	# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.
 	CHAN1_RANGE_M1P5VREF = 0x92	# Unipolar (-3 x VREF)/2 to 0. FSR = (3 x VREF)/2.
 	CHAN1_RANGE_1P5VREF = 0x91	# Bipolar (-3 x VREF)/4 to (+3 x VREF)/4. Full-Scale Range (FSR) = (3 x VREF)/2.
 
@@ -63,7 +63,7 @@ class MAX1300M:
 	CHAN2_RANGE_P3VREF = 0xA6	# Unipolar 0 to +3 x VREF. FSR = 3 x VREF.
 	CHAN2_RANGE_M3VREF = 0xA5	# Unipolar -3 x VREF to 0. FSR = 3 x VREF.
 	CHAN2_RANGE_3VREF = 0xA4	# Bipolar (-3 x VREF)/2 to (+3 x VREF)/2. FSR = 3 x VREF.
-	CHAN2_RANGE_P1P5VREF = 0xA3	# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.ß
+	CHAN2_RANGE_P1P5VREF = 0xA3	# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.
 	CHAN2_RANGE_M1P5VREF = 0xA2	# Unipolar (-3 x VREF)/2 to 0. FSR = (3 x VREF)/2.
 	CHAN2_RANGE_1P5VREF = 0xA1	# Bipolar (-3 x VREF)/4 to (+3 x VREF)/4. Full-Scale Range (FSR) = (3 x VREF)/2.
 
@@ -71,7 +71,7 @@ class MAX1300M:
 	CHAN3_RANGE_P3VREF = 0xB6	# Unipolar 0 to +3 x VREF. FSR = 3 x VREF.
 	CHAN3_RANGE_M3VREF = 0xB5	# Unipolar -3 x VREF to 0. FSR = 3 x VREF.
 	CHAN3_RANGE_3VREF = 0xB4	# Bipolar (-3 x VREF)/2 to (+3 x VREF)/2. FSR = 3 x VREF.
-	CHAN3_RANGE_P1P5VREF = 0xB3	# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.ß
+	CHAN3_RANGE_P1P5VREF = 0xB3	# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.
 	CHAN3_RANGE_M1P5VREF = 0xB2	# Unipolar (-3 x VREF)/2 to 0. FSR = (3 x VREF)/2.
 	CHAN3_RANGE_1P5VREF = 0xB1	# Bipolar (-3 x VREF)/4 to (+3 x VREF)/4. Full-Scale Range (FSR) = (3 x VREF)/2.
 
@@ -79,7 +79,7 @@ class MAX1300M:
 	CHAN4_RANGE_P3VREF = 0xC6	# Unipolar 0 to +3 x VREF. FSR = 3 x VREF.
 	CHAN4_RANGE_M3VREF = 0xC5	# Unipolar -3 x VREF to 0. FSR = 3 x VREF.
 	CHAN4_RANGE_3VREF = 0xC4	# Bipolar (-3 x VREF)/2 to (+3 x VREF)/2. FSR = 3 x VREF.
-	CHAN4_RANGE_P1P5VREF = 0xC3	# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.ß
+	CHAN4_RANGE_P1P5VREF = 0xC3	# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.
 	CHAN4_RANGE_M1P5VREF = 0xC2	# Unipolar (-3 x VREF)/2 to 0. FSR = (3 x VREF)/2.
 	CHAN4_RANGE_1P5VREF = 0xC1	# Bipolar (-3 x VREF)/4 to (+3 x VREF)/4. Full-Scale Range (FSR) = (3 x VREF)/2.
 
@@ -87,7 +87,7 @@ class MAX1300M:
 	CHAN5_RANGE_P3VREF = 0xD6	# Unipolar 0 to +3 x VREF. FSR = 3 x VREF.
 	CHAN5_RANGE_M3VREF = 0xD5	# Unipolar -3 x VREF to 0. FSR = 3 x VREF.
 	CHAN5_RANGE_3VREF = 0xD4	# Bipolar (-3 x VREF)/2 to (+3 x VREF)/2. FSR = 3 x VREF.
-	CHAN5_RANGE_P1P5VREF = 0xD3	# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.ß
+	CHAN5_RANGE_P1P5VREF = 0xD3	# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.
 	CHAN5_RANGE_M1P5VREF = 0xD2	# Unipolar (-3 x VREF)/2 to 0. FSR = (3 x VREF)/2.
 	CHAN5_RANGE_1P5VREF = 0xD1	# Bipolar (-3 x VREF)/4 to (+3 x VREF)/4. Full-Scale Range (FSR) = (3 x VREF)/2.
 
@@ -95,7 +95,7 @@ class MAX1300M:
 	CHAN6_RANGE_P3VREF = 0xE6	# Unipolar 0 to +3 x VREF. FSR = 3 x VREF.
 	CHAN6_RANGE_M3VREF = 0xE5	# Unipolar -3 x VREF to 0. FSR = 3 x VREF.
 	CHAN6_RANGE_3VREF = 0xE4	# Bipolar (-3 x VREF)/2 to (+3 x VREF)/2. FSR = 3 x VREF.
-	CHAN6_RANGE_P1P5VREF = 0xE3	# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.ß
+	CHAN6_RANGE_P1P5VREF = 0xE3	# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.
 	CHAN6_RANGE_M1P5VREF = 0xE2	# Unipolar (-3 x VREF)/2 to 0. FSR = (3 x VREF)/2.
 	CHAN6_RANGE_1P5VREF = 0xE1	# Bipolar (-3 x VREF)/4 to (+3 x VREF)/4. Full-Scale Range (FSR) = (3 x VREF)/2.
 
@@ -103,7 +103,7 @@ class MAX1300M:
 	CHAN7_RANGE_P3VREF = 0xF6	# Unipolar 0 to +3 x VREF. FSR = 3 x VREF.
 	CHAN7_RANGE_M3VREF = 0xF5	# Unipolar -3 x VREF to 0. FSR = 3 x VREF.
 	CHAN7_RANGE_3VREF = 0xF4	# Bipolar (-3 x VREF)/2 to (+3 x VREF)/2. FSR = 3 x VREF.
-	CHAN7_RANGE_P1P5VREF = 0xF3	# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.ß
+	CHAN7_RANGE_P1P5VREF = 0xF3	# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.
 	CHAN7_RANGE_M1P5VREF = 0xF2	# Unipolar (-3 x VREF)/2 to 0. FSR = (3 x VREF)/2.
 	CHAN7_RANGE_1P5VREF = 0xF1	# Bipolar (-3 x VREF)/4 to (+3 x VREF)/4. Full-Scale Range (FSR) = (3 x VREF)/2.
 
@@ -212,19 +212,19 @@ def ReadADC(chan, chan_setting):
 	readAddr = 0x00
 	if chan == 0x00:
 		readAddr = CHAN0_READ
-	elif chan = 0x01:
+	elif chan == 0x01:
 		readAddr = CHAN1_READ
-	elif chan = 0x02:
+	elif chan == 0x02:
 		readAddr = CHAN2_READ
-	elif chan = 0x03:
+	elif chan == 0x03:
 		readAddr = CHAN3_READ
-	elif chan = 0x04:
+	elif chan == 0x04:
 		readAddr = CHAN4_READ
-	elif chan = 0x05:
+	elif chan == 0x05:
 		readAddr = CHAN5_READ
-	elif chan = 0x06:
+	elif chan == 0x06:
 		readAddr = CHAN6_READ
-	elif chan = 0x07:
+	elif chan == 0x07:
 		readAddr = CHAN7_READ
 
 	spi.writebytes([readAddr])
@@ -302,9 +302,9 @@ GET_CHAN1_DATA = 145
 # spi.cshigh = False
 # spi.mode = 0
 
-
+INTERNAL_CLOCK = 0xA8
 spi.writebytes([INTERNAL_CLOCK])
-spi.writebytes([0x83])
+spi.writebytes([0x86])
 
 print "Using interanl clock"
 
@@ -312,10 +312,10 @@ print "Using interanl clock"
 data_val = 0
 for x in range (100):
 
-    spi.writebytes([CHAN0_READ])
-    print "Preparing to sleep..."
-    time.sleep(.1)
-    print "Done sleeping.  Reading bytes"
+    spi.writebytes([MAX1300M.CHAN0_READ])
+    # print "Preparing to sleep..."
+    time.sleep(.01)
+    # print "Done sleeping.  Reading bytes"
     chan0_data = spi.readbytes(2)
     # print chan0_data
     # print chan0_data[0]
@@ -324,11 +324,11 @@ for x in range (100):
     
     chan0_16bit_data = (chan0_data[0]<<8 ) + chan0_data[1]
     dec_data = 1.0 * chan0_16bit_data
-    # print chan0_16bit_data
-    data_val = data_val + dec_data / 65535 * (4.096 *1.5)
+    print chan0_16bit_data
+    data_val = data_val + dec_data / 65535 * (4.092 * 3)
     
-    print "data ", x, "is ", dec_data / 65535 * (4.096 *1.5)
-    print "sum = ", data_val
+    print "data ", x, "is ", dec_data / 65535 * (4.092 * 3)
+    # print "sum = ", data_val
 print "Average of ", x + 1, "readings is ", data_val / (x + 1)    
       
 # hex_string =  hex(GET_CHAN0_DATA)
