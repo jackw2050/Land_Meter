@@ -6,31 +6,24 @@ SPI_PORT = 0
 SPI_DEVICE = 0
 
 
-class MCP3(object):
-    """Class to represent an Adafruit MCP3008 analog to digital converter.
-    """
+# SPI setup
 
-    def __init__(self, clk=None, cs=None, miso=None, mosi=None, spi=None, gpio=None):
-        """Initialize MAX31855 device with software SPI on the specified CLK,
-        CS, and DO pins.  Alternatively can specify hardware SPI by sending an
-        Adafruit_GPIO.SPI.SpiDev device in the spi parameter.
-        """
-        self._spi = None
-        # Handle hardware SPI
-        if spi is not None:
-            self._spi = spi
-        elif clk is not None and cs is not None and miso is not None and mosi is not None:
-            # Default to platform GPIO if not provided.
-            if gpio is None:
-                gpio = GPIO.get_platform_gpio()
-            self._spi = SPI.BitBang(gpio, clk, mosi, miso, cs)
-        else:
-            raise ValueError('Must specify either spi for for hardware SPI or clk, cs, miso, and mosi for softwrare SPI!')
-        self._spi.set_clock_hz(1000000)
-        self._spi.set_mode(0)
-        self._spi.set_bit_order(SPI.MSBFIRST)
+spi = SPI(0,0)	#/dev/spidev1.0
+spi.msh=100000 # SPI clock set to 100 kHz
+spi.bpw = 8  # bits/word
+spi.threewire = False
+spi.lsbfirst = False
+spi.mode = 0
+spi.cshigh = False  # ADS1248 chip select (active low)
+spi.open(0,0)
 
-class MAX1300:
+
+
+
+
+
+
+class MAX1300M:
 
 
 	MUX0	= 0x00   
@@ -43,18 +36,165 @@ class MAX1300:
 	OFC1	= 0x05
 	OFC2	= 0x06
 
-INTERNAL_CLOCK =    0xA8
-CHAN0_FULL_12V_RANGE_SINGLE = 0x80
-CHAN0_FULL_6V_RANGE_SINGLE = 0x84
-CHAN0_6V_RANGE_SINGLE = 0x83#0x81
+	INTERNAL_CLOCK =    0xA8
+	CHAN0_FULL_12V_RANGE_SINGLE = 0x80 	# +/- 12V
+	CHAN0_FULL_6V_RANGE_SINGLE = 0x84	# +/- 6V
+	CHAN0_6V_RANGE_SINGLE = 0x83		# 0 - 6V
 
-CHAN1_FULL_RANGE_SINGLE = 145
-CHAN0_READ   = 0x80
-CHAN1_READ = 0x90
+	VREF = 4.096
+	# Single-Ended
+	CHAN0_RANGE_6VREF = 0x87 	# DEFAULT SETTING.  Bipolar -3 x VREF to +3 x VREF. FSR = 6 x VREF
+	CHAN0_RANGE_P3VREF = 0x86	# Unipolar 0 to +3 x VREF. FSR = 3 x VREF.
+	CHAN0_RANGE_M3VREF = 0x85	# Unipolar -3 x VREF to 0. FSR = 3 x VREF.
+	CHAN0_RANGE_3VREF = 0x84	# Bipolar (-3 x VREF)/2 to (+3 x VREF)/2. FSR = 3 x VREF.
+	CHAN0_RANGE_P1P5VREF = 0x83	# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.ß
+	CHAN0_RANGE_M1P5VREF = 0x82	# Unipolar (-3 x VREF)/2 to 0. FSR = (3 x VREF)/2.
+	CHAN0_RANGE_1P5VREF = 0x81	# Bipolar (-3 x VREF)/4 to (+3 x VREF)/4. Full-Scale Range (FSR) = (3 x VREF)/2.
 
+	CHAN1_RANGE_6VREF = 0x97 	# DEFAULT SETTING.  Bipolar -3 x VREF to +3 x VREF. FSR = 6 x VREF
+	CHAN1_RANGE_P3VREF = 0x96	# Unipolar 0 to +3 x VREF. FSR = 3 x VREF.
+	CHAN1_RANGE_M3VREF = 0x95	# Unipolar -3 x VREF to 0. FSR = 3 x VREF.
+	CHAN1_RANGE_3VREF = 0x94	# Bipolar (-3 x VREF)/2 to (+3 x VREF)/2. FSR = 3 x VREF.
+	CHAN1_RANGE_P1P5VREF = 0x93	# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.ß
+	CHAN1_RANGE_M1P5VREF = 0x92	# Unipolar (-3 x VREF)/2 to 0. FSR = (3 x VREF)/2.
+	CHAN1_RANGE_1P5VREF = 0x91	# Bipolar (-3 x VREF)/4 to (+3 x VREF)/4. Full-Scale Range (FSR) = (3 x VREF)/2.
+
+	CHAN2_RANGE_6VREF = 0xA7 	# DEFAULT SETTING.  Bipolar -3 x VREF to +3 x VREF. FSR = 6 x VREF
+	CHAN2_RANGE_P3VREF = 0xA6	# Unipolar 0 to +3 x VREF. FSR = 3 x VREF.
+	CHAN2_RANGE_M3VREF = 0xA5	# Unipolar -3 x VREF to 0. FSR = 3 x VREF.
+	CHAN2_RANGE_3VREF = 0xA4	# Bipolar (-3 x VREF)/2 to (+3 x VREF)/2. FSR = 3 x VREF.
+	CHAN2_RANGE_P1P5VREF = 0xA3	# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.ß
+	CHAN2_RANGE_M1P5VREF = 0xA2	# Unipolar (-3 x VREF)/2 to 0. FSR = (3 x VREF)/2.
+	CHAN2_RANGE_1P5VREF = 0xA1	# Bipolar (-3 x VREF)/4 to (+3 x VREF)/4. Full-Scale Range (FSR) = (3 x VREF)/2.
+
+	CHAN3_RANGE_6VREF = 0xB7 	# DEFAULT SETTING.  Bipolar -3 x VREF to +3 x VREF. FSR = 6 x VREF
+	CHAN3_RANGE_P3VREF = 0xB6	# Unipolar 0 to +3 x VREF. FSR = 3 x VREF.
+	CHAN3_RANGE_M3VREF = 0xB5	# Unipolar -3 x VREF to 0. FSR = 3 x VREF.
+	CHAN3_RANGE_3VREF = 0xB4	# Bipolar (-3 x VREF)/2 to (+3 x VREF)/2. FSR = 3 x VREF.
+	CHAN3_RANGE_P1P5VREF = 0xB3	# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.ß
+	CHAN3_RANGE_M1P5VREF = 0xB2	# Unipolar (-3 x VREF)/2 to 0. FSR = (3 x VREF)/2.
+	CHAN3_RANGE_1P5VREF = 0xB1	# Bipolar (-3 x VREF)/4 to (+3 x VREF)/4. Full-Scale Range (FSR) = (3 x VREF)/2.
+
+	CHAN4_RANGE_6VREF = 0xC7 	# DEFAULT SETTING.  Bipolar -3 x VREF to +3 x VREF. FSR = 6 x VREF
+	CHAN4_RANGE_P3VREF = 0xC6	# Unipolar 0 to +3 x VREF. FSR = 3 x VREF.
+	CHAN4_RANGE_M3VREF = 0xC5	# Unipolar -3 x VREF to 0. FSR = 3 x VREF.
+	CHAN4_RANGE_3VREF = 0xC4	# Bipolar (-3 x VREF)/2 to (+3 x VREF)/2. FSR = 3 x VREF.
+	CHAN4_RANGE_P1P5VREF = 0xC3	# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.ß
+	CHAN4_RANGE_M1P5VREF = 0xC2	# Unipolar (-3 x VREF)/2 to 0. FSR = (3 x VREF)/2.
+	CHAN4_RANGE_1P5VREF = 0xC1	# Bipolar (-3 x VREF)/4 to (+3 x VREF)/4. Full-Scale Range (FSR) = (3 x VREF)/2.
+
+	CHAN5_RANGE_6VREF = 0xD7 	# DEFAULT SETTING.  Bipolar -3 x VREF to +3 x VREF. FSR = 6 x VREF
+	CHAN5_RANGE_P3VREF = 0xD6	# Unipolar 0 to +3 x VREF. FSR = 3 x VREF.
+	CHAN5_RANGE_M3VREF = 0xD5	# Unipolar -3 x VREF to 0. FSR = 3 x VREF.
+	CHAN5_RANGE_3VREF = 0xD4	# Bipolar (-3 x VREF)/2 to (+3 x VREF)/2. FSR = 3 x VREF.
+	CHAN5_RANGE_P1P5VREF = 0xD3	# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.ß
+	CHAN5_RANGE_M1P5VREF = 0xD2	# Unipolar (-3 x VREF)/2 to 0. FSR = (3 x VREF)/2.
+	CHAN5_RANGE_1P5VREF = 0xD1	# Bipolar (-3 x VREF)/4 to (+3 x VREF)/4. Full-Scale Range (FSR) = (3 x VREF)/2.
+
+	CHAN6_RANGE_6VREF = 0xE7 	# DEFAULT SETTING.  Bipolar -3 x VREF to +3 x VREF. FSR = 6 x VREF
+	CHAN6_RANGE_P3VREF = 0xE6	# Unipolar 0 to +3 x VREF. FSR = 3 x VREF.
+	CHAN6_RANGE_M3VREF = 0xE5	# Unipolar -3 x VREF to 0. FSR = 3 x VREF.
+	CHAN6_RANGE_3VREF = 0xE4	# Bipolar (-3 x VREF)/2 to (+3 x VREF)/2. FSR = 3 x VREF.
+	CHAN6_RANGE_P1P5VREF = 0xE3	# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.ß
+	CHAN6_RANGE_M1P5VREF = 0xE2	# Unipolar (-3 x VREF)/2 to 0. FSR = (3 x VREF)/2.
+	CHAN6_RANGE_1P5VREF = 0xE1	# Bipolar (-3 x VREF)/4 to (+3 x VREF)/4. Full-Scale Range (FSR) = (3 x VREF)/2.
+
+	CHAN7_RANGE_6VREF = 0xF7 	# DEFAULT SETTING.  Bipolar -3 x VREF to +3 x VREF. FSR = 6 x VREF
+	CHAN7_RANGE_P3VREF = 0xF6	# Unipolar 0 to +3 x VREF. FSR = 3 x VREF.
+	CHAN7_RANGE_M3VREF = 0xF5	# Unipolar -3 x VREF to 0. FSR = 3 x VREF.
+	CHAN7_RANGE_3VREF = 0xF4	# Bipolar (-3 x VREF)/2 to (+3 x VREF)/2. FSR = 3 x VREF.
+	CHAN7_RANGE_P1P5VREF = 0xF3	# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.ß
+	CHAN7_RANGE_M1P5VREF = 0xF2	# Unipolar (-3 x VREF)/2 to 0. FSR = (3 x VREF)/2.
+	CHAN7_RANGE_1P5VREF = 0xF1	# Bipolar (-3 x VREF)/4 to (+3 x VREF)/4. Full-Scale Range (FSR) = (3 x VREF)/2.
+
+
+	CHAN0_VRANGE = VREF * 6
+	CHAN1_VRANGE = VREF * 6
+	CHAN2_VRANGE = VREF * 6
+	CHAN3_VRANGE = VREF * 6
+	CHAN4_VRANGE = VREF * 6
+	CHAN5_VRANGE = VREF * 6
+	CHAN6_VRANGE = VREF * 6
+	CHAN7_VRANGE = VREF * 6
+
+
+	CHAN0_READ = 0x80
+	CHAN1_READ = 0x90
+	CHAN2_READ = 0xA0
+	CHAN3_READ = 0xB0
+	CHAN4_READ = 0xC0
+	CHAN5_READ = 0xD0
+	CHAN6_READ = 0xE0
+	CHAN7_READ = 0xF0
+		
 
 # internal clock  10101000
 # CHAN0_6V_RANGE_SINGLE = 10000011
+
+
+
+
+def GetVrange(channel, setting, vref):
+
+	chan_setting = [0,0]
+	if ( channel == 0):
+		setting = sertting - 0x80
+	elif channel == 1:
+		setting = sertting - 0x90
+	elif channel == 2:
+		setting = sertting - 0xA0		
+	elif channel == 3:
+		setting = sertting - 0xB0	
+	elif channel == 4:
+		setting = sertting - 0xC0	
+	elif channel == 5:
+		setting = sertting - 0xD0	
+	elif channel == 6:
+		setting = sertting - 0xE0	
+	elif channel == 7:
+		setting = sertting - 0xF0		
+
+	if setting == 0x07:
+		chan_setting[0] = vref * -3
+		chan_setting[1] = vref * 6
+		return chan_setting 
+	elif setting == 0x06:
+		chan_setting[0] = 0
+		chan_setting[1] = vref * 3
+		return chan_setting 
+	elif setting == 0x05:
+		chan_setting[0] = vref * -3
+		chan_setting[1] = vref * 3
+		return chan_setting 
+	elif setting == 0x04:
+		chan_setting[0] = vref * -1.5
+		chan_setting[1] = vref * 3
+		return chan_setting 
+	elif setting == 0x03:
+		chan_setting[0] = 0
+		chan_setting[1] = vref * 1.5
+		return chan_setting 
+	elif setting == 0x02:
+		chan_setting[0] = VREF * -1.5
+		chan_setting[1] = vref * 1.5
+		return chan_setting 
+	elif setting == 0x01:
+		chan_setting[0] = vref * -.75
+		chan_setting[1] = vref * 1.5
+		return chan_setting 
+
+		return chan_setting 						
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -67,10 +207,33 @@ def RegRead(reg):
 	r = spi.xfer2([0x00]); # dummy
 	return r
 	
-def ReadADC():
-	spi.writebytes([ADS1248.RDATA]) # RDATA (read data once, page 49)
-	a=spi.readbytes(3)
-	spi.writebytes([ADS1248.NOP]) # sending NOP
+def ReadADC(chan, chan_setting):
+
+	readAddr = 0x00
+	if chan == 0x00:
+		readAddr = CHAN0_READ
+	elif chan = 0x01:
+		readAddr = CHAN1_READ
+	elif chan = 0x02:
+		readAddr = CHAN2_READ
+	elif chan = 0x03:
+		readAddr = CHAN3_READ
+	elif chan = 0x04:
+		readAddr = CHAN4_READ
+	elif chan = 0x05:
+		readAddr = CHAN5_READ
+	elif chan = 0x06:
+		readAddr = CHAN6_READ
+	elif chan = 0x07:
+		readAddr = CHAN7_READ
+
+	spi.writebytes([readAddr])
+	time.sleep(.01)
+
+	chan_data = spi.readbytes(2)
+	chan_data_hex = (chan_data[0] << 8) + chan_data[1]
+	chan_value = chan_data_hex * chan_setting[1] + chan_setting[0]
+
 
 	return a
 
@@ -95,14 +258,28 @@ def ADCinit():
 
 
 
-spi = SPI(0,0)	#/dev/spidev1.0
-spi.msh=100000 # SPI clock set to 100 kHz
-spi.bpw = 8  # bits/word
-spi.threewire = False
-spi.lsbfirst = False
-spi.mode = 0
-spi.cshigh = False  # ADS1248 chip select (active low)
-spi.open(0,0)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
