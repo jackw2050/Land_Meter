@@ -1,3 +1,6 @@
+# Change to full module
+
+
 #import the library
 from Adafruit_BBIO.SPI import SPI
 import time
@@ -15,8 +18,8 @@ spi.threewire = False
 spi.lsbfirst = False
 spi.mode = 0
 spi.cshigh = False  # ADS1248 chip select (active low)
-spi.open(0,0)
-
+# spi.open(0,0)
+spi.open(SPI_PORT,SPI_DEVICE)
 
 
 
@@ -43,6 +46,11 @@ class MAX1300M:
 
 	VREF = 4.096
 	# Single-Ended
+
+	# change to  1 - 7
+	# add 8 - F for channel
+
+
 	CHAN0_RANGE_6VREF = 0x87 	# DEFAULT SETTING.  Bipolar -3 x VREF to +3 x VREF. FSR = 6 x VREF
 	CHAN0_RANGE_P3VREF = 0x86	# Unipolar 0 to +3 x VREF. FSR = 3 x VREF.
 	CHAN0_RANGE_M3VREF = 0x85	# Unipolar -3 x VREF to 0. FSR = 3 x VREF.
