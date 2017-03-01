@@ -150,7 +150,7 @@ for x in range (100):
     # print chan0_16bit_data
     data_val = data_val + dec_data / 65535 * (4.096 *1.5)
     
-    print "data ", 0, "is ", dec_data / 65535 * (4.096 *1.5)
+    print "data ", x, "is ", dec_data / 65535 * (4.096 *1.5)
     print "sum = ", data_val
 print "Average of ", x + 1, "readings is ", data_val / (x + 1)    
       
