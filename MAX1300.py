@@ -50,6 +50,27 @@ class MAX1300M:
 	# change to  1 - 7
 	# add 8 - F for channel
 
+	# Single ended
+	RANGE_SINGLE_MINUS_3_VREF_PLUS_3_VREF 		= 0x07				# DEFAULT SETTING.  Bipolar -3 x VREF to +3 x VREF. FSR = 6 x VREF
+	RANGE_SINGLE_ZERO_PLUS_3_VREF 				= 0x06				# Unipolar 0 to +3 x VREF. FSR = 3 x VREF.
+	RANGE_SINGLE_MINUS_3_VREF_ZERO 				= 0x05				# Unipolar -3 x VREF to 0. FSR = 3 x VREF.
+	RANGE_SINGLE_MINUS_1P5_VREF_PLUS_1P5_VREF 	= 0x04				# Bipolar (-3 x VREF)/2 to (+3 x VREF)/2. FSR = 3 x VREF.
+	RANGE_SINGLE_ZERO_1P5_VREF 					= 0x03				# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.
+	RANGE_SINGLE_MINUS_1P5_VREF_ZERO 			= 0x02				# Unipolar (-3 x VREF)/2 to 0. FSR = (3 x VREF)/2.
+	RANGE_SINGLE_MINUS_P75_VREF_PLUS_P75_VREF 	= 0x01				# Bipolar (-3 x VREF)/4 to (+3 x VREF)/4. Full-Scale Range (FSR) = (3 x VREF)/2.
+	
+	# Differential
+	RANGE_DIFERENTIAL_MINUS_3_VREF_PLUS_3_VREF 	= 0x0F	
+
+
+
+
+
+	RANGE_DIFFERENTIAL_MINUS_3_VREF_PLUS_3_VREF  	= 0x0F				# Bipolar -6 x VREF to +6 x VREF. FSR = 12 x VREF
+	RANGE_DIFFERENTAL_MINUS_3_VREF_PLUS_3_VREF 		= 0x0C				# Bipolar -3 x VREF to +3 x VREF. FSR = 6 x VREF.
+
+
+
 
 	CHAN0_RANGE_6VREF = 0x87 	# DEFAULT SETTING.  Bipolar -3 x VREF to +3 x VREF. FSR = 6 x VREF
 	CHAN0_RANGE_P3VREF = 0x86	# Unipolar 0 to +3 x VREF. FSR = 3 x VREF.
