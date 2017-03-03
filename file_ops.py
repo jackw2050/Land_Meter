@@ -27,54 +27,45 @@ print file.readline()
 # CSV file operations
 
 # https://docs.python.org/2/library/csv.html
-import csv
-
-# csv.reader(csvfile, dialect='excel', **fmtparams)
 
 
-import csv
-with open('some.csv', 'rb') as f:
-    reader = csv.reader(f)
-    for row in reader:
-        print row
-
-# or 
-
-import csv
-with open('passwd', 'rb') as f:
-    reader = csv.reader(f, delimiter=':', quoting=csv.QUOTE_NONE)
-    for row in reader:
-        print row
-
-
-# or
-# A slightly more advanced use of the reader — catching and reporting errors:
 
 import csv, sys
-filename = 'some.csv'
-with open(filename, 'rb') as f:
+
+with open('names.csv', 'w') as csvfile:
+    fieldnames = ['field', 'value', 'comment']
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+    writer.writeheader()
+    writer.writerow({'field': 'Meter', 'value': 'Land'})
+    writer.writerow({'field': 'Revision', 'value': '5.6'})
+    writer.writerow({'field': 'Calibration_version', 'value': 'calibrated'})
+    writer.writerow({'field': 'Customer', 'value': 'Orangelamp'})
+
+    writer.writerow({'field': 'pwm_freq', 'value': '125', 'comment': 'Hz'})
+    writer.writerow({'field': 'sense_freq', 'value': '10000', 'comment': 'Hz'})
+    writer.writerow({'field': 'adc_ain_0_offset', 'value': '0.0044678'})
+    writer.writerow({'field': 'sense_pot_setting', 'value': '645'})
+
+# with open('names.csv', newline='') as f:
+#     reader = csv.reader(f)
+#     for row in reader:
+#         print(row)
+#
+
+
+filename = 'names.csv'
+with open(filename, newline='') as f:
     reader = csv.reader(f)
     try:
         for row in reader:
-            print row
+            if row[0] == 'sense_freq':
+                print(row)
+                print(float(row[1]))
+
+            elif row[0] == 'pwm_freq':
+                pwm_freq = float(row[1])
+                print(pwm_freq)
     except csv.Error as e:
-        sys.exit('file %s, line %d: %s' % (filename, reader.line_num, e))
-
-
-# csv.writer(csvfile, dialect='excel', **fmtparams)
-
-import csv
-with open('some.csv', 'wb') as f:
-    writer = csv.writer(f)
-    writer.writerows(someiterable)
-
-
-
-
-
-
-# Binary file operations
-
-
-
+        sys.exit('f
 
