@@ -1,17 +1,29 @@
 import Adafruit_BBIO.PWM as PWM
 #PWM.start(channel, duty, freq=2000, polarity=0)
-PWM.start("P9_14", 50)
+# PWM.start("P9_14", 50)
+# PWM.set_frequency("P9_14", 10)
+
+SENSE_CLOCK = "P9_14"
+FORCE_PWM = "P8_19"
+SENSE_FREQUENCY = 10000
+FORCE_FREQUENCY = 125
+
+
+
 
 #optionally, you can set the frequency as well as the polarity from their defaults:
-PWM.start("P9_14", 50, 1000, 1)
+# PWM.start("P9_14", 50, 1000, 1)
+def pwm_init():
+	PWM.start(SENSE_CLOCK, 50, SENSE_FREQUENCY, 1)
+	PWM.start(FORCE_PWM, 50, FORCE_FREQUENCY, 1)
 
 
 
 
-PWM.set_duty_cycle("P9_14", 25.5)
-PWM.set_frequency("P9_14", 10)
+def pwm_shutdown():
+	PWM.stop("P9_14")
+	PWM.cleanup()
 
 
-
-PWM.stop("P9_14")
-PWM.cleanup()
+def set_force_duty_cycle(duty_cycle):
+	PWM.set_duty_cycle(FORCE_PWM, duty_cycle)
