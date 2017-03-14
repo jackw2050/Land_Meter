@@ -1,4 +1,6 @@
 import file_opsfile_op as file_op
+import pwm as pwm
+
 
 
 #	Notes
@@ -17,6 +19,8 @@ def initialize_land():
 	# 5)	Start PWM
 	# 6)	Check status of beam(measure @ 10% duty cycle and 90% duty cycle then zero via feedback)
 	# 7)	Setup interrupts
+	pwm.init()	
+	
 
 def comms():
 	"""
@@ -37,3 +41,8 @@ def main():
 			# Measure beam and levels
 		else 
 			# Measure levels	
+
+
+
+		
+initialize_land()
