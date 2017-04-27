@@ -8,7 +8,7 @@ FORCE_PWM = "P8_19"
 SENSE_FREQUENCY = 10000
 FORCE_FREQUENCY = 125
 
-
+# add pid code here or in main or in new file
 
 
 #optionally, you can set the frequency as well as the polarity from their defaults:
@@ -21,7 +21,8 @@ def pwm_init():
 
 
 def pwm_shutdown():
-	PWM.stop("P9_14")
+	PWM.stop(FORCE_PWM)
+	PWM.stop(SENSE_CLOCK)
 	PWM.cleanup()
 
 

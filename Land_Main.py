@@ -19,7 +19,13 @@ def initialize_land():
 	# 5)	Start PWM
 	# 6)	Check status of beam(measure @ 10% duty cycle and 90% duty cycle then zero via feedback)
 	# 7)	Setup interrupts
-	pwm.init()	
+	adc_init()
+	gpio_init()
+	pwm.init()
+	MAX1300.init()
+	uart.init()
+	display_init()
+	
 	
 
 def comms():
