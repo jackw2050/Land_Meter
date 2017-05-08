@@ -1,0 +1,154 @@
+Stepper motor for Land Meter
+
+
+With gearbox:
+
+Need 100 steps per turn or better
+
+
+
+
+
+Controller:
+
+DRV8711
+
+
+
+
+Motor:
+
+https://www.applied-motion.com/products/stepper-motors/hh17-101
+
+
+
+Thin:
+ http://www.smoothmotor.com/2-phase-stepper-motor.html
+http://www.newark.com/sanyo-denki-sanmotion/ss2421-5041/stepper-motor/dp/34R9056											<<<<<< yes
+
+
+
+Shaft encoder:
+
+https://www.sick.com/us/en/encoders-and-inclination-sensors/absolute-encoders/afsafm60-ssi/afm60e-s1aa004096/p/p283954    	<<<<<< yes
+https://www.sick.com/us/en/encoders-and-inclination-sensors/absolute-encoders/acm60/acm60b-s1le13x06/p/p371349  			<<<<<< yes
+
+
+
+https://www.posital.com/en/products/absolute-encoders/absolute-encoder-finder/#filter/dHlwZWtleSM9I3xSRVZPTFVUSU9OIz0jTXVsdGl0dXJufFJFU09MVVRJT04jPSMxMiBiaXQgKDQwOTYgU3RlcHM7IDAuMDg4JmRlZzspIU5VTSExMnxTSEFGVERJQU1FVEVSIz0jJm9zbGFzaDsgNiBtbSAoMC4yNCIpIU5VTSE2/detail/REVOLUTION/page/1
+
+
+
+
+https://www.posital.com/en/products/absolute-encoders/absolute-encoder-finder/MCD-AV002-0412-A06A-5RW/124837101/detail.php 	<<<<<< yes
+
+
+
+http://www.beisensors.com/magnetic-rotary-encoders.html#absolute-multi
+
+--- Consider analog output - measure with 18 bit or better adc for angle
+
+
+
+
+
+SSI:
+http://www.controldevices.net/Lika/Absolute_encoders2.html
+
+
+SSI to SPI interface :
+
+http://www.usbmicro.com/index.html
+
+
+CAN Controller:
+
+https://www.digikey.com/en/product-highlight/h/holt-integrated-circuits/hi-3110psif-can-controller
+
+
+CANopen software:
+
+https://github.com/CANopenNode/CANopenSocket
+https://www.codesys.com/news-events/press-releases/detail/article/codesys-softplc-for-beaglebone-black.html
+
+
+
+http://www.canopen-solutions.com/?gclid=Cj0KEQjwxbDIBRCL99Wls-nLicoBEiQAWroh6u2C8eD1P0S36_09CkIdfaVKKIpB-BWbmdqVKNi-TS4aAqgs8P8HAQ
+
+
+serial1>>
+
+     0x180 0x12  /* P9_26 DCAN1_TX, SLEWCTRL_FAST | OUTPUT_PULLUP | MODE2 */
+     0x184 0x32  /* P9_24 DCAN1_RX, SLEWCTRL_FAST | INPUT_PULLUP | MODE2 */
+
+Only use dcan1:
+                dcan1_pins: pinmux_dcan1_pins {
+                        pinctrl-single,pins = <
+                                0x180 0x12  /* uart1_rxd.d_can1_tx, SLEWCTRL_FAST | INPUT_PULLUP | MODE2 */
+                                0x184 0x32  /* uart1_txd.d_can1_rx, SLEWCTRL_FAST | RECV_ENABLE | INPUT_PULLUP | MODE2 */
+                         >;
+                };
+
+
+
+
+
+
+
+Coupling/ reducers:
+
+
+https://www.automationdirect.com/adc/Shopping/Catalog/Sensors_-z-_Encoders/Optical_Rotary_Encoders/Encoder_Accessories/Couplings/STP-MTRA-RB-85?utm_source=google&utm_medium=product-search&gclid=Cj0KEQjwoqvIBRD6ls6og8qB77YBEiQAcqqHe9Xedg8HkbDTlaAl3rX-PTHiLk71NOM9abY2jA4vR60aAgc08P8HAQ
+
+
+
+
+
+
+
+
+
+Beaglebone Blue				Current Design
+
+
+UART 0
+UART 1
+UART 2
+UART 5
+CAN
+UART 4   DSM2
+I2C 1						I2C 2
+SPI1.1						SPI1.1
+SPI1.2						SPI0.1
+AIN0
+AIN1
+AIN2
+AIN3
+GPIO 1-25
+GPIO 1-17
+GPIO 3-20
+GPIO 3-17
+GPIO 3-2
+GPIO3-1
+
+
+Unavailable
+
+
+GPIO 1-28
+GPIO 1-29
+GPIO 2-1
+GPIO 0-26
+GPIO 0-27
+GPIO 1-12
+GPIO 1-13
+GPIO 1-14
+GPIO 1-15
+GPIO 1-16
+GPIO 3-18
+GPIO 3-19
+GPIO 3-21
+GPIO 1-20
+GPIO 0-19
+GPIO 0-20
+
