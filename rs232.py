@@ -136,12 +136,9 @@ This is the full range of the force feedback system.
 
 
 Command ID: FE
-
 Parameters: None
 
-		
 --Byte----Function----------------------
-
   0x02    Number of bytes to follow
   0xFE    Command ID
   0xXX    Checksum
@@ -149,14 +146,11 @@ Parameters: None
 Returns:
 
 --Byte----Function----------------------
-
   0x04    Number of bytes to follow
   0xFE    Respose ID
   0xXX    MSB
   0xXX    LSB
   0xXX    Checksum
-
-
 """
 
 
@@ -167,13 +161,10 @@ def SET_PWM_Duty_Cycle
 Purpose: Sends a 16 bit PWM duty cycle value to the meter, which replaces the current value with the new value immediately.
 
 Command ID: 02
-
 Parameters: MSB, LSB
 
 
-
 --Byte----Function----------------------
-
   0x04    Number of bytes to follow
   0x02    Command ID
   0xXX    MSB
@@ -182,7 +173,6 @@ Parameters: MSB, LSB
 
 		
 Returns: None
-
 """
 
 
@@ -194,17 +184,13 @@ def Send_Data_Sets_at_1_Sec_Intervals():
 Command ID: 01
 
 Purpose: Tells the meter to send data sets at one second intervals. See 'Send Current Data Set' for message format.
-
 Parameters: None
 
 
-
 --Byte----Function----------------------
-
   0x02    Number of bytes to follow
   0x01    Command ID
   0xXX    Chechsum	
-
 Returns: None
 """
 
@@ -341,13 +327,10 @@ def Alternate_Break():
 Purpose:  Performs same initial hand shake function as a break signal. For use with Bluetooth connection.
 
 Command ID: F9
-
 Parameters: None
 
 
-
 --Byte----Function----------------------
-
   0x02    Number of bytes to follow
   0xF9    Command ID
   0xXX    Chechsum
@@ -355,9 +338,7 @@ Parameters: None
 
 
 Returns:
-
 --Byte----Function----------------------
-
   0x02    Number of bytes to follow
   0x07    Response ID
   0xXX    Chechsum
