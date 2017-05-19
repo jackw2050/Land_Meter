@@ -21,7 +21,6 @@
 # Search list for parameter in list[0].  Read or replace List[1]
 
 import csv, sys
-from tabulate import tabulate
 from datetime import datetime
 
 
