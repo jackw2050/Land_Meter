@@ -1,0 +1,17 @@
+field,value,comment
+Meter,Land,
+Hardware revision,1.0,Initial release
+Software revision,1.5,
+Calibration_version,calibrated,
+Customer,Orangelamp,
+pwm_freq,125,Hz
+sense_freq,10000,Hz
+adc_offset,0.0044678,
+adc_ain_0_offset,0.0,This will be pin assignment
+adc_ain_1_offset,0.0,eg. Battery voltage
+adc_ain_2_offset,0.0,Or change name
+adc_ain_3_offset,0.0,And comment will be V or deg C etc
+adc_ain_4_offset,0.0,
+adc_ain_5_offset,0.0,
+adc_ain_6_offset,0.0,
+sense_pot_setting,645,

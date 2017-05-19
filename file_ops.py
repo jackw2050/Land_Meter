@@ -1,3 +1,18 @@
+# Files - cal file,  log file,  data files (TBD)
+# Cal file: 1)  Create new file
+#           2)  Read data from file
+#           3)  Store data in list
+#           4)  Retrieve requested data
+#           5)  Later - Replace specific data in file
+
+# Log file: 1)  Create new file
+#           2)  Append to file
+
+# Data file 1)  Check for existing file - return bool
+#           2)  Create new file
+#           3)  Append data to new file
+#               Two versions.  One that takes one line of data.  One that takes list and iterates through
+#               Note:  May need multiple version for each test or just for different number of columns.  Pass files name on call
 
 
 
@@ -6,90 +21,141 @@
 # Search list for parameter in list[0].  Read or replace List[1]
 
 import csv, sys
+from tabulate import tabulate
+from datetime import datetime
+
+
+
+
 filename = 'names.csv'
+#class file_op(object):
+def read_cal_data(self, name):
+    with open(filename, newline='') as f:
+        reader = csv.reader(f)
+        try:
+            for row in reader:
+                if row[0] == name:
+                    print(row)
+                    return name
+
+        except csv.Error as e:
+            sys.exit('file {}, line {}: {}'.format(filename, reader.line_num, e))
+
+def write_new_file(self, row_data):
+ with open('names.csv', 'w') as csvfile:
+     fieldnames = ['field', 'value', 'comment']
+     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+     writer.writeheader()
+     writer.write
 
 
-class file_op(object):
-    def read_cal_data(self, name):
-        with open(filename, newline='') as f:
-            reader = csv.reader(f)
-            try:
-                for row in reader:
-                    if row[0] == name:
-                        print(row)
-                        return name
+#   Calibration file section
+def create_basic_cal_file():
+    with open('zls_cal.csv', 'w') as csvfile:
+        fieldnames = ['field', 'value', 'comment']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    
+        writer.writeheader()
+        writer.writerow({'field': 'Meter',                              'value': 'Land',        'comment': ''})
+        writer.writerow({'field': 'Hardware revision',                  'value': '1.0',         'comment': 'Initial release'})
+        writer.writerow({'field': 'Software revision',                  'value': '1.5',         'comment': ''})
+        writer.writerow({'field': 'Calibration_version',                'value': 'calibrated',  'comment': ''})
+        writer.writerow({'field': 'Customer',                           'value': 'Orangelamp',  'comment': ''})
+    
+        writer.writerow({'field': 'pwm_freq',                           'value': '125',         'comment': 'Hz'})
+        writer.writerow({'field': 'sense_freq',                         'value': '10000',       'comment': 'Hz'})
+        writer.writerow({'field': 'adc_offset',                         'value': '0.0044678',   'comment': 'V'})
+        writer.writerow({'field': 'zh_offset',                          'value': '0.0',         'comment': 'V'})
+        writer.writerow({'field': 'lid_thermistor_offset',              'value': '0.0',         'comment': 'V'})
+        writer.writerow({'field': 'p12v_offset',                        'value': '0.0',         'comment': 'V'})
+        writer.writerow({'field': 'p5v_offset',                         'value': '0.0',         'comment': 'V'})
+        writer.writerow({'field': 'p3p3v_offset',                       'value': '0.0',         'comment': 'V'})
+        writer.writerow({'field': 'battery_thermistor_offset',          'value': '0.0',         'comment': 'V'})
+        writer.writerow({'field': 'batt_v_offset',                      'value': '0.0',         'comment': 'V'})
 
-            except csv.Error as e:
-                sys.exit('file {}, line {}: {}'.format(filename, reader.line_num, e))
+        writer.writerow({'field': 'beam_offset',                        'value': '0.0',         'comment': ''})
+        writer.writerow({'field': 'm5v_offset',                         'value': '0.0',         'comment': ''})
+        writer.writerow({'field': 'zp_offset',                          'value': '0.0',         'comment': ''})
+        writer.writerow({'field': 'gearbox_thermistor_offset',          'value': '0.0',         'comment': ''})
+        writer.writerow({'field': 'conning_tower_thermistor_offset',    'value': '0.0',         'comment': ''})
+        writer.writerow({'field': 'arrestment_thermistor_offset',       'value': '0.0',         'comment': ''})
+        writer.writerow({'field': 'meter_thermistor_1_offset',          'value': '0.0',         'comment': ''})
+        writer.writerow({'field': 'meter_thermistor_2_offset',          'value': '0.0',         'comment': ''})
+            
+        writer.writerow({'field': 'adc_divider',                        'value': '0.0044678',   'comment': ''})
+        writer.writerow({'field': 'zh_divider',                         'value': '0.0',         'comment': ''})
+        writer.writerow({'field': 'lid_thermistor_divider',             'value': '0.0',         'comment': ''})
+        writer.writerow({'field': 'p12v_divider',                       'value': '0.0',         'comment': ''})
+        writer.writerow({'field': 'p5v_divider',                        'value': '0.0',         'comment': ''})
+        writer.writerow({'field': 'p3p3v_divider',                      'value': '0.0',         'comment': ''})
+        writer.writerow({'field': 'battery_thermistor_divider',         'value': '0.0',         'comment': ''})
+        writer.writerow({'field': 'batt_v_divider',                     'value': '0.0',         'comment': ''})
 
-    def write_new_file(self, row_data):
-        with open('names.csv', 'w') as csvfile:
-            fieldnames = ['field', 'value', 'comment']
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-
-            writer.writeheader()
-            writer.write
-
-
-
-
-
-# Text file operations
-
-
-# file = open( "testfile.txt", "w")
-# file.write("Hello World!")
-# file = open( "testfile.txt", "r")
-# print file.readline()
-# print file.readline()
-# print file.readline()
-# print file.readline()
-# print file.readline()
-
-
-# # CSV file operations
-
-# # https://docs.python.org/2/library/csv.html
-
-
-
-# import csv, sys
-
-# with open('names.csv', 'w') as csvfile:
-#     fieldnames = ['field', 'value', 'comment']
-#     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-
-#     writer.writeheader()
-#     writer.writerow({'field': 'Meter', 'value': 'Land'})
-#     writer.writerow({'field': 'Revision', 'value': '5.6'})
-#     writer.writerow({'field': 'Calibration_version', 'value': 'calibrated'})
-#     writer.writerow({'field': 'Customer', 'value': 'Orangelamp'})
-
-#     writer.writerow({'field': 'pwm_freq', 'value': '125', 'comment': 'Hz'})
-#     writer.writerow({'field': 'sense_freq', 'value': '10000', 'comment': 'Hz'})
-#     writer.writerow({'field': 'adc_ain_0_offset', 'value': '0.0044678'})
-#     writer.writerow({'field': 'sense_pot_setting', 'value': '645'})
-
-# # with open('names.csv', newline='') as f:
-# #     reader = csv.reader(f)
-# #     for row in reader:
-# #         print(row)
-# #
+        writer.writerow({'field': 'beam_divider',                       'value': '0.0',         'comment': ''})
+        writer.writerow({'field': 'm5v_divider',                        'value': '0.0',         'comment': ''})
+        writer.writerow({'field': 'zp_divider',                         'value': '0.0',         'comment': ''})
+        writer.writerow({'field': 'gearbox_thermistor_divider',         'value': '0.0',         'comment': ''})
+        writer.writerow({'field': 'conning_tower_thermistor_divider',   'value': '0.0',         'comment': ''})
+        writer.writerow({'field': 'arrestment_thermistor_divider',      'value': '0.0',         'comment': ''})
+        writer.writerow({'field': 'meter_thermistor_1_divider',         'value': '0.0',         'comment': ''})
+        writer.writerow({'field': 'meter_thermistor_2_divider',         'value': '0.0',         'comment': ''})
 
 
-# filename = 'names.csv'
-# with open(filename, newline='') as f:
-#     reader = csv.reader(f)
-#     try:
-#         for row in reader:
-#             if row[0] == 'sense_freq':
-#                 print(row)
-#                 print(float(row[1]))
 
-#             elif row[0] == 'pwm_freq':
-#                 pwm_freq = float(row[1])
-#                 print(pwm_freq)
-#     except csv.Error as e:
-#         sys.exit('file {}, line {}: {}'.format(filename, reader.line_num, e))
 
+# CSV file open flags  a - append, w - write, rb
+
+def read_cal_file():
+    with open('zls_cal.csv', 'rb') as csvfile:
+        cal_file_reader = csv.reader(csvfile, delimiter=',', quotechar='|')
+        
+        
+        for row in cal_file_reader:
+            #col_width = max(len(word) for row in cal_file_reader for word in row) + 2  # padding
+            print '\t '.join(row)
+
+            #print(row[0], '\tb', row[1], row[2])
+            #print "".join(word.ljust(col_width) for word in row)
+            #'{0:30}  {10}  {10}'.format(row[0], row[1], row[2])
+
+    
+    
+
+
+def update_cal_file(field, value, comment):
+    with open('zls_cal.csv', 'w') as csvfile:
+        fieldnames = ['field', 'value', 'comment']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+
+
+
+
+
+
+
+
+
+
+
+# Log file section
+def create_basic_log_file():
+    print "Creating initial log file"
+    with open('log.csv', 'w') as csvfile:
+        fieldnames = ['Date', 'Comment']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        log_time = str(datetime.now())
+        #writer.writeheader()
+        writer.writerow({'Date': log_time, 'Comment': 'Initial entry'})
+
+    print "Log file successfully created"
+    
+def create_log_entry(issue):   
+     with open('log.csv', 'a') as csvfile:
+        fieldnames = ['Date', 'Comment']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        log_time = str(datetime.now())
+        #writer.writeheader()
+        writer.writerow({'Date': log_time, 'Comment': issue})

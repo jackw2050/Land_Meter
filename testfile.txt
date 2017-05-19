@@ -1,5 +1,19 @@
-Hello World!
-Calibration data file
-
-Name            Value
-AIN_0_offset    .0003657
+Meter Number, 20170522.0 
+ain0_divider, 10
+ain1_divider, 5
+ain2_divider, 50
+ain3_divider, 1
+ain4_divider, 2
+ain5_divider, 4
+ain6_divider, 10
+ain0_offset = 0
+ain1_offset = 0
+ain2_offset = 0
+ain3_offset = 0
+ain4_offset = 0
+ain5_offset = 0
+ain6_offset = 0
+gearbox_heater_setpoint, 56.5
+meter_heater_setpoint, 65.789
+conning_tower_setpoint, 57.34
+arrestment_heater_setpoint, 55.34
