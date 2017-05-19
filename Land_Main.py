@@ -52,3 +52,16 @@ def main():
 
 		
 initialize_land()
+
+def beam_check()
+
+	MAX1300.init() #initialize beam measurement
+
+	duty_cycle = 10
+	while True:
+		pwm.set_force_duty_cycle(duty_cycle)
+		ADC_value = MAX1300.readADC()
+	    print(duty_cycle, " , ", ADC_value)
+	    count += 1
+	    if count >= 90:
+	        break
