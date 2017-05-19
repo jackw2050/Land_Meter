@@ -1,0 +1,31 @@
+Python program is to run without interrupts if possible.
+Program flow:
+
+Program start:
+  Read cal file
+  Init all devices
+  Board/ system test
+  Report errors and write to log file
+  Begin program loop:
+    Check and display cross and long levels
+    Beam servo (loop 10 times)
+      Display beam on OLED
+      Adjust PWM
+   Check for communications
+      Set flags for data reporting
+   Check communications flags
+   Get time
+      if single reading flag set:
+          if(beam is level):
+              Send data
+              clear flag
+     if continuous reading flag is set:
+        if it 1 Hz GPIO is set high:
+          if(beam is level):
+              Send data
+              Clear GPIO flag
+    if(time min counter is 10):
+        Check system status/ voltages etc.
+        Report errors and write to log file
+        
+        
