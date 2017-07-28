@@ -1,6 +1,6 @@
 import file_opsfile_op as file_op
 import pwm as pwm
-
+from bbio import *
 
 
 #	Notes
@@ -41,19 +41,20 @@ def comms():
 	return error
 
 
-def main():
-	while True:
-		if record_data == True:
-			# Measure beam and levels
-		else 
-			# Measure levels	
+
+def heartBeatHandler():
+	# need to define handler
+	# send data to pda if flag is set
+	
+def commHandler():
+	# this interrupt is for serial communications
+	# Need to see if there is a bluetooth equivilant
+	
 
 
 
-		
-initialize_land()
 
-def beam_check()
+def beam_check():
 
 	MAX1300.init() #initialize beam measurement
 
@@ -61,7 +62,19 @@ def beam_check()
 	while True:
 		pwm.set_force_duty_cycle(duty_cycle)
 		ADC_value = MAX1300.readADC()
-	    print(duty_cycle, " , ", ADC_value)
-	    count += 1
-	    if count >= 90:
-	        break
+		
+	    	print(duty_cycle, " , ", ADC_value)
+	    
+		count += 1
+		if count >= 90:
+	    		break
+	        
+	        
+def main():
+	initialize_land()
+	while True:
+		if record_data == True:
+			# Measure beam and levels
+	#	else 
+			# Measure levels	
+	        
