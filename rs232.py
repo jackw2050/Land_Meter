@@ -1,30 +1,44 @@
-import Adafruit_BBIO.UART as UART
-import serial
+# import Adafruit_BBIO.UART as UART
+import serial, time
 
-UART.setup("UART1")
-
-ser = serial.Serial(port = "/dev/ttyO1", baudrate = 9600)
-ser.close()
-ser.open()
-if ser.isOpen():
-	print "Serial is open!"
-    ser.write("Hello World!")
-ser.close()
+# UART.setup("UART1")
 
 
+# for this sample I need to manually load the UART
+# echo BB-UART2 > /sys/devices/bone_capemgr.*/slots
+# the cape managet may not be in the same location
+# need to learn to use PyBBIO so that  device tree is automatically loaded
+
+
+
+port = serial.Serial(port = "/dev/ttyO1", baudrate = 9600)
+# ser.close()
+# ser.open()
+# if ser.isOpen():
+# 	print "Serial is open!"
+#     ser.write("Hello World!")
+# ser.close()
+
+def serialInit():
+  
 
 def getSerialData():
   # get the data from the buffer
   # parse the data
   # verify the checksumm
 
+  while True:
+    if (port.inWaiting()):
+      data = ""
+      while (port.inWaiting()):
+        data += port.read()
+        time.sleep(0.005)
+    # print what was sent
+    print( "Data received:\n '%s'" % data)
+    port.write(data)
+    time.sleep(0.1)
 
 
-
-
-# Eventually, you'll want to clean up, but leave this commented for now, 
-# as it doesn't work yet
-#UART.cleanup()
 
 
 

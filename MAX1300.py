@@ -14,56 +14,56 @@ import time
 
 
 
-	# Constants
-
-VREF = 4.096
-INTERNAL_CLOCK = 0xA8
-
-CHAN0_VRANGE = [0, VREF * 3]
-CHAN1_VRANGE = [0, VREF * 3]
-CHAN2_VRANGE = [0, VREF * 3]
-CHAN3_VRANGE = [0, VREF * 3]
-CHAN4_VRANGE = [0, VREF * 3]
-CHAN5_VRANGE = [0, VREF * 3]
-CHAN6_VRANGE = [0, VREF * 3]
-CHAN7_VRANGE = [0, VREF * 3]
-
-CHAN0 = 0x80
-CHAN1 = 0x90
-CHAN2 = 0xA0
-CHAN3 = 0xB0
-CHAN4 = 0xC0
-CHAN5 = 0xD0
-CHAN6 = 0xE0
-CHAN7 = 0xF0
-
-
-# Single ended
-RANGE_SINGLE_MINUS_3_VREF_PLUS_3_VREF 		= 0x07				# DEFAULT SETTING.  Bipolar -3 x VREF to +3 x VREF. FSR = 6 x VREF
-RANGE_SINGLE_ZERO_PLUS_3_VREF 				= 0x06				# Unipolar 0 to +3 x VREF. FSR = 3 x VREF.
-RANGE_SINGLE_MINUS_3_VREF_ZERO 				= 0x05				# Unipolar -3 x VREF to 0. FSR = 3 x VREF.
-RANGE_SINGLE_MINUS_1P5_VREF_PLUS_1P5_VREF 	= 0x04				# Bipolar (-3 x VREF)/2 to (+3 x VREF)/2. FSR = 3 x VREF.
-RANGE_SINGLE_ZERO_1P5_VREF 					= 0x03				# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.
-RANGE_SINGLE_MINUS_1P5_VREF_ZERO 			= 0x02				# Unipolar (-3 x VREF)/2 to 0. FSR = (3 x VREF)/2.
-RANGE_SINGLE_MINUS_P75_VREF_PLUS_P75_VREF 	= 0x01				# Bipolar (-3 x VREF)/4 to (+3 x VREF)/4. Full-Scale Range (FSR) = (3 x VREF)/2.
-
-# Differential
-
-RANGE_DIFFERENTIAL_MINUS_3_VREF_PLUS_3_VREF  	= 0x0F			# Bipolar -6 x VREF to +6 x VREF. FSR = 12 x VREF
-RANGE_DIFFERENTAL_MINUS_3_VREF_PLUS_3_VREF 		= 0x0C			# Bipolar -3 x VREF to +3 x VREF. FSR = 6 x VREF.
-RANGE_DIFFERENTIAL_MINUS_1P5_VREF_PLUS_1P5_VREF = 0x04			# Bipolar (-3 x VREF)/2 to (+3 x VREF)/2. FSR = 3 x VREF.
-
-
-
-
-
 
 class MAX1300M(object):		
     """Base class for Maxim MAX1300 16 bit ADC. 
     """
+	
+	# Constants
+	
+	VREF = 4.096
+	INTERNAL_CLOCK = 0xA8
+	
+	CHAN0_VRANGE = [0, VREF * 3]
+	CHAN1_VRANGE = [0, VREF * 3]
+	CHAN2_VRANGE = [0, VREF * 3]
+	CHAN3_VRANGE = [0, VREF * 3]
+	CHAN4_VRANGE = [0, VREF * 3]
+	CHAN5_VRANGE = [0, VREF * 3]
+	CHAN6_VRANGE = [0, VREF * 3]
+	CHAN7_VRANGE = [0, VREF * 3]
+	
+	CHAN0 = 0x80
+	CHAN1 = 0x90
+	CHAN2 = 0xA0
+	CHAN3 = 0xB0
+	CHAN4 = 0xC0
+	CHAN5 = 0xD0
+	CHAN6 = 0xE0
+	CHAN7 = 0xF0
+	
+	
+	# Single ended
+	RANGE_SINGLE_MINUS_3_VREF_PLUS_3_VREF 		= 0x07				# DEFAULT SETTING.  Bipolar -3 x VREF to +3 x VREF. FSR = 6 x VREF
+	RANGE_SINGLE_ZERO_PLUS_3_VREF 				= 0x06				# Unipolar 0 to +3 x VREF. FSR = 3 x VREF.
+	RANGE_SINGLE_MINUS_3_VREF_ZERO 				= 0x05				# Unipolar -3 x VREF to 0. FSR = 3 x VREF.
+	RANGE_SINGLE_MINUS_1P5_VREF_PLUS_1P5_VREF 	= 0x04				# Bipolar (-3 x VREF)/2 to (+3 x VREF)/2. FSR = 3 x VREF.
+	RANGE_SINGLE_ZERO_1P5_VREF 					= 0x03				# Unipolar 0 to (+3 x VREF)/2. FSR = (+3 x VREF)/2.
+	RANGE_SINGLE_MINUS_1P5_VREF_ZERO 			= 0x02				# Unipolar (-3 x VREF)/2 to 0. FSR = (3 x VREF)/2.
+	RANGE_SINGLE_MINUS_P75_VREF_PLUS_P75_VREF 	= 0x01				# Bipolar (-3 x VREF)/4 to (+3 x VREF)/4. Full-Scale Range (FSR) = (3 x VREF)/2.
+	
+	# Differential
+	
+	RANGE_DIFFERENTIAL_MINUS_3_VREF_PLUS_3_VREF  	= 0x0F			# Bipolar -6 x VREF to +6 x VREF. FSR = 12 x VREF
+	RANGE_DIFFERENTAL_MINUS_3_VREF_PLUS_3_VREF 		= 0x0C			# Bipolar -3 x VREF to +3 x VREF. FSR = 6 x VREF.
+	RANGE_DIFFERENTIAL_MINUS_1P5_VREF_PLUS_1P5_VREF = 0x04			# Bipolar (-3 x VREF)/2 to (+3 x VREF)/2. FSR = 3 x VREF.
+	
 
 
-		def ADCinit(self):	
+
+
+		
+	def ADCinit(self):	
 
 		# Defaults
 
@@ -89,7 +89,7 @@ class MAX1300M(object):
 		CHAN7_VRANGE = [0, VREF * 3]
 
 
-
+# only one of these can be used
     def __init__(self, width, SPI_PORT, SPI_DEVICE):
 
 

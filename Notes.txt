@@ -1,6 +1,11 @@
 Python program is to run without interrupts if possible.
 Program flow:
 
+
+for PyBBIO use https://github.com/graycatlabs/PyBBIO.git
+
+
+
 Program start:
   Read cal file
   Init all devices

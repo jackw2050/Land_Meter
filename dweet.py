@@ -1,8 +1,12 @@
 import requests, psutil, datetime
 
+# http://dweet.io/follow/5c7da3e6-22ad-4951-b8e7-860a3fadb026
+
 # Replace "x" sequence with your UUID:
 thing_name = "5c7da3e6-22ad-4951-b8e7-860a3fadb026"
 #UUID('5c7da3e6-22ad-4951-b8e7-860a3fadb026')
+
+
 def dweet(thing, **vals):
   url = "http://dweet.io/dweet/for/{}".format(thing)
   requests.post(url, params=vals)
