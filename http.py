@@ -10,10 +10,10 @@ def setup():
 	page2 = Page("LED Control")
 	page2.add_text("Controlling an onboard LED")
 	
-	# page2.add_button(lambda: toggle(USR3),  "Toggle USR3 LED", newline = True)
-	# page2.add_monitor(lambda: pinState(USR3), "current state:")
+	page2.add_button(lambda: toggle(USR3),  "Toggle USR3 LED", newline = True)
+	page2.add_monitor(lambda: pinState(USR3), "current state:")
 	
-	# server.start(page1, page2)
+	server.start(page1, page2)
 
 def loop():
 	print("/nServer has stopped, exiting")
