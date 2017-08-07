@@ -1,18 +1,49 @@
-
-#!/usr/bin/python
-# Write one byte to a device and an address:
-# i2cset -y 2 0x77 0xf4 0x34
-from bbio import *
-# Read one byte from a device and an address:
-# i2cdump -y 2 0x77
-
-import smbus
+import Adafruit_BBIO.GPIO as GPIO
 import time
-# from Adafruit_I2C import Adafruit_I2C
+from Adafruit_I2C import Adafruit_I2C
+#http://datasheets.maximintegrated.com/en/ds/DS3231M.pdf
 
-DS3231M_address = 0x68
-bus = smbus.SMBus(2)
-# i2c = Adafruit_I2C(address)
+DS3231M_address = 0x68 
+RTC_address = 0x68 
+RTC_i2c = Adafruit_I2C(RTC_address)
+
+#RTC address information
+
+secondsAddress 			= 0x00
+minutesAddress 			= 0x01
+hoursAddress			= 0x02
+dayOfWeekAddress		= 0x03
+dayOfMonthAddress		= 0x04
+monthCenturAddressy		= 0x05
+yeaAddressr				= 0x06
+controlAddress			= 0x0E
+statusAddress			= 0x0F
+agingOffsetAddress		= 0x10
+temperatureMSBAddress	= 0x11
+temperatureLSBAddress	= 0x12
+
+
+
+seconds 		= 0x00
+minutes 		= 0x00
+hours			= 0x00
+dayOfWeek		= 00000XXX
+dayOfMonth		= 00NNXXXX
+monthCentury	= 0x00
+year			= 0x00
+control			= 00011000 #Enable 1Hz or 00?
+status			= 0x00
+agingOffset		= 0x00
+temperatureMSB	= 0x00
+temperatureLSB	= 0x00
+
+    #Enable GPIO for RTC
+    GPIO.setup(rtc1Hz, GPIO.IN)
+    GPIO.setup(rtcReset, GPIO.OUT)
+
+
+
+
 
 BEAT = GPIO3_21
 # Interrupts
@@ -27,8 +58,31 @@ def loop():
 		bus.write_byte_data(DS3231M_address, 0x0E, 0x00)	
 		
 		
-run(setup, loop)		
+
+
+def setRtcTime():
+	print("Setting RTC time/ date to :")
 	
+def readRtcTime():
+	print("RTC time is :")
+	
+	
+	
+def initRtc1Hz():
+	print("Initializing 1Hz")
+	
+	
+	
+	
+		
+	
+	
+	
+GPIO.add_event_detect(rtc1Hz, GPIO.FALLING)
+#your amazing code here
+#detect wherever:
+if GPIO.event_detected(rtc1Hz):
+    print "event detected!"	
 	
 	
 	

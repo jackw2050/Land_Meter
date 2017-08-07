@@ -7,14 +7,6 @@ import time
 #import Adafruit_BBIO.SPI as SPI
 
 
-
-
-
-
-
-
-
-
 class MAX1300M(object):		
     """Base class for Maxim MAX1300 16 bit ADC. 
     """

@@ -1,8 +1,8 @@
-import unittest
+import file_ops
+import Levels
 
-def fun(x):
-    return x + 1
+#file_ops.create_log_entry("test")
+#file_ops.create_basic_cal_file()
+#file_ops.read_cal_file()
 
-class MyTest(unittest.TestCase):
-    def test(self):
-        self.assertEqual(fun(3), 4)
+print Levels.get_level_in_arc_sec(65000)

@@ -16,7 +16,7 @@ def setup():
 	server.start(page1), page2
 
 
-def loop:
+def loop():
 	print "\nServer had stopped, exiting"
 	stop()
 
