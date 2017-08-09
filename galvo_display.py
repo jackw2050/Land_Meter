@@ -1,15 +1,25 @@
 
 
 #https://github.com/adafruit/Adafruit_Python_SSD1306/tree/master/examples
-
+from Adafruit_I2C import Adafruit_I2C
 import time
-
-import Adafruit_GPIO.SPI as SPI
 import Adafruit_SSD1306
 
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
+
+
+
+# install the Python Imaging Library and smbus library by executing:
+#     sudo apt-get install python-imaging python-smbus
+
+# Now to download and install the SSD1306 python library code and examples, execute the following commands:
+# sudo apt-get install git
+# git clone https://github.com/adafruit/Adafruit_Python_SSD1306.git
+# cd Adafruit_Python_SSD1306
+# sudo python setup.py install
+
 
 
 # Beaglebone Black pin configuration:
@@ -22,8 +32,9 @@ from PIL import ImageFont
 # 128x32 display with hardware I2C:
 disp = Adafruit_SSD1306.SSD1306_128_32(rst=RST)
 crossDisplay = Adafruit_SSD1306.SSD1306_128_32(rst=RST, i2c_address=0x3C)
-longDisplay = Adafruit_SSD1306.SSD1306_128_32(rst=RST, i2c_address=0x3C)
-beamDisplay = Adafruit_SSD1306.SSD1306_128_32(rst=RST, i2c_address=0x3C)
+i2c = Adafruit_I2C(0x77)
+# longDisplay = Adafruit_SSD1306.SSD1306_128_32(rst=RST, i2c_address=0x3C)
+# beamDisplay = Adafruit_SSD1306.SSD1306_128_32(rst=RST, i2c_address=0x3C)
 # 128x64 display with hardware I2C:
 # disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST)
 
@@ -110,16 +121,33 @@ def initCrossDisplay():
 
     
 def initLongDisplay():
-    # run init from driver
-    # setup basic display
+    # Initialize library.
+    disp.begin()
+    
+    # Clear display.
+    disp.clear()
+    disp.display()
+    
+    # Create blank image for drawing.
+    # Make sure to create image with mode '1' for 1-bit color.
+    width = disp.width
+    height = disp.height
+    image = Image.new('1', (width, height))
     
 def initBeamDisplay():
-    # run init from driver
-    # setup basic display    
+    # Initialize library.
+    disp.begin()
     
+    # Clear display.
+    disp.clear()
+    disp.display()
     
-def updateCrossDisplay():    
+    # Create blank image for drawing.
+    # Make sure to create image with mode '1' for 1-bit color.
+    width = disp.width
+    height = disp.height
+    image = Image.new('1', (width, height))  
     
-def updateLongDisplay():   
+
     
-def updateBeamDisplay():       
+initCrossDisplay()    

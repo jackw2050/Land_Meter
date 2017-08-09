@@ -10,31 +10,90 @@ AIN4 = "P9_33"  #+3.3V
 AIN5 = "P9_36"  # Battery thermistor   
 AIN6 = "P9_35"  # Battery voltage
 
+
+
+
+
 adc_average_count = 100
 
-ain0_divider = 1
-ain1_divider = 1
-ain2_divider = 1
-ain3_divider = 1
-ain4_divider = 1
-ain5_divider = 1
-ain6_divider = 1
+ADC.ain0_divider = 1.0
+ADC.ain1_divider = 1.0
+ADC.ain2_divider = 1.0
+ADC.ain3_divider = 1.0
+ADC.ain4_divider = 1.0
+ADC.ain5_divider = 1.0
+ADC.ain6_divider = 1.0
 
 #These values should reside in file and loaded at boot
-ain0_offset = 0
-ain1_offset = 0
-ain2_offset = 0
-ain3_offset = 0
-ain4_offset = 0
-ain5_offset = 0
-ain6_offset = 0
-
-
-
-
+ADC.ain0_offset = 0.0
+ADC.ain1_offset = 0.0
+ADC.ain2_offset = 0.0
+ADC.ain3_offset = 0.0
+ADC.ain4_offset = 0.0
+ADC.ain5_offset = 0.0
+ADC.ain6_offset = 0.0
+ADC.ain7_offset = 0.0
 
 
 adc_offset = 0.004  #This value should reside in file
+
+def updateAinDivider(ainChan, offset):
+    if(ainChan == 0):
+        ADC.ain0_divider = offset
+        return 0
+    elif(ainChan == 1):
+        ADC.ain1_divider = offset
+        return 0
+    elif(ainChan == 2):
+        ADC.ain2_divider = offset
+        return 0
+    elif(ainChan == 3):
+        ADC.ain3_divider = offset
+        return 0
+    elif(ainChan == 4):
+        ADC.ain4_divider = offset
+        return 0
+    elif(ainChan == 5):
+        ADC.ain5_divider = offset
+        return 0
+    elif(ainChan == 6):
+        ADC.ain6_divider = offset
+        return 0
+    elif(ainChan == 7):
+        ADC.ain7_divider = offset 
+        return 0
+    else:   
+        print "ADC channel not defined.  divider value not updated"
+        return 1
+        
+def updateAinOffset(ainChan, offset):
+    if(ainChan == 0):
+        ADC.ain0_offset = offset
+        return 0
+    elif(ainChan == 1):
+        ADC.ain1_offset = offset
+        return 0
+    elif(ainChan == 2):
+        ADC.ain2_offset = offset
+        return 0
+    elif(ainChan == 3):
+        ADC.ain3_offset = offset
+        return 0
+    elif(ainChan == 4):
+        ADC.ain4_offset = offset
+        return 0
+    elif(ainChan == 5):
+        ADC.ain5_offset = offset
+        return 0
+    elif(ainChan == 6):
+        ADC.ain6_offset = offset
+        return 0
+    elif(ainChan == 7):
+        ADC.ain7_offset = offset 
+        return 0
+    else:   
+        print "ADC channel not defined.  Offset not updated"
+        return 1
 
 ADC.setup()
 
@@ -45,20 +104,25 @@ def read_adc(adc_chan, loop_count):
     adc_value /= num
     return adc_value
 
-zh              = 1.8 * read_adc(AIN0, adc_average_count) * ain0_divider + adc_offset
-lid_thermistor  = 1.8 * read_adc(AIN1, adc_average_count) * ain1_divider + adc_offset
-p12v            = 1.8 * read_adc(AIN2, adc_average_count) * ain2_divider + adc_offset
-p5v             = 1.8 * read_adc(AIN3, adc_average_count) * ain3_divider + adc_offset
-p3p3v           = 1.8 * read_adc(AIN4, adc_average_count) * ain4_divider + adc_offset
-batt_thermistor = 1.8 * read_adc(AIN5, adc_average_count) * ain5_divider + adc_offset
-batt_v          = 1.8 * read_adc(AIN6, adc_average_count) * ain6_divider + adc_offset
+
+# a = updateAinOffset(4, .003)
+# if(a == 0):
+#     print a, ADC.ain4_offset
+
+# zh              = 1.8 * read_adc(AIN0, adc_average_count) * ain0_divider + adc_offset
+# lid_thermistor  = 1.8 * read_adc(AIN1, adc_average_count) * ain1_divider + adc_offset
+# p12v            = 1.8 * read_adc(AIN2, adc_average_count) * ain2_divider + adc_offset
+# p5v             = 1.8 * read_adc(AIN3, adc_average_count) * ain3_divider + adc_offset
+# p3p3v           = 1.8 * read_adc(AIN4, adc_average_count) * ain4_divider + adc_offset
+# batt_thermistor = 1.8 * read_adc(AIN5, adc_average_count) * ain5_divider + adc_offset
+# batt_v          = 1.8 * read_adc(AIN6, adc_average_count) * ain6_divider + adc_offset
 
 
 
-print("ZH voltage                   = {:0.4f}V".format(zh))
-print("Lid thermistor voltage       = {:0.4f}V".format(lid_thermistor))
-print("+12V                         = {:0.4f}V".format(p12v))
-print("+5V                          = {:0.4f}V".format(p5v))
-print("+3.3V voltage                = {:0.4f}V".format(p3p3v))
-print("Battery thermistor voltage   = {:0.4f}V".format(batt_thermistor))
-print("Battery voltage              = {:0.4f}V".format(batt_v))
+# print("ZH voltage                   = {:0.4f}V".format(zh))
+# print("Lid thermistor voltage       = {:0.4f}V".format(lid_thermistor))
+# print("+12V                         = {:0.4f}V".format(p12v))
+# print("+5V                          = {:0.4f}V".format(p5v))
+# print("+3.3V voltage                = {:0.4f}V".format(p3p3v))
+# print("Battery thermistor voltage   = {:0.4f}V".format(batt_thermistor))
+# print("Battery voltage              = {:0.4f}V".format(batt_v))

@@ -4,7 +4,6 @@
 #           3)  Store data in list
 #           4)  Retrieve requested data
 #           5)  Later - Replace specific data in file
-
 # Log file: 1)  Create new file
 #           2)  Append to file
 
@@ -58,8 +57,8 @@ def create_basic_cal_file():
     
         writer.writeheader()
         writer.writerow({'field': 'Meter',                              'value': 'Land',        'comment': ''})
-        writer.writerow({'field': 'Hardware revision',                  'value': '1.0',         'comment': 'Initial release'})
-        writer.writerow({'field': 'Software revision',                  'value': '1.5',         'comment': ''})
+        writer.writerow({'field': 'Hardware_revision',                  'value': '1.0',         'comment': 'Initial release'})
+        writer.writerow({'field': 'Software_revision',                  'value': '1.5',         'comment': ''})
         writer.writerow({'field': 'Calibration_version',                'value': 'calibrated',  'comment': ''})
         writer.writerow({'field': 'Customer',                           'value': 'Orangelamp',  'comment': ''})
     
@@ -109,33 +108,23 @@ def create_basic_cal_file():
 def read_cal_file():
     with open('zls_cal.csv', 'rb') as csvfile:
         cal_file_reader = csv.reader(csvfile, delimiter=',', quotechar='|')
+        your_list = list(cal_file_reader)
         
+        return your_list
         
-        for row in cal_file_reader:
+        #for row in cal_file_reader:
             #col_width = max(len(word) for row in cal_file_reader for word in row) + 2  # padding
-            print '\t '.join(row)
+            #print '\t '.join(row)
 
-            #print(row[0], '\tb', row[1], row[2])
+            #print row[0], '\t', row[1], row[2]
             #print "".join(word.ljust(col_width) for word in row)
             #'{0:30}  {10}  {10}'.format(row[0], row[1], row[2])
-
-    
-    
 
 
 def update_cal_file(field, value, comment):
     with open('zls_cal.csv', 'w') as csvfile:
         fieldnames = ['field', 'value', 'comment']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-
-
-
-
-
-
-
-
-
 
 
 
@@ -158,3 +147,4 @@ def create_log_entry(issue):
         log_time = str(datetime.now())
         #writer.writeheader()
         writer.writerow({'Date': log_time, 'Comment': issue})
+

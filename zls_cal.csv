@@ -1,7 +1,7 @@
 field,value,comment
 Meter,Land,
-Hardware revision,1.0,Initial release
-Software revision,1.5,
+Hardware_revision,1.0,Initial release
+Software_revision,1.5,
 Calibration_version,calibrated,
 Customer,Orangelamp,
 pwm_freq,125,Hz
