@@ -108,6 +108,16 @@ def create_basic_cal_file():
 
 # CSV file open flags  a - append, w - write, rb
 
+
+
+
+def readFile(fileName):
+   with open(fileName, 'rb') as csvfile:
+    cal_file_reader = csv.reader(csvfile, delimiter=',', quotechar='|')
+    your_list = list(cal_file_reader)
+   return your_list
+
+
 def read_cal_file():
     with open('zls_cal.csv', 'rb') as csvfile:
         cal_file_reader = csv.reader(csvfile, delimiter=',', quotechar='|')

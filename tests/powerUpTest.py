@@ -34,6 +34,12 @@ def test1():
     GPIO.output(system9VoltEnable, GPIO.LOW)
     time.sleep(1)
     print("9V LDO converter enabled")
+
+
+
+
+
+
     
     # time.sleep(2)
     # GPIO.output(systemPowerEnable, GPIO.LOW)
@@ -46,17 +52,40 @@ def test1():
 def test2():
     print("Test 2 starting.")
     
+def test2():
+    print("Test 3 starting.")    
+        # enable gpio for DC-DC converters
+    ADC.adc_init()
+    GPIO.output(systemPowerEnable, GPIO.LOW)
+    GPIO.output(system9VoltEnable, GPIO.LOW)
+    # while(True):
+            
+    print("ZLS Beaglebone Black boot complete")
+    time.sleep(1)
+    print("Enabling GPIO 1-5 for +/- 5V and +12V")
+    GPIO.output(systemPowerEnable, GPIO.HIGH)
+    time.sleep(1)
+    print("DC-DC converters enabled")
+    time.sleep(3)
+    print("Enabling GPIO 2-4 for +9V")
+    GPIO.output(system9VoltEnable, GPIO.LOW)
+    time.sleep(1)
+    print("9V LDO converter enabled")
+    
+    
     
     
     
     
     
 
-testNumber = input("Enter test number to be run:\n1)    Simple turn on with time delay\n2)    Turn on with ADC verification\n>")
+testNumber = input("Enter test number to be run:\n1)    Simple turn on with time delay\n2)    Turn on with ADC verification\n>3)    Turn on with system voltage calibration\n")
 if(testNumber == 1):
     test1()
 elif(testNumber == 2):
     test2()
+elif(testNumber == 3):
+    test3()    
 else:
     print("Invalid number entered.  \nTerminating....")
 

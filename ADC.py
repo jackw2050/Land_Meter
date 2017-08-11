@@ -115,7 +115,7 @@ def read_adc(adc_chan, loop_count, divider, offset):
     elif (adc_chan == "battVolt"):
         chan = "P9_35"  # Battery voltage
 
-   adcRange = 1.8 / 1024
+    adcRange = 1.8 / 1024
     adc_value = 0
     for num in range (1, loop_count):
         adc_value += ADC.read(chan)

@@ -1,0 +1,4 @@
+0
+# Note.  The first character on the first line determines the run mode.
+# A 0 indicates to run in production mode.
+# Any other number will cun in test / calibration mode and provide a menu of tests that can be run.

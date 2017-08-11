@@ -243,7 +243,7 @@ def ReadADC_average(adc_chan, chan_vrange, averages, rate, loopMax, divider, off
 	data_val = 0
 	for x in range (loopMax):
 		spi.writebytes([chan])								# Send request for data
-		chan_data = spi.readbytes(2)							# Read 2 bytes
+		chan_data = spi.readbytes(2)						# Read 2 bytes
 		chan_16bit_data = (chan_data[0]<<8 ) + chan_data[1]	# Convert to one 16 bit word
 		dec_data = chan_16bit_data / 65535 * chanVrange[1] + chanVrange[0]
 		data_summ += dec_data

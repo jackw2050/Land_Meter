@@ -1,9 +1,18 @@
 Python program is to run without interrupts if possible.
 Program flow:
+Add line to calibration file to status of calibration factors.  For a fresh file the value should be 0
+For subsequent file writes it should be incremented by one to note that the factors have been updated and the number of times 
+There could be more than one status value e.g. divider cal, offset cal, beam range etc.
+
+Also need to set an interrupt for the BBB power down switch that saves the files and powers down the meter safely
 
 
-for PyBBIO use https://github.com/graycatlabs/PyBBIO.git
 
+
+1)  Read mode file
+      Set mode
+2)  Load calibration file
+3)  Print menu
 
 
 Program start:

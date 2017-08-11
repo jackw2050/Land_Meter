@@ -1,6 +1,18 @@
 import file_ops as file_op
 import ADC as ADC
 from MAX1300 import *
+import Adafruit_BBIO.GPIO as GPIO
+import time
+
+
+system9VoltEnable = "P8_10"
+systemPowerEnable = "P8_22"
+
+
+
+
+
+
 
 Meter                                  = "Land"       
 Hardware_revision                      = 1.0        
@@ -49,12 +61,56 @@ beam10									= 0.0
 beam50									= 2.5
 beam90									= 5.0
 
+# Setup GPIO
+GPIO.setup(systemPowerEnable, GPIO.OUT)	# Enable pin for DC-DC converter
+GPIO.setup(system9VoltEnable, GPIO.OUT)	# Enable pin for DC-DC converter
+
+
+
+
+
+def verifySysVoltages():
+	loop_count = 100
+
+
+	read_adc("p5vSys", loop_count, p5v_divider, p5v_offset)
+	read_adc("p12vSys", loop_count, p12v_divider, p12v_offset)
+	read_adc("p3p3vSys", loop_count, p3p3v_divider, p3p3v_offset)
+	read_adc("battVolt", loop_count, batt_v_divider, batt_v_offset)
+	read_adc("zhSys", loop_count, zh_divider, zh_offset)
+	
+	#MAX1300.
+	read_adc(adc_chan, loop_count)
+	read_adc(adc_chan, loop_count)
+
+def startupLand():
+	
+	print("ZLS Beaglebone Black boot complete")
+    	time.sleep(1)
+    
+    	print("Enabling GPIO 1-5 for +/- 5V and +12V")
+    	GPIO.output(systemPowerEnable, GPIO.HIGH)
+    	time.sleep(1)
+    	print("DC-DC converters enabled")
+    	time.sleep(3)
+    	print("Enabling GPIO 2-4 for +9V")
+    	GPIO.output(system9VoltEnable, GPIO.HIGH)
+    	time.sleep(1)
+    	print("9V LDO converter enabled")
+	print "Initializing Land Meter Electronics"
+	verifySysVoltages()
+		
+	# Enable GPIO for DC-DC converters
+	# Verify and record system voltages
+	# Log any errors
+	findBeamPoints()
 
 
 
 
 def initialize_land():
-	# Sysyewm check.
+	print "Initializing meter"
+	# Sysyem check.
 	# 0)	Call init for all devices. (ssi, i2c etc.)
 	# 1)	Check status of all system voltages (Use precistion voltage source on one channel for ADC cal)
 	# 2)	Connect to database
@@ -63,12 +119,12 @@ def initialize_land():
 	# 5)	Start PWM
 	# 6)	Check status of beam(measure @ 10% duty cycle and 90% duty cycle then zero via feedback)
 	# 7)	Setup interrupts
-	ADC.adc_init()
-	gpio_init()
-	pwm.init()
-	MAX1300.init()
-	uart.init()
-	display_init()
+	# ADC.adc_init()
+	# gpio_init()
+	# pwm.init()
+	# MAX1300.ADCinit(()
+	# uart.init()
+	# display_init()
 	
 	
 
@@ -177,7 +233,9 @@ def initGlobalVars():
 	global arrestment_thermistor_divider       
 	global meter_thermistor_1_divider          
 	global meter_thermistor_2_divider          
-	
+	global beam10
+	global beam50
+	global beam90	
 	
 	
 		        
@@ -263,6 +321,15 @@ def initGlobalVars():
 			meter_thermistor_1_divider = row[1]
 		elif (row[0] == "meter_thermistor_2_divider"): 
 			meter_thermistor_2_divider = row[1]
+
+		elif (row[0] == "beam10"): 
+			beam10 = row[1]
+		elif (row[0] == "beam50"): 
+			beam50 = row[1]
+		elif (row[0] == "beam90"): 
+			beam90 = row[1]
+			
+			
 		elif (row[0] == "field"):
 			print "reading data file"
 		else:
@@ -282,19 +349,47 @@ def findBeamPoints():
 	print "50%       \t",beam50
 	print "90%       \t",beam90
 
-def startupLand():
-	print "Initializing Land Meter Electronics"
-	# Enable GPIO for DC-DC converters
-	# Verify and record system voltages
-	# Log any errors
-	findBeamPoints()
-	
-	
-	
-def main():
-#	initialize_land()			
+
+def productionLoop():
+	#	initialize_land()			
 	initGlobalVars()		
 	startupLand()
+	
+
+def testLoop():
+	testNumber = input("Enter test number to be run:\n1)    Simple turn on with time delay\n2)    Turn on with ADC verification\n>3)    Turn on with system voltage calibration\n")
+	if(testNumber == 1):
+	    test1()
+	elif(testNumber == 2):
+	    test2()
+	elif(testNumber == 3):
+	    test3()    
+	else:
+    		print("Invalid number entered.  \nTerminating....")
+	#	initialize_land()
+	
+	initGlobalVars()		
+	startupLand()
+
+	
+def main():
+	
+	# At this point the only thing with power should be the processor
+	# Load the mode file.  This tells the program if it is to run in productin mode or test / calibration mode.
+	
+	runMode = file_op.readFile("mode.csv")
+	print runMode[0]
+	if(runMode[0] == 0):
+		productionLoop()
+	elif(runMode[0] <> 0):
+		testLoop()
+	else:
+		print "Invalid entry"
+	
+	
+	
+	
+
 	
 	
 	
