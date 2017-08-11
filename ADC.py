@@ -95,14 +95,40 @@ def updateAinOffset(ainChan, offset):
         print "ADC channel not defined.  Offset not updated"
         return 1
 
-ADC.setup()
+def calcAdcValue(raw, divider, offset):
+    adjustedADCvalue = raw * divider + offset
+    return adjustedADCvalue
 
-def read_adc(adc_chan, loop_count):
+def read_adc(adc_chan, loop_count, divider, offset):
+    if (adc_chan == "zhSys"):
+        chan = "P9_39"  #ZH
+    elif (adc_chan == "lidThermistorVolt"):
+        chan = "P9_40"  #Lid thermistor
+    elif (adc_chan == "p12vSys"):
+        chan = "P9_37"  #+12V
+    elif (adc_chan == "p5vSys"):
+        chan = "P9_38"  #+5V
+    elif (adc_chan == "p3p3vSys"):
+        chan = "P9_33"  #+3.3V
+    elif (adc_chan == "battThermistorVolt"):
+        chan = "P9_36"  # Battery thermistor   
+    elif (adc_chan == "battVolt"):
+        chan = "P9_35"  # Battery voltage
+
+   adcRange = 1.8 / 1024
     adc_value = 0
     for num in range (1, loop_count):
-        adc_value += ADC.read(adc_chan)
+        adc_value += ADC.read(chan)
     adc_value /= num
+    adc_value = adc_value
+    adc_value *= adcRange
+    adc_value = calcAdcValue(adc_value, divider, offset)
     return adc_value
+
+
+
+
+
 
 
 # a = updateAinOffset(4, .003)

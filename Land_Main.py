@@ -45,7 +45,9 @@ conning_tower_thermistor_divider       = 0.0
 arrestment_thermistor_divider          = 0.0        
 meter_thermistor_1_divider             = 0.0        
 meter_thermistor_2_divider             = 0.0 
-
+beam10									= 0.0
+beam50									= 2.5
+beam90									= 5.0
 
 
 
@@ -106,14 +108,32 @@ def beam_check():
 	while True:
 		pwm.set_force_duty_cycle(duty_cycle)
 		ADC_value = MAX1300.readADC()
-		
 	    	print(duty_cycle, " , ", ADC_value)
-	    
 		count += 1
 		if count >= 90:
 	    		break
 	        
 	        
+
+def beamFeedbackLoop(target, errorOk, beam_divider, beam_offset):
+	global duty_cycle
+	chan = 0x80
+	averages = 20
+	rate = 0.1
+	loopMax = 1
+	duty_cycle = 50.0
+	beamDone = False
+	pwm.set_force_duty_cycle(duty_cycle)
+
+	# normalize beam center to 0
+	while (beamDone == False):
+		ADC_value = MAX1300. ReadADC_average(chan, chan_vrange, averages, rate, loopMax)
+		beam_value = ADC_value * beam_divider + beam_offset
+		if(beam_value < target - errorOk):
+			beamError = (beam_value - target) / target
+
+
+
 
 
 
@@ -247,8 +267,35 @@ def initGlobalVars():
 			print "reading data file"
 		else:
 			print "Error reading data file.\nCould not find variable named ",row[0]
-			
+
+def findBeamPoints():
+	global beam10
+	global beam50
+	global beam90
+	print "Starting Beam calibration"
+	print "Measuring beam output range"
+	# Record values of Beam output for PWM duty cycle of 10, 50 and 90%
+	# Finish with 50% duty cycle
+	print "Duty cycle\tBeam output voltage"
+	print "----------\t-------------------"
+	print "10%       \t",beam10
+	print "50%       \t",beam50
+	print "90%       \t",beam90
+
+def startupLand():
+	print "Initializing Land Meter Electronics"
+	# Enable GPIO for DC-DC converters
+	# Verify and record system voltages
+	# Log any errors
+	findBeamPoints()
+	
+	
+	
 def main():
 #	initialize_land()			
-	initGlobalVars()			
+	initGlobalVars()		
+	startupLand()
+	
+	
+	
 main()

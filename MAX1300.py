@@ -197,27 +197,60 @@ def GetChanVrange(self, range_setting):
 
 
 
-def ReadADC_average(chan, chan_vrange, averages, rate, loopMax):
+def ReadADC_average(adc_chan, chan_vrange, averages, rate, loopMax, divider, offset):
 	""" Returns average of averages measurments.
 		rate is mS 
 		loopMax is number of measurements
 	"""
-	chan = chan
-	chan_vrange = chan_vrange
-	averages = averages
-	rate = rate
-	loopMax = loopMax
+	chanVrange = [0,0]
+	if (adc_chan == "beam"):
+		chan = 0x80
+		chanVrange[0] = CHAN0_VRANGE[0]
+		chanVrange[1] = CHAN0_VRANGE[1]
+	elif (adc_chan == "m5vSys"):	
+		chan = 0x90
+		chanVrange[0] = CHAN1_VRANGE[0]
+		chanVrange[1] = CHAN1_VRANGE[1]
+	if (adc_chan == "zpSys"):
+		chan = 0xA0
+		chanVrange[0] = CHAN2_VRANGE[0]
+		chanVrange[1] = CHAN2_VRANGE[1]
+	if (adc_chan == "meterThermistor1"):
+		chan = 0xB0
+		chanVrange[0] = CHAN3_VRANGE[0]
+		chanVrange[1] = CHAN3_VRANGE[1]
+	if (adc_chan == "meterThermistor2"):
+		chan = 0xC0
+		chanVrange[0] = CHAN4_VRANGE[0]
+		chanVrange[1] = CHAN4_VRANGE[1]
+	if (adc_chan == "gearboxThermistor"):
+		chan = 0xD0
+		chanVrange[0] = CHAN5_VRANGE[0]
+		chanVrange[1] = CHAN5_VRANGE[1]
+	if (adc_chan == "arrestmentThermistor"):
+		chan = 0xE0
+		chanVrange[0] = CHAN6_VRANGE[0]
+		chanVrange[1] = CHAN6_VRANGE[1]
+	if (adc_chan == "conningTowerThermistor"):
+		chan = 0xF0
+		chanVrange[0] = CHAN7_VRANGE[0]
+		chanVrange[1] = CHAN7_VRANGE[1]
+	
+
+
 
 	data_summ = 0
 	data_val = 0
 	for x in range (loopMax):
 		spi.writebytes([chan])								# Send request for data
-		chan0_data = spi.readbytes(2)							# Read 2 bytes
-		chan0_16bit_data = (chan0_data[0]<<8 ) + chan0_data[1]	# Convert to one 16 bit word
-		dec_data = chan0_16bit_data / 65535 * CHAN0_VRANGE[1] + CHAN0_VRANGE[0]
+		chan_data = spi.readbytes(2)							# Read 2 bytes
+		chan_16bit_data = (chan_data[0]<<8 ) + chan_data[1]	# Convert to one 16 bit word
+		dec_data = chan_16bit_data / 65535 * chanVrange[1] + chanVrange[0]
 		data_summ += dec_data
 		time.sleep(rate / 1000)
 	data_val = data_summ / loopMax
+	data_val = data_val * divider + offset
+	
 	return data_val	
 		
 

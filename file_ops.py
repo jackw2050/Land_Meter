@@ -99,6 +99,9 @@ def create_basic_cal_file():
         writer.writerow({'field': 'arrestment_thermistor_divider',      'value': '0.0',         'comment': ''})
         writer.writerow({'field': 'meter_thermistor_1_divider',         'value': '0.0',         'comment': ''})
         writer.writerow({'field': 'meter_thermistor_2_divider',         'value': '0.0',         'comment': ''})
+        writer.writerow({'field': 'beam10',                             'value': '0.0',         'comment': ''})
+        writer.writerow({'field': 'beam50',                             'value': '2.5',         'comment': ''})
+        writer.writerow({'field': 'beam90',                             'value': '5.0',         'comment': ''})
 
 
 
