@@ -1,5 +1,6 @@
 import timeit
-from MAX1300 import *
+import MAX1300 
+import time
 
 
 
@@ -34,5 +35,7 @@ def findThermistorValue(thermRes):
             break
 
 
-
-calculateTempC(4.06, 5510, 5)
+time.sleep(3)
+MAX1300.ADCinit()
+time.sleep(3)
+print MAX1300.ReadADC(0)

@@ -3,6 +3,7 @@ import ADC as ADC
 from MAX1300 import *
 import Adafruit_BBIO.GPIO as GPIO
 import time
+import Levels
 
 
 system9VoltEnable = "P8_10"
@@ -357,13 +358,15 @@ def productionLoop():
 	
 
 def testLoop():
-	testNumber = input("Enter test number to be run:\n1)    Simple turn on with time delay\n2)    Turn on with ADC verification\n>3)    Turn on with system voltage calibration\n")
+	testNumber = input("Enter test number to be run:\n1)    Simple turn on with time delay\n2)    Turn on with ADC verification\n3)    Turn on with system voltage calibration\n4)    Calibrate levels\n	")
 	if(testNumber == 1):
 	    test1()
 	elif(testNumber == 2):
 	    test2()
 	elif(testNumber == 3):
 	    test3()    
+	elif(testNumber == 4):
+		Levels.calibrateLevels()      
 	else:
     		print("Invalid number entered.  \nTerminating....")
 	#	initialize_land()
@@ -378,7 +381,7 @@ def main():
 	# Load the mode file.  This tells the program if it is to run in productin mode or test / calibration mode.
 	
 	runMode = file_op.readFile("mode.csv")
-	print runMode[0]
+	print "Current run mode: ", runMode[0]
 	if(runMode[0] == 0):
 		productionLoop()
 	elif(runMode[0] <> 0):

@@ -7,6 +7,16 @@ There could be more than one status value e.g. divider cal, offset cal, beam ran
 Also need to set an interrupt for the BBB power down switch that saves the files and powers down the meter safely
 
 
+For finding read line meter is tilted in cross and long directions and output is measured with pwm from 10 to 90 %
+use numpy.py to find curve function.
+
+Reading line is the first derivative  of this function.
+Use sympy to calculate derivative 
+
+Use Pyplot to show graph (matplotlib.org)
+
+
+
 
 
 1)  Read mode file
