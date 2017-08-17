@@ -103,6 +103,23 @@ def create_basic_cal_file():
         writer.writerow({'field': 'beam50',                             'value': '2.5',         'comment': ''})
         writer.writerow({'field': 'beam90',                             'value': '5.0',         'comment': ''})
 
+        writer.writerow({'field': 'p5vTarget',                          'value': '5.0',         'comment': 'V'})
+        writer.writerow({'field': 'p5vError',                           'value': '0.2',         'comment': 'V'})
+
+        writer.writerow({'field': 'p3p3vTarget',                        'value': '3.3',         'comment': 'V'})
+        writer.writerow({'field': 'p3p3vError',                         'value': '0.2',         'comment': 'V'})
+
+        writer.writerow({'field': 'p12vTarget',                         'value': '12.0',        'comment': 'V'})
+        writer.writerow({'field': 'p12vError',                          'value': '0.2',         'comment': 'V'})
+
+        writer.writerow({'field': 'batteryTarget',                      'value': '12.0',        'comment': 'V'})
+        writer.writerow({'field': 'batteryError',                       'value': '2.0',         'comment': 'V'})
+
+        writer.writerow({'field': 'zh_dividerTarget',                   'value': '12.0',        'comment': 'V'})
+        writer.writerow({'field': 'zh_dividerError',                    'value': '2.0',         'comment': 'V'})
+        
+        writer.writerow({'field': 'zpTarget',                           'value': '12.0',        'comment': 'V'})
+        writer.writerow({'field': 'zpError',                            'value': '2.0',         'comment': 'V'})        
 
 
 

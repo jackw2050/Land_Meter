@@ -1,4 +1,4 @@
-simport requests, psutil, datetime
+import requests, psutil, datetime
 
 # http://dweet.io/follow/5c7da3e6-22ad-4951-b8e7-860a3fadb026
 

@@ -1,5 +1,5 @@
 import file_ops as file_op
-import ADC as ADC
+import BBB_ADC as BBB_ADC
 from MAX1300 import *
 import Adafruit_BBIO.GPIO as GPIO
 import time
@@ -11,58 +11,58 @@ systemPowerEnable = "P8_22"
 
 
 
+dutyCycle								= 0.50
 
 
 
+Meter                               	= "Land"       
+Hardware_revision                   	= 1.0        
+Software_revision                   	= 1.5        
+Calibration_version                 	= "calibrated" 
+Customer                            	= "Orangelamp" 
 
-Meter                                  = "Land"       
-Hardware_revision                      = 1.0        
-Software_revision                      = 1.5        
-Calibration_version                    = "calibrated" 
-Customer                               = "Orangelamp" 
+pwm_freq                            	= 125        
+sense_freq                          	= 10000      
+adc_offset                          	= 0.0  
+zh_offset                           	= 0.0        
+lid_thermistor_offset               	= 0.0        
+p12v_offset                         	= 0.0        
+p5v_offset                          	= 0.0        
+p3p3v_offset                        	= 0.0        
+battery_thermistor_offset           	= 0.0        
+batt_v_offset                       	= 0.0        
 
-pwm_freq                               = 125        
-sense_freq                             = 10000      
-adc_offset                             = 0.0  
-zh_offset                              = 0.0        
-lid_thermistor_offset                  = 0.0        
-p12v_offset                            = 0.0        
-p5v_offset                             = 0.0        
-p3p3v_offset                           = 0.0        
-battery_thermistor_offset              = 0.0        
-batt_v_offset                          = 0.0        
+beam_offset                         	= 0.0        
+m5v_offset                          	= 0.0        
+zp_offset                           	= 0.0        
+gearbox_thermistor_offset           	= 0.0        
+conning_tower_thermistor_offset     	= 0.0        
+arrestment_thermistor_offset        	= 0.0        
+meter_thermistor_1_offset           	= 0.0        
+meter_thermistor_2_offset           	= 0.0        
 
-beam_offset                            = 0.0        
-m5v_offset                             = 0.0        
-zp_offset                              = 0.0        
-gearbox_thermistor_offset              = 0.0        
-conning_tower_thermistor_offset        = 0.0        
-arrestment_thermistor_offset           = 0.0        
-meter_thermistor_1_offset              = 0.0        
-meter_thermistor_2_offset              = 0.0        
+adc_divider                         	= 0.0
+zh_divider                          	= 0.0        
+lid_thermistor_divider              	= 0.0        
+p12v_divider                        	= 0.0        
+p5v_divider                         	= 0.0        
+p3p3v_divider                       	= 0.0        
+battery_thermistor_divider          	= 0.0        
+batt_v_divider                      	= 0.0        
 
-adc_divider                            = 0.0
-zh_divider                             = 0.0        
-lid_thermistor_divider                 = 0.0        
-p12v_divider                           = 0.0        
-p5v_divider                            = 0.0        
-p3p3v_divider                          = 0.0        
-battery_thermistor_divider             = 0.0        
-batt_v_divider                         = 0.0        
-
-beam_divider                           = 0.0        
-m5v_divider                            = 0.0        
-zp_divider                             = 0.0        
-gearbox_thermistor_divider             = 0.0        
-conning_tower_thermistor_divider       = 0.0        
-arrestment_thermistor_divider          = 0.0        
-meter_thermistor_1_divider             = 0.0        
-meter_thermistor_2_divider             = 0.0 
+beam_divider                        	= 0.0        
+m5v_divider                         	= 0.0        
+zp_divider                          	= 0.0        
+gearbox_thermistor_divider          	= 0.0        
+conning_tower_thermistor_divider    	= 0.0        
+arrestment_thermistor_divider       	= 0.0        
+meter_thermistor_1_divider          	= 0.0        
+meter_thermistor_2_divider          	= 0.0 
 beam10									= 0.0
 beam50									= 2.5
 beam90									= 5.0
 
-# Setup GPIO
+# Setup GPIO for system power
 GPIO.setup(systemPowerEnable, GPIO.OUT)	# Enable pin for DC-DC converter
 GPIO.setup(system9VoltEnable, GPIO.OUT)	# Enable pin for DC-DC converter
 
@@ -71,40 +71,72 @@ GPIO.setup(system9VoltEnable, GPIO.OUT)	# Enable pin for DC-DC converter
 
 
 def verifySysVoltages():
-	loop_count = 100
+	loop_count = 10
+
+	# Need target values for each
+	# Need error range for acceptable, warning and error/ stop program
+	# First warning for any item must be recorded to file  Need flag for this.
+	# Add these to the config/ cal file
 
 
-	read_adc("p5vSys", loop_count, p5v_divider, p5v_offset)
-	read_adc("p12vSys", loop_count, p12v_divider, p12v_offset)
-	read_adc("p3p3vSys", loop_count, p3p3v_divider, p3p3v_offset)
-	read_adc("battVolt", loop_count, batt_v_divider, batt_v_offset)
-	read_adc("zhSys", loop_count, zh_divider, zh_offset)
+	# BBB_ADC.adc_init()
+	
+	
+	
+	print "System +5V = ",BBB_ADC.read_adc("p5vSys", loop_count, p5v_divider, p5v_offset)
+	time.sleep(1)
+	print "System +12V = ",BBB_ADC.read_adc("p12vSys", loop_count, p12v_divider, p12v_offset)
+	print "System +3.3V = ",BBB_ADC.read_adc("p3p3vSys", loop_count, p3p3v_divider, p3p3v_offset)
+	print "System Battery V = ",BBB_ADC.read_adc("battVolt", loop_count, batt_v_divider, batt_v_offset)
+	print "System ZH = ",BBB_ADC.read_adc("zhSys", loop_count, zh_divider, zh_offset)
 	
 	#MAX1300.
-	read_adc(adc_chan, loop_count)
-	read_adc(adc_chan, loop_count)
+	# MAX1300.read_adc(adc_chan, loop_count)
+	# MAX1300.read_adc(adc_chan, loop_count)
 
 def startupLand():
-	
 	print("ZLS Beaglebone Black boot complete")
-    	time.sleep(1)
-    
-    	print("Enabling GPIO 1-5 for +/- 5V and +12V")
-    	GPIO.output(systemPowerEnable, GPIO.HIGH)
-    	time.sleep(1)
-    	print("DC-DC converters enabled")
-    	time.sleep(3)
-    	print("Enabling GPIO 2-4 for +9V")
-    	GPIO.output(system9VoltEnable, GPIO.HIGH)
-    	time.sleep(1)
-    	print("9V LDO converter enabled")
+	time.sleep(1)
+	print "System information"
+	print "________________________________________"
+	print "Model\t\t\t",Meter   
+	print "Hardware Revision\t",Hardware_revision      
+	print "Software Revision\t",Software_revision      
+	print "Calibration Status\t",Calibration_version    
+	print "Customer\t\t",Customer  
+	print "________________________________________"
+	time.sleep(1)
+	print("\nEnabling GPIO 1-5 for +/- 5V and +12V")
+	GPIO.output(systemPowerEnable, GPIO.HIGH)
+	time.sleep(1)
+	print("DC-DC converters enabled")
+	time.sleep(3)
+	print("Enabling GPIO 2-4 for +9V")
+	GPIO.output(system9VoltEnable, GPIO.HIGH)
+	time.sleep(1)
+	print("9V LDO converter enabled")
+	time.sleep(1)
 	print "Initializing Land Meter Electronics"
+	time.sleep(1)
+	print "Verifying system voltages"
+	time.sleep(1)
+	print "Initializing Sense clock to ", sense_freq, "Hz"
+	time.sleep(1)
+	print "Initializing Force clock to ", pwm_freq, "Hz\t", dutyCycle * 100,"% Duty cycle"
+	time.sleep(1)
 	verifySysVoltages()
+		
+		
+	print "Verifying heater subsystem"
+	# getHeaterSettings()
+	# getHeaterStatus
+	time.sleep(1)
+	print "Initializing communications with Levels"
 		
 	# Enable GPIO for DC-DC converters
 	# Verify and record system voltages
 	# Log any errors
-	findBeamPoints()
+#	findBeamPoints()
 
 
 
@@ -120,7 +152,7 @@ def initialize_land():
 	# 5)	Start PWM
 	# 6)	Check status of beam(measure @ 10% duty cycle and 90% duty cycle then zero via feedback)
 	# 7)	Setup interrupts
-	# ADC.adc_init()
+	# BBB_ADC.adc_init()
 	# gpio_init()
 	# pwm.init()
 	# MAX1300.ADCinit(()
@@ -332,7 +364,7 @@ def initGlobalVars():
 			
 			
 		elif (row[0] == "field"):
-			print "reading data file"
+			print "Reading data file and initializing global variables"
 		else:
 			print "Error reading data file.\nCould not find variable named ",row[0]
 
@@ -353,8 +385,11 @@ def findBeamPoints():
 
 def productionLoop():
 	#	initialize_land()			
-	initGlobalVars()		
-	startupLand()
+	initGlobalVars()	# Reads calibration file and assignes global variables	
+	startupLand()		# Enable DC-DC converters
+	meterRun = True
+	while( meterRun == True):
+		
 	
 
 def testLoop():
@@ -384,7 +419,7 @@ def main():
 	print "Current run mode: ", runMode[0]
 	if(runMode[0] == 0):
 		productionLoop()
-	elif(runMode[0] <> 0):
+	elif(runMode[0]  == 1):
 		testLoop()
 	else:
 		print "Invalid entry"
@@ -393,7 +428,5 @@ def main():
 	
 	
 
-	
-	
 	
 main()

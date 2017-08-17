@@ -1,7 +1,7 @@
 from Adafruit_BBIO.SPI import SPI
 import time
 #https://github.com/adafruit/adafruit-beaglebone-io-python
-spi = SPI(0,0) 
+spi = SPI(1,0) 
 
 #spi.fd = -1;
 spi.mode = 3;
