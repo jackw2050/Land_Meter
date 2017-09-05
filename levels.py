@@ -89,8 +89,7 @@ def readLevelsAvg():
         longSumm += readLong()
     levelsAvg[0] = crossSumm / averageCount
     levelsAvg[1] = longSumm / averageCount
-    
-        levelsAvg = [crossSumm / averageCount], [longSumm / averageCount]
+    #levelsAvg = [crossSumm / averageCount], [longSumm / averageCount]
     
     return levelsAvg
     

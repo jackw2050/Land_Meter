@@ -1,10 +1,10 @@
 import file_ops as file_op
 import BBB_ADC as BBB_ADC
-from MAX1300 import *
+
 import Adafruit_BBIO.GPIO as GPIO
 import time
 import Levels
-
+import MAX1300 as MAX1300
 
 system9VoltEnable = "P8_10"
 systemPowerEnable = "P8_22"
@@ -77,18 +77,76 @@ def verifySysVoltages():
 	# Need error range for acceptable, warning and error/ stop program
 	# First warning for any item must be recorded to file  Need flag for this.
 	# Add these to the config/ cal file
-
+	# Add write to log file for start up status and values
+	
+	print "\nSystem\t\tLow\tValue\tHigh\tStatus"
+	print "Voltage\t\tLimit\t\tLimit"
+	print "-----------------------------------------------"
 
 	# BBB_ADC.adc_init()
+	sysPowerStatus = "Pass"
 	
-	
-	
-	print "System +5V = ",BBB_ADC.read_adc("p5vSys", loop_count, p5v_divider, p5v_offset)
+	sys5v = BBB_ADC.read_adc("p5vSys", loop_count, p5v_divider, p5v_offset)
+	sys5vOk = "Pass"
+	if((sys5v < 5.0 * .95) or (sys5v > 5.0 * 1.05)):
+		sys5vOk = "Fail"
+		sysPowerStatus = "Fail"
+	print "+5V\t\t",5 * .95, "\t", round(sys5v,2), "\t",  5 * 1.05, "\t", sys5vOk
 	time.sleep(1)
-	print "System +12V = ",BBB_ADC.read_adc("p12vSys", loop_count, p12v_divider, p12v_offset)
-	print "System +3.3V = ",BBB_ADC.read_adc("p3p3vSys", loop_count, p3p3v_divider, p3p3v_offset)
-	print "System Battery V = ",BBB_ADC.read_adc("battVolt", loop_count, batt_v_divider, batt_v_offset)
-	print "System ZH = ",BBB_ADC.read_adc("zhSys", loop_count, zh_divider, zh_offset)
+	
+	sys12v = BBB_ADC.read_adc("p12vSys", loop_count, p12v_divider, p12v_offset)
+	sys12vOk = "Pass"
+	if((sys12v < 12.0 * .95) or (sys12v > 12.0 * 1.05)):
+		sys12vOk = "Fail"
+		sysPowerStatus = "Fail"
+	print "+12V\t\t",12.0 * .95, "\t", round(sys12v,2), "\t", 12.0 * 1.05, "\t", sys12vOk
+	time.sleep(1)
+	
+	sys3p3v = BBB_ADC.read_adc("p3p3vSys", loop_count, p3p3v_divider, p3p3v_offset)
+	sys3p3vOk = "Pass"
+	if((sys3p3v < 3.3 * .95) or (sys3p3v > 3.3 * 1.05)):
+		sys3p3vOk = "Fail"
+		sysPowerStatus = "Fail"
+	print "+3.3V\t\t",3.3 * .95, "\t", round(sys3p3v,2), "\t", 3.3 * 1.05, "\t", sys3p3vOk
+	time.sleep(1)
+	
+	battVolt = BBB_ADC.read_adc("battVolt", loop_count, batt_v_divider, batt_v_offset)
+	battVoltOk = "Pass"
+	if((sys5v < 9.0) or (battVolt > 15.0)):
+		battVoltOk = "Fail"
+		sysPowerStatus = "Fail"
+	print "Battery\t\t",9.0, "\t", round(battVolt,2), "\t", 18.0, "\t", battVoltOk
+	time.sleep(1)	
+
+	zhVolt = BBB_ADC.read_adc("zhSys", loop_count, zh_divider, zh_offset)
+	zhVoltOk = "Pass"
+	if((zhVolt < 36.0 * .95) or (zhVolt > 36.0 * 1.05)):
+		zhVoltOk = "Fail"
+		sysPowerStatus = "Fail"
+	print "ZH\t\t",5 * .95, "\t", round(zhVolt,2), "\t", 5 * 1.05, "\t", zhVoltOk
+	time.sleep(1)
+
+	sysn5v = MAX1300.ReadADC(1)
+	sysn5vOk = "Pass"
+	if((sysn5v > -5.0 * .95) or (sysn5v < -5.0 * 1.05)):
+		sysn5vOk = "Fail"
+		sysPowerStatus = "Fail"
+	print "-5V\t\t",-5.0 * .95, "\t", round(sysn5v,2), "\t", -5.0 * 1.05, "\t", sysn5vOk
+	time.sleep(1)
+
+	zpVolt = MAX1300.ReadADC(2)
+	zhVoltOk = "Pass"
+	if((zpVolt < 24.0 * .999) or (zpVolt > 24.0 * 1.001)):
+		zhVoltOk = "Fail"
+		sysPowerStatus = "Fail"
+	print "ZP\t\t",24.0 * .999, "\t", round(zpVolt,2), "\t", 24.0 * 1.001, "\t", zhVoltOk
+	time.sleep(1)
+
+	print "\nSystem power\t\t\t\t",sysPowerStatus
+	print "-----------------------------------------------"
+
+
+
 	
 	#MAX1300.
 	# MAX1300.read_adc(adc_chan, loop_count)
@@ -120,11 +178,14 @@ def startupLand():
 	time.sleep(1)
 	print "Verifying system voltages"
 	time.sleep(1)
+	verifySysVoltages()
+	
+	
 	print "Initializing Sense clock to ", sense_freq, "Hz"
 	time.sleep(1)
 	print "Initializing Force clock to ", pwm_freq, "Hz\t", dutyCycle * 100,"% Duty cycle"
 	time.sleep(1)
-	verifySysVoltages()
+	
 		
 		
 	print "Verifying heater subsystem"
@@ -388,7 +449,8 @@ def productionLoop():
 	initGlobalVars()	# Reads calibration file and assignes global variables	
 	startupLand()		# Enable DC-DC converters
 	meterRun = True
-	while( meterRun == True):
+	# while( meterRun == True):
+	# 	print "test"
 		
 	
 
@@ -416,10 +478,13 @@ def main():
 	# Load the mode file.  This tells the program if it is to run in productin mode or test / calibration mode.
 	
 	runMode = file_op.readFile("mode.csv")
-	print "Current run mode: ", runMode[0]
-	if(runMode[0] == 0):
+
+
+	print "Current run mode: ", runMode[0][0]
+	
+	if( int(runMode[0][0]) == 0):
 		productionLoop()
-	elif(runMode[0]  == 1):
+	elif( int(runMode[0][0])  == 1):
 		testLoop()
 	else:
 		print "Invalid entry"

@@ -15,9 +15,10 @@ Use sympy to calculate derivative
 
 Use Pyplot to show graph (matplotlib.org)
 
+OLED:
+https://luma-oled.readthedocs.io/en/latest/index.html     Luma.OLED: Display drivers for SSD1306 / SSD1322 / SSD1325 / SSD1331 / SH1106
 
-
-
+http://www.4dsystems.com.au/product/4D_Workshop_4_IDE/
 
 1)  Read mode file
       Set mode

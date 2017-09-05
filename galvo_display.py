@@ -1,153 +1,30 @@
-
-
-#https://github.com/adafruit/Adafruit_Python_SSD1306/tree/master/examples
-from Adafruit_I2C import Adafruit_I2C
+import gaugette.ssd1306
+import gaugette.gpio
+import gaugette.spi
 import time
-import Adafruit_SSD1306
-
-from PIL import Image
-from PIL import ImageDraw
-from PIL import ImageFont
 
 
+ROWS = 32  # set to 64 for 128x64 display
 
-# install the Python Imaging Library and smbus library by executing:
-#     sudo apt-get install python-imaging python-smbus
+RESET_PIN = "P9_15"
+DC_PIN    = "P9_23"
 
-# Now to download and install the SSD1306 python library code and examples, execute the following commands:
-# sudo apt-get install git
-# git clone https://github.com/adafruit/Adafruit_Python_SSD1306.git
-# cd Adafruit_Python_SSD1306
-# sudo python setup.py install
+# fonts = []
+# from gaugette.fonts import arial_16
 
+# fonts = [arial_16]
+          
+          
+          
+          
 
+gpio = gaugette.gpio.GPIO()
+spi = gaugette.spi.SPI(bus=0, device=0)
+led = gaugette.ssd1306.SSD1306(gpio, spi, reset_pin=RESET_PIN, dc_pin=DC_PIN, rows=ROWS, cols=128, buffer_cols=256)
+# led.reset()
+led.begin()
+led.clear_display()
 
-# Beaglebone Black pin configuration:
-# RST = 'P9_12'
-# Note the following are only used with SPI:
-# DC = 'P9_15'
-# SPI_PORT = 1
-# SPI_DEVICE = 0
-
-# 128x32 display with hardware I2C:
-disp = Adafruit_SSD1306.SSD1306_128_32(rst=RST)
-crossDisplay = Adafruit_SSD1306.SSD1306_128_32(rst=RST, i2c_address=0x3C)
-i2c = Adafruit_I2C(0x77)
-# longDisplay = Adafruit_SSD1306.SSD1306_128_32(rst=RST, i2c_address=0x3C)
-# beamDisplay = Adafruit_SSD1306.SSD1306_128_32(rst=RST, i2c_address=0x3C)
-# 128x64 display with hardware I2C:
-# disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST)
-
-# Note you can change the I2C address by passing an i2c_address parameter like:
-# disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST, i2c_address=0x3C)
-
-# Alternatively you can specify an explicit I2C bus number, for example
-# with the 128x32 display you would use:
-# disp = Adafruit_SSD1306.SSD1306_128_32(rst=RST, i2c_bus=2)
-
-# 128x32 display with hardware SPI:
-# disp = Adafruit_SSD1306.SSD1306_128_32(rst=RST, dc=DC, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE, max_speed_hz=8000000))
-
-# 128x64 display with hardware SPI:
-# disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST, dc=DC, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE, max_speed_hz=8000000))
-
-# Alternatively you can specify a software SPI implementation by providing
-# digital GPIO pin numbers for all the required display pins.  For example
-# on a Raspberry Pi with the 128x32 display you might use:
-# disp = Adafruit_SSD1306.SSD1306_128_32(rst=RST, dc=DC, sclk=18, din=25, cs=22)
-
-
-def initCrossDisplay():
-    # Initialize library.
-    disp.begin()
-    
-    # Clear display.
-    disp.clear()
-    disp.display()
-    
-    # Create blank image for drawing.
-    # Make sure to create image with mode '1' for 1-bit color.
-    width = disp.width
-    height = disp.height
-    image = Image.new('1', (width, height))
-    
-    # Get drawing object to draw on image.
-    draw = ImageDraw.Draw(image)
-    
-    # Draw a black filled box to clear the image.
-    draw.rectangle((0,0,width,height), outline=0, fill=0)
-
-
-    # Draw some shapes.
-    # First define some constants to allow easy resizing of shapes.
-    padding = 2
-    shape_width = 20
-    top = padding
-    bottom = height-padding
-    # Move left to right keeping track of the current x position for drawing shapes.
-    x = padding
-    # Draw an ellipse.
-    draw.ellipse((x, top , x+shape_width, bottom), outline=255, fill=0)
-    x += shape_width+padding
-    # Draw a rectangle.
-    draw.rectangle((x, top, x+shape_width, bottom), outline=255, fill=0)
-    x += shape_width+padding
-    # Draw a triangle.
-    draw.polygon([(x, bottom), (x+shape_width/2, top), (x+shape_width, bottom)], outline=255, fill=0)
-    x += shape_width+padding
-    # Draw an X.
-    draw.line((x, bottom, x+shape_width, top), fill=255)
-    draw.line((x, top, x+shape_width, bottom), fill=255)
-    x += shape_width+padding
-    
-    # Load default font.
-    font = ImageFont.load_default()
-    
-    # Alternatively load a TTF font.  Make sure the .ttf font file is in the same directory as the python script!
-    # Some other nice fonts to try: http://www.dafont.com/bitmap.php
-    #font = ImageFont.truetype('Minecraftia.ttf', 8)
-    
-    # Write two lines of text.
-    draw.text((x, top),    'Hello',  font=font, fill=255)
-    draw.text((x, top+20), 'World!', font=font, fill=255)
-    
-    # Display image.
-    disp.image(image)
-    disp.display()
-
-
-
-
-
-    
-def initLongDisplay():
-    # Initialize library.
-    disp.begin()
-    
-    # Clear display.
-    disp.clear()
-    disp.display()
-    
-    # Create blank image for drawing.
-    # Make sure to create image with mode '1' for 1-bit color.
-    width = disp.width
-    height = disp.height
-    image = Image.new('1', (width, height))
-    
-def initBeamDisplay():
-    # Initialize library.
-    disp.begin()
-    
-    # Clear display.
-    disp.clear()
-    disp.display()
-    
-    # Create blank image for drawing.
-    # Make sure to create image with mode '1' for 1-bit color.
-    width = disp.width
-    height = disp.height
-    image = Image.new('1', (width, height))  
-    
-
-    
-initCrossDisplay()    
+offset = 0
+led.draw_text2(0,0,'Hello World',2)
+led.display()
