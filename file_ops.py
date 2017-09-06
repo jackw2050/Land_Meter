@@ -115,11 +115,11 @@ def create_basic_cal_file():
         writer.writerow({'field': 'batteryTarget',                      'value': '12.0',        'comment': 'V'})
         writer.writerow({'field': 'batteryError',                       'value': '2.0',         'comment': 'V'})
 
-        writer.writerow({'field': 'zh_dividerTarget',                   'value': '12.0',        'comment': 'V'})
-        writer.writerow({'field': 'zh_dividerError',                    'value': '2.0',         'comment': 'V'})
+        writer.writerow({'field': 'zh_Target',                          'value': '36.0',        'comment': 'V'})
+        writer.writerow({'field': 'zh_Error',                           'value': '0.5',         'comment': 'V'})
         
-        writer.writerow({'field': 'zpTarget',                           'value': '12.0',        'comment': 'V'})
-        writer.writerow({'field': 'zpError',                            'value': '2.0',         'comment': 'V'})        
+        writer.writerow({'field': 'zpTarget',                           'value': '24.0',        'comment': 'V'})
+        writer.writerow({'field': 'zpError',                            'value': '0.01',         'comment': 'V'})        
 
 
 
@@ -177,4 +177,6 @@ def create_log_entry(issue):
         log_time = str(datetime.now())
         #writer.writeheader()
         writer.writerow({'Date': log_time, 'Comment': issue})
+
+
 

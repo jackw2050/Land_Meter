@@ -7,11 +7,11 @@ import Adafruit_BBIO.GPIO as GPIO
 SPI_PORT = 0
 SPI_DEVICE = 0
 AVG_COUNT = 250
-#[name, enable, low_setpoint, high_setpoint, status(on'True' or off'False'), temperature(deg C)]
-conning_tower_heater =  ['Conning Tower',   True, 2, 125,125, False, 26, 7]
-arrestment_heater =     ['Arrestment',      True, 2, 125,125, False, 26, 6]
-meter_heater =          ['Meter',           True, 2, 125,125, False, 26, 3, 4]
-gearbox_heater =        ['Gearbox',         True, 2, 125,125, False, 26, 5]
+#                       [ name,             enable, low_setpoint,   high_setpoint,  status(on'True' or off'False'), temperature(deg C), ADC chan]
+conning_tower_heater =  ['Conning Tower',   True,   125,            125,            False,                          26, 7]
+arrestment_heater =     ['Arrestment',      True,   125,            125,            False,                          26, 6]
+meter_heater =          ['Meter',           True,   125,            125,            False,                          26, 26, 3, 4]
+gearbox_heater =        ['Gearbox',         True,   125,            125,            False,                          26, 5]
 
 
 conningTowerFET = "P8_6"
@@ -78,14 +78,20 @@ def checkHeaterTemp(hList):
         #ReadADC_average(adc_chan, averages, delay,  divider, offset)
         if(localHeaterList[i][0] == 'Meter'):
             reading1 = MAX1300.ReadADC_average(localHeaterList[i][7], averages, measDelay,  0, 1)
+            localHeaterList[i][5] = convertThermistorToTemp(thermistorValue, 'C')
             reading2 = MAX1300.ReadADC_average(localHeaterList[i][8], averages, measDelay,  0, 1)
+            localHeaterList[i][6] = convertThermistorToTemp(thermistorValue, 'C')
             thermistorValue = (reading1 + reading1) / 2
+
         # get adc value
             localHeaterList[i][6] = convertThermistorToTemp(thermistorValue, 'C')
-            print(localHeaterList[i][0])
         else:
-            thermistorValue = MAX1300.ReadADC_average(localHeaterList[i][7], averages, measDelay,  0, 1)
+            thermistorValue = MAX1300.ReadADC_average(localHeaterList[i][6], averages, measDelay,  0, 1)
             localHeaterList[i][6] = convertThermistorToTemp(thermistorValue, 'C')
-            print(localHeaterList[i][0])
+
             
+    return localHeaterList
+      
+      
+      
       

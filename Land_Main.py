@@ -1,6 +1,6 @@
 import file_ops as file_op
 import BBB_ADC as BBB_ADC
-
+import heater as heater
 import Adafruit_BBIO.GPIO as GPIO
 import time
 import Levels
@@ -62,6 +62,22 @@ beam10									= 0.0
 beam50									= 2.5
 beam90									= 5.0
 
+p5vTarget								= 5.0           
+p5vError								= 0.2  
+p3p3vTarget								= 3.3           
+p3p3vError								= 0.2            
+p12vTarget								= 12.0          
+p12vError								= 0.5             
+batteryTarget							= 12.0          
+batteryError							= 2.0          
+zh_Target								= 36.0       
+zh_Error								= 0.1       
+zpTarget								= 24.0           
+zpError									= 0.01     
+
+
+
+
 # Setup GPIO for system power
 GPIO.setup(systemPowerEnable, GPIO.OUT)	# Enable pin for DC-DC converter
 GPIO.setup(system9VoltEnable, GPIO.OUT)	# Enable pin for DC-DC converter
@@ -83,62 +99,79 @@ def verifySysVoltages():
 	print "Voltage\t\tLimit\t\tLimit"
 	print "-----------------------------------------------"
 
+
 	# BBB_ADC.adc_init()
 	sysPowerStatus = "Pass"
 	
 	sys5v = BBB_ADC.read_adc("p5vSys", loop_count, p5v_divider, p5v_offset)
 	sys5vOk = "Pass"
-	if((sys5v < 5.0 * .95) or (sys5v > 5.0 * 1.05)):
+	if((sys5v < (p5vTarget - p5vError)) or (sys5v > p5vTarget + p5vError)):
 		sys5vOk = "Fail"
 		sysPowerStatus = "Fail"
+		issue = "+5V system voltage" + "\t" + "target: " + str(p5vTarget) + "\tError:  +/-" + str(p5vError) + "\tMeasured: " + str(round(sys5v,2)) + "\t" + sys5vOk
+		file_op.create_log_entry(issue)
 	print "+5V\t\t",5 * .95, "\t", round(sys5v,2), "\t",  5 * 1.05, "\t", sys5vOk
 	time.sleep(1)
-	
+
+
+
 	sys12v = BBB_ADC.read_adc("p12vSys", loop_count, p12v_divider, p12v_offset)
 	sys12vOk = "Pass"
-	if((sys12v < 12.0 * .95) or (sys12v > 12.0 * 1.05)):
+	if((sys12v < p12vTarget - p12vError) or (sys12v > p12vTarget + p12vError)):
 		sys12vOk = "Fail"
 		sysPowerStatus = "Fail"
+		issue = "+12V system voltage" + "\t" + "target: " + str(p12vTarget) + "\tError:  +/-" + str(p12vError) + "\tMeasured: " + str(round(sys12v,2)) + "\t" + sys12vOk
+		file_op.create_log_entry(issue)
 	print "+12V\t\t",12.0 * .95, "\t", round(sys12v,2), "\t", 12.0 * 1.05, "\t", sys12vOk
 	time.sleep(1)
 	
 	sys3p3v = BBB_ADC.read_adc("p3p3vSys", loop_count, p3p3v_divider, p3p3v_offset)
 	sys3p3vOk = "Pass"
-	if((sys3p3v < 3.3 * .95) or (sys3p3v > 3.3 * 1.05)):
+	if((sys3p3v < p3p3vTarget - p3p3vError) or (sys3p3v > p3p3vTarget + p3p3vError)):
 		sys3p3vOk = "Fail"
 		sysPowerStatus = "Fail"
+		issue = "+3.3V system voltage" + "\t" + "target: " + str(p3p3vTarget) + "\tError:  +/-" + str(p3p3vError) + "\tMeasured: " + str(round(sys3p3v,2)) + "\t" + sys3p3vOk
+		file_op.create_log_entry(issue)		
 	print "+3.3V\t\t",3.3 * .95, "\t", round(sys3p3v,2), "\t", 3.3 * 1.05, "\t", sys3p3vOk
 	time.sleep(1)
 	
 	battVolt = BBB_ADC.read_adc("battVolt", loop_count, batt_v_divider, batt_v_offset)
 	battVoltOk = "Pass"
-	if((sys5v < 9.0) or (battVolt > 15.0)):
+	if((sys5v < batteryTarget - batteryError) or (battVolt > batteryTarget + batteryError)):
 		battVoltOk = "Fail"
 		sysPowerStatus = "Fail"
+		issue = "Battery  voltage" + "\t" + "target: " + str(batteryTarget) + "\tError:  +/-" + str(batteryError) + "\tMeasured: " + str(round(battVolt,2)) + "\t" + battVoltOk
+		file_op.create_log_entry(issue)		
 	print "Battery\t\t",9.0, "\t", round(battVolt,2), "\t", 18.0, "\t", battVoltOk
 	time.sleep(1)	
 
 	zhVolt = BBB_ADC.read_adc("zhSys", loop_count, zh_divider, zh_offset)
 	zhVoltOk = "Pass"
-	if((zhVolt < 36.0 * .95) or (zhVolt > 36.0 * 1.05)):
+	if((zhVolt < zh_Target - zh_Error) or (zhVolt > zh_Target + zh_Error)):
 		zhVoltOk = "Fail"
 		sysPowerStatus = "Fail"
+		issue = "ZH system voltage" + "\t" + "target: " + str(zh_Target) + "\tError:  +/-" + str(zh_Error) + "\tMeasured: " + str(round(zhVolt,2)) + "\t" + zhVoltOk
+		file_op.create_log_entry(issue)		
 	print "ZH\t\t",5 * .95, "\t", round(zhVolt,2), "\t", 5 * 1.05, "\t", zhVoltOk
 	time.sleep(1)
 
 	sysn5v = MAX1300.ReadADC(1)
 	sysn5vOk = "Pass"
-	if((sysn5v > -5.0 * .95) or (sysn5v < -5.0 * 1.05)):
+	if((sysn5v > -1 * p5vTarget - p5vError) or (sysn5v < -1 * p5vTarget - p5vError)):
 		sysn5vOk = "Fail"
 		sysPowerStatus = "Fail"
+		issue = "-5V system voltage" + "\t" + "target: " + str(-1 * p5vTarget) + "\tError:  +/-" + str(p5vError) + "\tMeasured: " + str(round(sysn5v,2)) + "\t" + sysn5vOk
+		file_op.create_log_entry(issue)		
 	print "-5V\t\t",-5.0 * .95, "\t", round(sysn5v,2), "\t", -5.0 * 1.05, "\t", sysn5vOk
 	time.sleep(1)
 
 	zpVolt = MAX1300.ReadADC(2)
 	zhVoltOk = "Pass"
-	if((zpVolt < 24.0 * .999) or (zpVolt > 24.0 * 1.001)):
+	if((zpVolt < zpTarget - zpError) or (zpVolt > zpTarget + zpError)):
 		zhVoltOk = "Fail"
 		sysPowerStatus = "Fail"
+		issue = "ZP system voltage" + "\t" + "target: " + str(zpTarget) + "\tError:  +/-" + str(zpError) + "\tMeasured: " + str(round(zpVolt,2)) + "\t" + zhVoltOk
+		file_op.create_log_entry(issue)		
 	print "ZP\t\t",24.0 * .999, "\t", round(zpVolt,2), "\t", 24.0 * 1.001, "\t", zhVoltOk
 	time.sleep(1)
 
@@ -156,13 +189,13 @@ def startupLand():
 	print("ZLS Beaglebone Black boot complete")
 	time.sleep(1)
 	print "System information"
-	print "________________________________________"
+	print "-----------------------------------------------"
 	print "Model\t\t\t",Meter   
 	print "Hardware Revision\t",Hardware_revision      
 	print "Software Revision\t",Software_revision      
 	print "Calibration Status\t",Calibration_version    
 	print "Customer\t\t",Customer  
-	print "________________________________________"
+	print "-----------------------------------------------"
 	time.sleep(1)
 	print("\nEnabling GPIO 1-5 for +/- 5V and +12V")
 	GPIO.output(systemPowerEnable, GPIO.HIGH)
@@ -187,13 +220,30 @@ def startupLand():
 	time.sleep(1)
 	
 		
-		
+	print "-----------------------------------------------"
 	print "Verifying heater subsystem"
 	# getHeaterSettings()
 	# getHeaterStatus
+	heater.heaterInit()
+		
+	updatedHeat = heater.checkHeaterTemp(heater.heaterList)
+	
+	degree_sign = u'\N{DEGREE SIGN}'
+
+
+	#for element in updatedHeat:
+	for element in range (len(updatedHeat)):
+		if updatedHeat[element][0] == 'Meter':
+			print updatedHeat[element][0], "\t\tLow setpoint: ", updatedHeat[element][2], degree_sign, "\tHigh setpoint: ", updatedHeat[element][3], degree_sign, "\tEnabled: ", updatedHeat[element][1], "\tHeater on: ", updatedHeat[element][4], "\tTemp1: ", updatedHeat[element][5], degree_sign, "\tTemp2: ", updatedHeat[element][6], degree_sign
+		else:
+			print updatedHeat[element][0], "\tLow setpoint: ", updatedHeat[element][2], degree_sign, "\tHigh setpoint: ", updatedHeat[element][3], degree_sign, "\tEnabled: ", updatedHeat[element][1], "\tHeater on: ", updatedHeat[element][4], "\tTemp1: ", updatedHeat[element][5],degree_sign
+
+			
+
+	print "-----------------------------------------------"
 	time.sleep(1)
 	print "Initializing communications with Levels"
-		
+	print "-----------------------------------------------"
 	# Enable GPIO for DC-DC converters
 	# Verify and record system voltages
 	# Log any errors
@@ -330,9 +380,20 @@ def initGlobalVars():
 	global beam10
 	global beam50
 	global beam90	
-	
-	
-		        
+	global p5vTarget					       
+	global p5vError						
+	global p3p3vTarget					       
+	global p3p3vError					        
+	global p12vTarget					       
+	global p12vError					         
+	global batteryTarget				       
+	global batteryError					  
+	global zh_Target					    
+	global zh_Error						
+	global zpTarget						    
+	global zpError						  
+
+
 	data = file_op.read_cal_file()
 	
 	for row in data:
@@ -348,82 +409,106 @@ def initGlobalVars():
 		elif (row[0] == "Customer"):  
 			Customer = row[1]
 		elif (row[0] == "pwm_freq"):  
-			pwm_freq = row[1]
+			pwm_freq = float(row[1])
 		elif (row[0] == "sense_freq"): 
-			sense_freqv = row[1]
+			sense_freqv = float(row[1])
 		elif (row[0] == "adc_offset"):   
-			adc_offset = row[1]
+			adc_offset = float(row[1])
 		elif (row[0] == "zh_offset"):   
-			zh_offset = row[1]
+			zh_offset = float(row[1])
 		elif (row[0] == "lid_thermistor_offset"): 
-			lid_thermistor_offset = row[1]
+			lid_thermistor_offset = float(row[1])
 		elif (row[0] == "p12v_offset"):
-			p12v_offset = row[1]
+			p12v_offset = float(row[1])
 		elif (row[0] == "p5v_offset"):  
-			p5v_offset = row[1]
+			p5v_offset = float(row[1])
 		elif (row[0] == "p3p3v_offset"):
-			p3p3v_offset = row[1]
+			p3p3v_offset = float(row[1])
 		elif (row[0] == "battery_thermistor_offset"):
 			battery_thermistor_offset
 		elif (row[0] == "batt_v_offset"): 
-			batt_v_offset = row[1]
+			batt_v_offset = float(row[1])
 		elif (row[0] == "beam_offset"):
-			beam_offset = row[1]
+			beam_offset = float(row[1])
 		elif (row[0] == "m5v_offset"):  
-			m5v_offset = row[1]
+			m5v_offset = float(row[1])
 		elif (row[0] == "zp_offset"):  
-			zp_offset = row[1]
+			zp_offset = float(row[1])
 		elif (row[0] == "gearbox_thermistor_offset"):  
-			gearbox_thermistor_offset = row[1]
+			gearbox_thermistor_offset = float(row[1])
 		elif (row[0] == "conning_tower_thermistor_offset"):  
-			conning_tower_thermistor_offset = row[1]
+			conning_tower_thermistor_offset = float(row[1])
 		elif (row[0] == "arrestment_thermistor_offset"):    
-			arrestment_thermistor_offset = row[1]
+			arrestment_thermistor_offset = float(row[1])
 		elif (row[0] == "meter_thermistor_1_offset"):  
-			meter_thermistor_1_offset = row[1]
+			meter_thermistor_1_offset = float(row[1])
 		elif (row[0] == "meter_thermistor_2_offset"):   
-			meter_thermistor_2_offset = row[1]
+			meter_thermistor_2_offset = float(row[1])
 		elif (row[0] == "adc_divider"):    
-			adc_divider = row[1]
+			adc_divider = float(row[1])
 		elif (row[0] == "zh_divider"):  
-			zh_divider = row[1]
+			zh_divider = float(row[1])
 		elif (row[0] == "lid_thermistor_divider"):
-			lid_thermistor_divider = row[1]
+			lid_thermistor_divider = float(row[1])
 		elif (row[0] == "p12v_divider"):  
-			p12v_divider = row[1]
+			p12v_divider = float(row[1])
 		elif (row[0] == "p5v_divider"):     
-			p5v_divider = row[1]
+			p5v_divider = float(row[1])
 		elif (row[0] == "p3p3v_divider"):      
-			p3p3v_divider = row[1]
+			p3p3v_divider = float(row[1])
 		elif (row[0] == "battery_thermistor_divider"):  
-			battery_thermistor_divider = row[1]
+			battery_thermistor_divider = float(row[1])
 		elif (row[0] == "batt_v_divider"):     
-			batt_v_divider = row[1]
+			batt_v_divider = float(row[1])
 		elif (row[0] == "beam_divider"):  
-			beam_divider = row[1]
+			beam_divider = float(row[1])
 		elif (row[0] == "m5v_divider"): 
-			m5v_divider = row[1]
+			m5v_divider = float(row[1])
 		elif (row[0] == "zp_divider"):   
-			zp_divider = row[1]
+			zp_divider =float( row[1])
 		elif (row[0] == "gearbox_thermistor_divider"):   
-			gearbox_thermistor_divider = row[1]
+			gearbox_thermistor_divider = float(row[1])
 		elif (row[0] == "conning_tower_thermistor_divider"): 
-			conning_tower_thermistor_divider = row[1]
+			conning_tower_thermistor_divider = float(row[1])
 		elif (row[0] == "arrestment_thermistor_divider"):    
-			arrestment_thermistor_divider = row[1]
+			arrestment_thermistor_divider = float(row[1])
 		elif (row[0] == "meter_thermistor_1_divider"):      
-			meter_thermistor_1_divider = row[1]
+			meter_thermistor_1_divider = float(row[1])
 		elif (row[0] == "meter_thermistor_2_divider"): 
-			meter_thermistor_2_divider = row[1]
+			meter_thermistor_2_divider =float(row[1])
 
 		elif (row[0] == "beam10"): 
-			beam10 = row[1]
+			beam10 = float(row[1])
 		elif (row[0] == "beam50"): 
-			beam50 = row[1]
+			beam50 = float(row[1])
 		elif (row[0] == "beam90"): 
-			beam90 = row[1]
-			
-			
+			beam90 = float(row[1])
+		elif (row[0] == "p5vTarget"): 
+			p5vTarget = float(row[1])
+		elif (row[0] == "p5vError"): 
+			p5vError = float(row[1])
+		elif (row[0] == "p3p3vTarget"): 
+			p3p3vTarget = float(row[1])
+		elif (row[0] == "p3p3vError"): 
+			p3p3vError = float(row[1])
+		elif (row[0] == "p12vTarget"): 
+			p12vTarget = float(row[1])
+		elif (row[0] == "p12vError"): 
+			p12vError = float(row[1])
+		elif (row[0] == "batteryTarget"): 
+			batteryTarget = float(row[1])
+		elif (row[0] == "batteryError"): 
+			batteryError = float(row[1])
+		elif (row[0] == "zh_Target"): 
+			zh_Target = float(row[1])
+		elif (row[0] == "zh_Error"): 
+			zh_Error = float(row[1])
+		elif (row[0] == "zpTarget"): 
+			zpTarget = float(row[1])
+		elif (row[0] == "zpError"): 
+			zpError = float(row[1])
+
+
 		elif (row[0] == "field"):
 			print "Reading data file and initializing global variables"
 		else:
@@ -448,7 +533,7 @@ def productionLoop():
 	#	initialize_land()			
 	initGlobalVars()	# Reads calibration file and assignes global variables	
 	startupLand()		# Enable DC-DC converters
-	meterRun = True
+	# meterRun = True
 	# while( meterRun == True):
 	# 	print "test"
 		
@@ -491,7 +576,5 @@ def main():
 	
 	
 	
-	
-
 	
 main()
