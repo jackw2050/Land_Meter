@@ -20,6 +20,40 @@ https://luma-oled.readthedocs.io/en/latest/index.html     Luma.OLED: Display dri
 
 http://www.4dsystems.com.au/product/4D_Workshop_4_IDE/
 
+
+
+Wifi info:
+pip install python-wifi
+
+
+PWM issue:
+sudo apt-get update
+sudo apt-get install build-essential git-core device-tree-compiler
+git clone https://github.com/beagleboard/bb.org-overlays/
+cd ./bb.org-overlays/
+./install.sh
+cd /opt/scripts/
+git pull 
+reboot
+
+
+apt-get install python
+apt-get install python-setuptools
+sudo apt-get install python-pip
+sudo apt-get install python-dev python3-dev
+pip install Adafruit_BBIO
+python bbio-test.py
+
+
+
+
+
+
+
+
+
+
+
 1)  Read mode file
       Set mode
 2)  Load calibration file

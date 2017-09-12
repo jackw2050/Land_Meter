@@ -37,5 +37,5 @@ def findThermistorValue(thermRes):
 
 time.sleep(3)
 MAX1300.ADCinit()
-time.sleep(3)
+time.sleep(1)
 print MAX1300.ReadADC(0)

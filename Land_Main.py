@@ -63,7 +63,9 @@ beam50									= 2.5
 beam90									= 5.0
 
 p5vTarget								= 5.0           
-p5vError								= 0.2  
+p5vError								= 0.2 
+n5vTarget								= 5.0           
+n5vError								= 0.2 
 p3p3vTarget								= 3.3           
 p3p3vError								= 0.2            
 p12vTarget								= 12.0          
@@ -155,12 +157,16 @@ def verifySysVoltages():
 	print "ZH\t\t",5 * .95, "\t", round(zhVolt,2), "\t", 5 * 1.05, "\t", zhVoltOk
 	time.sleep(1)
 
-	sysn5v = MAX1300.ReadADC(1)
+
+
+
+	sysn5v = MAX1300.ReadADC_average(1 , 10, .01,  1, 0)
+	# sysn5v = MAX1300.ReadADC(1)
 	sysn5vOk = "Pass"
-	if((sysn5v > -1 * p5vTarget - p5vError) or (sysn5v < -1 * p5vTarget - p5vError)):
+	if((sysn5v > -1 * n5vTarget - p5vError) or (sysn5v < -1 * n5vTarget - n5vError)):
 		sysn5vOk = "Fail"
 		sysPowerStatus = "Fail"
-		issue = "-5V system voltage" + "\t" + "target: " + str(-1 * p5vTarget) + "\tError:  +/-" + str(p5vError) + "\tMeasured: " + str(round(sysn5v,2)) + "\t" + sysn5vOk
+		issue = "-5V system voltage" + "\t" + "target: " + str(-1 * n5vTarget) + "\tError:  +/-" + str(p5vError) + "\tMeasured: " + str(round(sysn5v,2)) + "\t" + sysn5vOk
 		file_op.create_log_entry(issue)		
 	print "-5V\t\t",-5.0 * .95, "\t", round(sysn5v,2), "\t", -5.0 * 1.05, "\t", sysn5vOk
 	time.sleep(1)
@@ -198,12 +204,12 @@ def startupLand():
 	print "-----------------------------------------------"
 	time.sleep(1)
 	print("\nEnabling GPIO 1-5 for +/- 5V and +12V")
-	GPIO.output(systemPowerEnable, GPIO.HIGH)
+	GPIO.output(systemPowerEnable, GPIO.LOW)
 	time.sleep(1)
 	print("DC-DC converters enabled")
 	time.sleep(3)
 	print("Enabling GPIO 2-4 for +9V")
-	GPIO.output(system9VoltEnable, GPIO.HIGH)
+	GPIO.output(system9VoltEnable, GPIO.LOW)
 	time.sleep(1)
 	print("9V LDO converter enabled")
 	time.sleep(1)
@@ -244,9 +250,18 @@ def startupLand():
 	time.sleep(1)
 	print "Initializing communications with Levels"
 	print "-----------------------------------------------"
-	# Enable GPIO for DC-DC converters
-	# Verify and record system voltages
-	# Log any errors
+
+
+	time.sleep(1)
+	print "Initializing Bluetooth"
+	print "-----------------------------------------------"
+	time.sleep(1)
+	print "Initializing Wifi"
+	from pythonwifi.iwlibs import Wireless
+	wifi = Wireless('wlan0')
+	print "Connected to:\t", wifi.getEssid()
+	print "Mode:\t", wifi.getMode()
+	print "-----------------------------------------------"
 #	findBeamPoints()
 
 
@@ -266,9 +281,10 @@ def initialize_land():
 	# BBB_ADC.adc_init()
 	# gpio_init()
 	# pwm.init()
-	# MAX1300.ADCinit(()
+	MAX1300.ADCinit()
 	# uart.init()
 	# display_init()
+
 	
 	
 
@@ -381,7 +397,9 @@ def initGlobalVars():
 	global beam50
 	global beam90	
 	global p5vTarget					       
-	global p5vError						
+	global p5vError		
+	global n5vTarget					       
+	global n5vError		
 	global p3p3vTarget					       
 	global p3p3vError					        
 	global p12vTarget					       
@@ -487,6 +505,10 @@ def initGlobalVars():
 			p5vTarget = float(row[1])
 		elif (row[0] == "p5vError"): 
 			p5vError = float(row[1])
+		elif (row[0] == "n5vTarget"): 
+			n5vTarget = float(row[1])
+		elif (row[0] == "n5vError"): 
+			n5vError = float(row[1])
 		elif (row[0] == "p3p3vTarget"): 
 			p3p3vTarget = float(row[1])
 		elif (row[0] == "p3p3vError"): 
@@ -532,6 +554,7 @@ def findBeamPoints():
 def productionLoop():
 	#	initialize_land()			
 	initGlobalVars()	# Reads calibration file and assignes global variables	
+	initialize_land()
 	startupLand()		# Enable DC-DC converters
 	# meterRun = True
 	# while( meterRun == True):
@@ -553,7 +576,8 @@ def testLoop():
     		print("Invalid number entered.  \nTerminating....")
 	#	initialize_land()
 	
-	initGlobalVars()		
+	initGlobalVars()
+	initialize_land()
 	startupLand()
 
 	
@@ -575,6 +599,5 @@ def main():
 		print "Invalid entry"
 	
 	
-	
-	
+
 main()

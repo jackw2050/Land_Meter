@@ -25,13 +25,13 @@ meter_thermistor_2_offset,0.0,
 adc_divider,0.0044678,
 zh_divider,0.0,
 lid_thermistor_divider,0.0,
-p12v_divider,0.0,
-p5v_divider,0.0,
-p3p3v_divider,0.0,
+p12v_divider,11.01,
+p5v_divider,6.05,
+p3p3v_divider,2.9568,
 battery_thermistor_divider,0.0,
 batt_v_divider,0.0,
 beam_divider,0.0,
-m5v_divider,0.0,
+m5v_divider,12.0,
 zp_divider,0.0,
 gearbox_thermistor_divider,0.0,
 conning_tower_thermistor_divider,0.0,
@@ -43,6 +43,8 @@ beam50,2.5,
 beam90,5.0,
 p5vTarget,5.0,V
 p5vError,0.2,V
+n5vTarget,-5.0,V
+n5vError,0.2,V
 p3p3vTarget,3.3,V
 p3p3vError,0.2,V
 p12vTarget,12.0,V

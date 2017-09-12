@@ -1,11 +1,12 @@
 from Adafruit_BBIO.SPI import SPI
+import Adafruit_BBIO.GPIO as GPIO
 import time
 #https://github.com/adafruit/adafruit-beaglebone-io-python
 spi = SPI(0,0) 
 
 #spi.fd = -1;
 spi.mode = 3;
-#spi.bpw = 8;#Bits per word
+spi.bpw = 8;#Bits per word
 spi.msh=1250000
 
 
@@ -13,10 +14,11 @@ spi.msh=1250000
 
 VREF = 4.096
 INTERNAL_CLOCK = 0xA8
+SSTRB = "P8_7"
+GPIO.setup("P8_7", GPIO.IN)	# Enable pin for DC-DC converter
 
 
-
-CHAN0 = 0x003
+CHAN0 = 0x08
 CHAN1 = 0x10
 CHAN2 = 0x20
 CHAN3 = 0x30
@@ -66,28 +68,29 @@ def ADCinit():
 	
 	print 'Initializing MAX1300 ADC Chan 0 range: ', CHAN0_VRANGE[1], ' to ',CHAN0_VRANGE[2]
 	time.sleep(delay)
-	spi.writebytes([CHAN0_VRANGE[0]])	
-	print 'Initializing MAX1300 ADC Chan 1 range: ', CHAN1_VRANGE[1], ' to ',CHAN1_VRANGE[2]	
-	time.sleep(delay)
-	spi.writebytes([CHAN1_VRANGE[0]])
-	print 'Initializing MAX1300 ADC Chan 2 range: ', CHAN2_VRANGE[1], ' to ',CHAN2_VRANGE[2]	
-	time.sleep(delay)
-	spi.writebytes([CHAN2_VRANGE[0]])
-	print 'Initializing MAX1300 ADC Chan 3 range: ', CHAN3_VRANGE[1], ' to ',CHAN3_VRANGE[2]	
-	time.sleep(delay)
-	spi.writebytes([CHAN3_VRANGE[0]])
-	print 'Initializing MAX1300 ADC Chan 4 range: ', CHAN4_VRANGE[1], ' to ',CHAN4_VRANGE[2]	
-	time.sleep(delay)
-	spi.writebytes([CHAN4_VRANGE[0]])
-	print 'Initializing MAX1300 ADC Chan 5 range: ', CHAN5_VRANGE[1], ' to ',CHAN5_VRANGE[2]	
-	time.sleep(delay)
-	spi.writebytes([CHAN5_VRANGE[0]])
-	print 'Initializing MAX1300 ADC Chan 6 range: ', CHAN6_VRANGE[1], ' to ',CHAN6_VRANGE[2]	
-	time.sleep(delay)
-	spi.writebytes([CHAN6_VRANGE[0]])
-	print 'Initializing MAX1300 ADC Chan 7 range: ', CHAN7_VRANGE[1], ' to ',CHAN7_VRANGE[2]	
-	time.sleep(delay)
-	spi.writebytes([CHAN7_VRANGE[0]])
+	# spi.writebytes([CHAN0_VRANGE[0]])	
+	spi.writebytes([0xA8])	
+	# print 'Initializing MAX1300 ADC Chan 1 range: ', CHAN1_VRANGE[1], ' to ',CHAN1_VRANGE[2]	
+	# time.sleep(delay)
+	# spi.writebytes([CHAN1_VRANGE[0]])
+	# print 'Initializing MAX1300 ADC Chan 2 range: ', CHAN2_VRANGE[1], ' to ',CHAN2_VRANGE[2]	
+	# time.sleep(delay)
+	# spi.writebytes([CHAN2_VRANGE[0]])
+	# print 'Initializing MAX1300 ADC Chan 3 range: ', CHAN3_VRANGE[1], ' to ',CHAN3_VRANGE[2]	
+	# time.sleep(delay)
+	# spi.writebytes([CHAN3_VRANGE[0]])
+	# print 'Initializing MAX1300 ADC Chan 4 range: ', CHAN4_VRANGE[1], ' to ',CHAN4_VRANGE[2]	
+	# time.sleep(delay)
+	# spi.writebytes([CHAN4_VRANGE[0]])
+	# print 'Initializing MAX1300 ADC Chan 5 range: ', CHAN5_VRANGE[1], ' to ',CHAN5_VRANGE[2]	
+	# time.sleep(delay)
+	# spi.writebytes([CHAN5_VRANGE[0]])
+	# print 'Initializing MAX1300 ADC Chan 6 range: ', CHAN6_VRANGE[1], ' to ',CHAN6_VRANGE[2]	
+	# time.sleep(delay)
+	# spi.writebytes([CHAN6_VRANGE[0]])
+	# print 'Initializing MAX1300 ADC Chan 7 range: ', CHAN7_VRANGE[1], ' to ',CHAN7_VRANGE[2]	
+	# time.sleep(delay)
+	# spi.writebytes([CHAN7_VRANGE[0]])
 	
 
 
@@ -186,19 +189,49 @@ def ADCinit():
 
 
 
-def ReadADC_average(adc_chan, averages, delay,  divider, offset):
+def ReadADC_average(chan, averages, delay,  divider, offset):
 	""" Returns average of averages measurments.
 		rate is mS 
 		loopMax is number of measurements
 	"""
 
-	data_summ = 0
-	data_val = 0
+	data_summ = 0.0
+	data_val = 0.0
+	if (chan == 0):
+		adcChan = 0x00
+		adcRange = CHAN0_VRANGE
+	elif (chan == 1):
+		adcChan = 0x10
+		adcRange = CHAN1_VRANGE
+	elif (chan == 2):
+		adcChan = 0x20
+		adcRange = CHAN2_VRANGE
+	elif (chan == 3):
+		adcChan = 0x30
+		adcRange = CHAN3_VRANGE
+	elif (chan == 4):
+		adcChan = 0x40
+		adcRange = CHAN4_VRANGE
+	elif (chan == 5):
+		adcChan = 0x50
+		adcRange = CHAN5_VRANGE
+	elif (chan == 6):
+		adcChan = 0x60
+		adcRange = CHAN6_VRANGE
+	elif (chan == 7):
+		adcChan = 0x70
+		adcRange = CHAN7_VRANGE
+	else:
+		print "Error"
+		return -999
+
+		
 	for x in range (averages):
-		data_summ += ReadADC(adc_chan)							
+		data_summ += ReadADC(chan)							
 		time.sleep(delay)
-	data_val = data_summ / averages
-	data_val = data_val * divider + offset
+		
+	data_val = data_summ / (averages )
+	# data_val = data_val * (adcRange[2] + adcRange[1]) * divider + offset
 	return data_val	
 		
 
@@ -245,21 +278,37 @@ def ReadADC(chan):
 		print "Error"
 		return -999
 	# print "Reading channel ", adcChan, StartBit + adcChan	
-	spi.writebytes([StartBit + adcChan])
-	
-	time.sleep(readDelay)
-	chan_dataH = spi.readbytes(1)	# Read garbage byte.  Not sure why this is necessary
-	chan_dataH = spi.readbytes(1)	# Read 1 bytes.  Can I change to read 2 bytes
-	# print "Raw data ",chan_dataH
-	time.sleep(readDelay)
-	chan_dataL = spi.readbytes(1)	# Read 1 bytes
-	# print "Raw data ",chan_dataL
-	chan_16bit_data = 0.0
-	chan_16bit_data = (chan_dataH[0]<<8 ) + chan_dataL[0]	# Convert to one 16 bit word
-	data_val = chan_16bit_data / 65535.0
-	# print data_val, (adcRange[2] - adcRange[1])
 
-	data_val = data_val * float(adcRange[2] - adcRange[1]) + adcRange[1]
+	# spi.writebytes([StartBit + adcChan])
+	#spi.writebytes([0xA8])
+
+	spi.writebytes([0x08])
+	dataReady = False
+	while ( dataReady == False):
+		if GPIO.input(SSTRB):
+			print "Data ready"
+    		dataReady = True
+
+	
+	#time.sleep(.0001)
+	chan_data = spi.readbytes(3)	# Read garbage byte.  Not sure why this is necessary
+	# chan_dataH = spi.readbytes(2)	# Read 1 bytes.  Can I change to read 2 bytes
+
+	print "Raw data ",hex(chan_data[1]),hex(chan_data[2])
+
+	# time.sleep(readDelay)
+	# chan_dataL = spi.readbytes(1)	# Read 1 bytes
+	#print "Raw data ",chan_dataL
+	chan_16bit_data = 0.0
+	chan_16bit_data = (chan_data[1]<<8 ) + chan_data[2]	# Convert to one 16 bit word
+	# print chan_16bit_data
+	# print "0x%X" % chan_data[1], "0x%X" % chan_data[2], "0x%X" % chan_16bit_data, chan_16bit_data / 65535.0
+	data_val = chan_16bit_data / 65535.0
+	print data_val , (adcRange[2] - adcRange[1])
+
+	data_val = data_val * float(adcRange[2] - adcRange[1])
+	# print data_val
+
 	return data_val
 	
 	
@@ -281,8 +330,13 @@ def ReadADC(chan):
 # 		print ReadADC(input ("enter chan:\n"))
 
 # 	elif myInput == 4:
-# 		chan_data = ReadADC_average(0, 1000, .0001,  1, 0)							# Read 2 bytes
-# 		print chan_data	
+# ADCinit()
+
+print ReadADC(0) , CHAN0_VRANGE
+# chan_data = ReadADC_average(5, 1, .001,  1, -0.46391320668)							# Read 2 bytes
+# print chan_data
+
+# print ReadADC(5)
 # 	else:
 # 		runLoop = False
 		

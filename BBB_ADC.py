@@ -101,6 +101,7 @@ def calcAdcValue(raw, divider, offset):
 
 def read_adc(adc_chan, loop_count, divider, offset):
     chan = "P9_38"
+
     if (adc_chan == "zhSys"):
         chan = "P9_39"  #ZH
     elif (adc_chan == "lidThermistorVolt"):
@@ -118,23 +119,28 @@ def read_adc(adc_chan, loop_count, divider, offset):
     else:
         print "Chan ", adc_chan, " not found. Error"
         return -99
-    adcRange = 1.8 / 1024.0
+    adcRange = 1.8
     adc_value = 0.0
-    for num in range (1, loop_count):
+
+    for num in range (0, loop_count):
         adc_value += ADC.read(chan)
+        #print adc_value
+        #print ADC.read(chan)
 
     adc_value /= loop_count
-    adc_value = adc_value
+    # adc_value = adc_value
     adc_value *= adcRange
-#    adc_value = calcAdcValue(adc_value, divider, offset)
+    adc_value = calcAdcValue(adc_value, divider, offset)
     return adc_value
 
 
 
-# read_adc("p5vSys", 1, 1, 0)
+# print round(read_adc("p12vSys", 10, 11.01, 0), 3)
+# print round(read_adc("p5vSys", 10, 6.05, 0), 3)
+# print round(read_adc("p3p3vSys", 10, 2.9568, 0), 3)
 
 
-
+# print ADC.read("P9_37") * 1.8
 # a = updateAinOffset(4, .003)
 # if(a == 0):
 #     print a, ADC.ain4_offset

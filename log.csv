@@ -100,3 +100,90 @@
 2017-09-06 19:18:35.057906,ZH system voltage	target: 36.0	Error:  +/-0.5	Measured: 0.0	Fail
 2017-09-06 19:18:36.076823,-5V system voltage	target: -5.0	Error:  +/-0.2	Measured: 6.14	Fail
 2017-09-06 19:18:37.099353,ZP system voltage	target: 24.0	Error:  +/-0.01	Measured: 6.14	Fail
+2017-09-06 19:35:58.130321,+5V system voltage	target: 5.0	Error:  +/-0.2	Measured: 0.0	Fail
+2017-09-06 19:35:59.154251,+12V system voltage	target: 12.0	Error:  +/-0.2	Measured: 0.0	Fail
+2017-09-06 19:36:00.177536,+3.3V system voltage	target: 3.3	Error:  +/-0.2	Measured: 0.0	Fail
+2017-09-06 19:36:01.201694,Battery  voltage	target: 12.0	Error:  +/-2.0	Measured: 0.0	Fail
+2017-09-06 19:36:02.226144,ZH system voltage	target: 36.0	Error:  +/-0.5	Measured: 0.0	Fail
+2017-09-06 19:36:03.245685,-5V system voltage	target: -5.0	Error:  +/-0.2	Measured: 6.14	Fail
+2017-09-06 19:36:04.265910,ZP system voltage	target: 24.0	Error:  +/-0.01	Measured: 6.14	Fail
+2017-09-06 19:39:11.778309,+5V system voltage	target: 5.0	Error:  +/-0.2	Measured: 0.0	Fail
+2017-09-06 19:39:12.804421,+12V system voltage	target: 12.0	Error:  +/-0.2	Measured: 0.0	Fail
+2017-09-06 19:39:30.202081,+5V system voltage	target: 5.0	Error:  +/-0.2	Measured: 0.0	Fail
+2017-09-06 19:39:31.224858,+12V system voltage	target: 12.0	Error:  +/-0.2	Measured: 0.0	Fail
+2017-09-06 19:39:32.251269,+3.3V system voltage	target: 3.3	Error:  +/-0.2	Measured: 0.0	Fail
+2017-09-06 19:39:33.277673,Battery  voltage	target: 12.0	Error:  +/-2.0	Measured: 0.0	Fail
+2017-09-06 19:39:34.300969,ZH system voltage	target: 36.0	Error:  +/-0.5	Measured: 0.0	Fail
+2017-09-06 19:39:35.320140,-5V system voltage	target: -5.0	Error:  +/-0.2	Measured: 6.14	Fail
+2017-09-06 19:39:36.341258,ZP system voltage	target: 24.0	Error:  +/-0.01	Measured: 6.14	Fail
+2017-09-06 19:39:59.094302,+5V system voltage	target: 5.0	Error:  +/-0.2	Measured: 0.0	Fail
+2017-09-06 19:40:00.113268,+12V system voltage	target: 12.0	Error:  +/-0.2	Measured: 0.0	Fail
+2017-09-06 19:40:01.134117,+3.3V system voltage	target: 3.3	Error:  +/-0.2	Measured: 0.0	Fail
+2017-09-06 19:40:02.158302,Battery  voltage	target: 12.0	Error:  +/-2.0	Measured: 0.0	Fail
+2017-09-06 19:40:03.182015,ZH system voltage	target: 36.0	Error:  +/-0.5	Measured: 0.0	Fail
+2017-09-06 19:40:04.200909,-5V system voltage	target: -5.0	Error:  +/-0.2	Measured: 6.14	Fail
+2017-09-06 19:40:05.228757,ZP system voltage	target: 24.0	Error:  +/-0.01	Measured: 6.14	Fail
+2017-09-07 16:33:39.727450,+5V system voltage	target: 5.0	Error:  +/-0.2	Measured: 0.0	Fail
+2017-09-07 16:33:40.745878,+12V system voltage	target: 12.0	Error:  +/-0.2	Measured: 0.0	Fail
+2017-09-07 16:33:41.764999,+3.3V system voltage	target: 3.3	Error:  +/-0.2	Measured: 0.0	Fail
+2017-09-07 16:33:42.792756,Battery  voltage	target: 12.0	Error:  +/-2.0	Measured: 0.0	Fail
+2017-09-07 16:33:43.817982,ZH system voltage	target: 36.0	Error:  +/-0.5	Measured: 0.0	Fail
+2017-09-07 16:33:44.839881,-5V system voltage	target: -5.0	Error:  +/-0.2	Measured: -6.14	Fail
+2017-09-07 16:33:45.846996,ZP system voltage	target: 24.0	Error:  +/-0.01	Measured: 0.0	Fail
+2017-09-07 17:42:10.014630,+5V system voltage	target: 5.0	Error:  +/-0.2	Measured: 0.0	Fail
+2017-09-07 17:42:11.038300,+12V system voltage	target: 12.0	Error:  +/-0.2	Measured: 0.0	Fail
+2017-09-07 17:42:12.060703,+3.3V system voltage	target: 3.3	Error:  +/-0.2	Measured: 0.0	Fail
+2017-09-07 17:42:13.079337,Battery  voltage	target: 12.0	Error:  +/-2.0	Measured: 0.0	Fail
+2017-09-07 17:42:14.095868,ZH system voltage	target: 36.0	Error:  +/-0.5	Measured: 0.0	Fail
+2017-09-07 17:42:15.110313,-5V system voltage	target: -5.0	Error:  +/-0.2	Measured: -6.14	Fail
+2017-09-07 17:42:16.132531,ZP system voltage	target: 24.0	Error:  +/-0.01	Measured: 0.0	Fail
+2017-09-07 19:28:52.554274,Battery  voltage	target: 12.0	Error:  +/-2.0	Measured: 0.0	Fail
+2017-09-07 19:28:53.583209,ZH system voltage	target: 36.0	Error:  +/-0.5	Measured: 0.0	Fail
+2017-09-07 19:28:54.601087,-5V system voltage	target: -5.0	Error:  +/-0.2	Measured: -6.14	Fail
+2017-09-07 19:28:55.611110,ZP system voltage	target: 24.0	Error:  +/-0.01	Measured: 0.0	Fail
+2017-09-07 19:34:30.686516,Battery  voltage	target: 12.0	Error:  +/-2.0	Measured: 0.0	Fail
+2017-09-07 19:34:31.711473,ZH system voltage	target: 36.0	Error:  +/-0.5	Measured: 0.0	Fail
+2017-09-07 19:34:32.728254,-5V system voltage	target: -5.0	Error:  +/-0.2	Measured: -1.02	Fail
+2017-09-07 19:34:33.737811,ZP system voltage	target: 24.0	Error:  +/-0.01	Measured: 3.59	Fail
+2017-09-07 19:39:01.782667,Battery  voltage	target: 12.0	Error:  +/-2.0	Measured: 0.0	Fail
+2017-09-07 19:39:02.805842,ZH system voltage	target: 36.0	Error:  +/-0.5	Measured: 0.0	Fail
+2017-09-07 19:39:03.822247,-5V system voltage	target: -5.0	Error:  +/-0.2	Measured: -1.14	Fail
+2017-09-07 19:39:04.840008,ZP system voltage	target: 24.0	Error:  +/-0.01	Measured: 2.82	Fail
+2017-09-07 19:43:36.978655,Battery  voltage	target: 12.0	Error:  +/-2.0	Measured: 0.0	Fail
+2017-09-07 19:43:38.001967,ZH system voltage	target: 36.0	Error:  +/-0.5	Measured: 0.0	Fail
+2017-09-07 19:46:45.502437,Battery  voltage	target: 12.0	Error:  +/-2.0	Measured: 0.0	Fail
+2017-09-07 19:46:46.525601,ZH system voltage	target: 36.0	Error:  +/-0.5	Measured: 0.0	Fail
+2017-09-07 19:46:47.542262,-5V system voltage	target: 5.0	Error:  +/-0.2	Measured: 1.54	Fail
+2017-09-07 19:46:48.554504,ZP system voltage	target: 24.0	Error:  +/-0.01	Measured: 2.82	Fail
+2017-09-11 15:10:57.020186,Battery  voltage	target: 12.0	Error:  +/-2.0	Measured: 0.0	Fail
+2017-09-11 15:10:58.046505,ZH system voltage	target: 36.0	Error:  +/-0.5	Measured: 0.0	Fail
+2017-09-11 15:10:59.063925,-5V system voltage	target: 5.0	Error:  +/-0.2	Measured: -1.64	Fail
+2017-09-11 15:11:00.069119,ZP system voltage	target: 24.0	Error:  +/-0.01	Measured: 3.59	Fail
+2017-09-11 15:12:45.095060,Battery  voltage	target: 12.0	Error:  +/-2.0	Measured: 0.0	Fail
+2017-09-11 15:12:46.133796,ZH system voltage	target: 36.0	Error:  +/-0.5	Measured: 0.0	Fail
+2017-09-11 15:12:47.151413,-5V system voltage	target: 5.0	Error:  +/-0.2	Measured: -1.14	Fail
+2017-09-11 15:12:48.161397,ZP system voltage	target: 24.0	Error:  +/-0.01	Measured: 3.9	Fail
+2017-09-11 15:17:18.437304,Battery  voltage	target: 12.0	Error:  +/-2.0	Measured: 0.0	Fail
+2017-09-11 15:17:19.461564,ZH system voltage	target: 36.0	Error:  +/-0.5	Measured: 0.0	Fail
+2017-09-11 15:17:20.598569,-5V system voltage	target: 5.0	Error:  +/-0.2	Measured: 3.09	Fail
+2017-09-11 15:17:21.615128,ZP system voltage	target: 24.0	Error:  +/-0.01	Measured: 2.82	Fail
+2017-09-11 20:38:30.548331,+5V system voltage	target: 5.0	Error:  +/-0.2	Measured: 6.03	Fail
+2017-09-11 20:38:31.571854,+12V system voltage	target: 12.0	Error:  +/-0.2	Measured: 18.91	Fail
+2017-09-11 20:38:33.620510,Battery  voltage	target: 12.0	Error:  +/-2.0	Measured: 0.0	Fail
+2017-09-11 20:38:34.643543,ZH system voltage	target: 36.0	Error:  +/-0.5	Measured: 0.0	Fail
+2017-09-11 20:40:34.020564,+5V system voltage	target: 5.0	Error:  +/-0.2	Measured: 6.02	Fail
+2017-09-11 20:40:35.042345,+12V system voltage	target: 12.0	Error:  +/-0.2	Measured: 18.81	Fail
+2017-09-11 20:40:37.086557,Battery  voltage	target: 12.0	Error:  +/-2.0	Measured: 0.0	Fail
+2017-09-11 20:40:38.109714,ZH system voltage	target: 36.0	Error:  +/-0.5	Measured: 0.0	Fail
+2017-09-11 20:42:32.653681,+5V system voltage	target: 5.0	Error:  +/-0.2	Measured: 5.96	Fail
+2017-09-11 20:42:33.672518,+12V system voltage	target: 12.0	Error:  +/-0.2	Measured: 18.68	Fail
+2017-09-11 20:42:35.715431,Battery  voltage	target: 12.0	Error:  +/-2.0	Measured: 0.0	Fail
+2017-09-11 20:42:36.742652,ZH system voltage	target: 36.0	Error:  +/-0.5	Measured: 0.0	Fail
+2017-09-11 20:42:37.872313,-5V system voltage	target: 5.0	Error:  +/-0.2	Measured: 3.11	Fail
+2017-09-11 20:42:38.883749,ZP system voltage	target: 24.0	Error:  +/-0.01	Measured: 1.56	Fail
+2017-09-11 20:48:58.330700,+5V system voltage	target: 5.0	Error:  +/-0.2	Measured: 5.82	Fail
+2017-09-11 20:48:59.350838,+12V system voltage	target: 12.0	Error:  +/-0.2	Measured: 18.76	Fail
+2017-09-11 20:49:01.397938,Battery  voltage	target: 12.0	Error:  +/-2.0	Measured: 0.0	Fail
+2017-09-11 20:49:02.421577,ZH system voltage	target: 36.0	Error:  +/-0.5	Measured: 0.0	Fail
+2017-09-11 20:49:03.547875,-5V system voltage	target: 5.0	Error:  +/-0.2	Measured: 3.11	Fail
+2017-09-11 20:49:04.572346,ZP system voltage	target: 24.0	Error:  +/-0.01	Measured: 1.56	Fail

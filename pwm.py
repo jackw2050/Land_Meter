@@ -28,3 +28,5 @@ def pwm_shutdown():
 
 def set_force_duty_cycle(duty_cycle):
 	PWM.set_duty_cycle(FORCE_PWM, duty_cycle)
+	
+PWM.start('P8_13', 50, 1000, 0)
