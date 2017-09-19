@@ -5,5 +5,5 @@ Loading connman:
   sudo apt-get update
   sudo apt-get install connman
   
-  
-  
+ Overlays: 
+  https://github.com/beagleboard/bb.org-overlays
