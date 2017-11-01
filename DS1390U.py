@@ -58,4 +58,4 @@ SetHeatBeat     = 0x00#For  control register
 
 
 
-
+spi.writebytes([controlReglAddress, SetHeatBeat ])
