@@ -7,3 +7,14 @@ Loading connman:
   
  Overlays: 
   https://github.com/beagleboard/bb.org-overlays
+  
+  PDA performs PID function
+  
+  Keep commands for motor control.
+  Add new commands for smart motor control with absolute encoder
+  
+  Add commands for level motor control
+  
+  Add code for air presssure and temp.
+  
+  Add commands to request date/ time from PDA
