@@ -57,7 +57,7 @@ def calculateChecksum(cmdArray):
     
 command = 0x1B
 
-myByteArray = [0x23, 0x56, 0xF3]
+myByteArray = [0xFF, 0xFF]
 # outputBytes = binascii.hexlify(bytearray(myByteArray))
 # myByteArray.insert(0,command)
 # outputBytes = binascii.hexlify(bytearray(myByteArray))
