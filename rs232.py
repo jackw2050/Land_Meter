@@ -1,5 +1,7 @@
+
 # import Adafruit_BBIO.UART as UART
 import serial, time
+import checksum
 
 # UART.setup("UART1")
 
@@ -15,28 +17,34 @@ port = serial.Serial(port = "/dev/ttyO1", baudrate = 9600)
 # ser.close()
 # ser.open()
 # if ser.isOpen():
-# 	print "Serial is open!"
+#   print "Serial is open!"
 #     ser.write("Hello World!")
 # ser.close()
 
 def serialInit():
+  print "test"
   
 
 def getSerialData():
   # get the data from the buffer
   # parse the data
   # verify the checksumm
+  cmdLength = ser.read(1)
+  cmdData = ser.read(cmdLength)
+  #Need to check if this returns a list of bytes 
+  # https://github.com/pyserial/pyserial/blob/master/examples/wxTerminal.py
+  print "test"
 
-  while True:
-    if (port.inWaiting()):
-      data = ""
-      while (port.inWaiting()):
-        data += port.read()
-        time.sleep(0.005)
-    # print what was sent
-    print( "Data received:\n '%s'" % data)
-    port.write(data)
-    time.sleep(0.1)
+  # while True:
+  #   if (port.inWaiting()):
+  #     data = ""
+  #     while (port.inWaiting()):
+  #       data += port.read()
+  #       time.sleep(0.005)
+  #   # print what was sent
+  #   print( "Data received:\n '%s'" % data)
+  #   port.write(data)
+  #   time.sleep(0.1)
 
 
 
@@ -44,48 +52,48 @@ def getSerialData():
 
 # --Meter Commands--
 
-# 	PWM Register - Read, Write
-# 	Gravity Data - Read, Turn On Auto Send, Turn Off Auto Send
-# 	Sync Counter - Reset
-# 	System Status - Read
-# 	Receiver - Send Handshake
+#   PWM Register - Read, Write
+#   Gravity Data - Read, Turn On Auto Send, Turn Off Auto Send
+#   Sync Counter - Reset
+#   System Status - Read
+#   Receiver - Send Handshake
 
 
 
 # --Meter Inputs--
 
-# 	PWM Duty Cycle
-# 	Turn On 1 Sec Gravity Data Xmit
-# 	Turn Off 1 Sec Gravity Data Xmit
-# 	Reset Clock
+#   PWM Duty Cycle
+#   Turn On 1 Sec Gravity Data Xmit
+#   Turn Off 1 Sec Gravity Data Xmit
+#   Reset Clock
 
 
 
 # --Meter Outputs--
 
-# 	PWM Duty Cycle                  Char             Integer
-# 	Beam Frequency                  Char
-# 	Long Level Frequency            Char
-# 	Cross Level Frequency           Char
-# 	Lid Temperature                 Char             Integer
-# 	System Status[2]                Char                   
+#   PWM Duty Cycle                  Char             Integer
+#   Beam Frequency                  Char
+#   Long Level Frequency            Char
+#   Cross Level Frequency           Char
+#   Lid Temperature                 Char             Integer
+#   System Status[2]                Char                   
 
-# 		Receiver/Queue/Command Error
-# 		Transmitter/Queqe Error
-# 		Time Not Set
-# 		Command Failure
-# 		Receive Buffer Has Command
-# 		Transmit Buffer Has command 
+#       Receiver/Queue/Command Error
+#       Transmitter/Queqe Error
+#       Time Not Set
+#       Command Failure
+#       Receive Buffer Has Command
+#       Transmit Buffer Has command 
 
-	
-        							
-# 	Meter Outputs
+    
+                                    
+#   Meter Outputs
 
-# 	  	PWM Duty Cycle
+#       PWM Duty Cycle
 # Beam Frequency
-# 		Cross Level Frequency
-# 		Long Level Frequency
-# 		Temperature
+#       Cross Level Frequency
+#       Long Level Frequency
+#       Temperature
 
 
 # xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -105,54 +113,93 @@ def getSerialData():
 # .
 # N       Last data byte
 # N+1     Check sum (EOR of bytes 2 - N)
+def bytes_to_int(bytes):
+    result = 0
+    for b in bytes:
+        result = result * 256 + int(b)
+    return result
 
 
-
-
-def CalculateChecksum(myArray)
-
-    byte checkSum = 0x00;
+def int_to_bytes(value, length):
+    result = []
+    for i in range(0, length):
+        result.append(value >> (i * 8) & 0xff)
+    result.reverse()
+    return result
+   
+   
     
-    for x in range(myArray.Length)
-        checkSum ^= myArray[x];
-    
-    return checkSum;
+def calculateChecksum(cmdArray):
+    checksum = 0
+    print "Received array ", cmdArray
+    # checksum = hex(sum(bytearray(cmdArray)))
+    for index in cmdArray:
+        checksum = checksum ^ index
+    return checksum
+
+def parseRXcommand(rxByteArray):
+  rxLength = len(rxByteArray)
+  rxCommand = rxByteArray[1]
+  checksum = rxByteArray[rxLength - 1]
+  print "Initial array", rxByteArray
+  print "Checksum", checksum
+  print "Command", rxCommand
+  rxByteArray.pop(0) # Strip off byte count
+  rxByteArray.pop(0) # Strip off command
+  rxByteArray.pop() # Strip off checksum
+  print "Array after clean", rxByteArray
+  print "calculated checksum ", calculateChecksum(rxByteArray)
+  # print map(hex, rxCommand[0])
+  if checksum == calculateChecksum(rxByteArray):
+    print "Checksum matches"
+  else:
+    print "Data error"
+
+  print "Integer value ", bytes_to_int(rxByteArray)
+  return rxCommand, bytes_to_int(rxByteArray)
+  
+  
+  
 
 
 
 
 
-def get_command(command_byte):
-	if command_byte == 0xFE
-		Get_PWM_Duty_Cycle()
 
-	elif command_byte == 0x02:	
-		SET_PWM_Duty_Cycle(comm_data)
 
-	elif command_byte == 0x03:	
-		Send_Data_Sets_at_1_Sec_Intervals(comm_data)
 
-	elif command_byte == 0xFF:	
-		Stop_Sending_Data_Sets()
+# def get_command(command_byte):
+#   if command_byte == 0xFE
+#       Get_PWM_Duty_Cycle()
 
-	elif command_byte == 0x00:
-		Send_System_Status()	
+#   elif command_byte == 0x02:  
+#       SET_PWM_Duty_Cycle(comm_data)
 
-	elif command_byte == 0xF9:	
-		Alternate_Break()		
+#   elif command_byte == 0x03:  
+#       Send_Data_Sets_at_1_Sec_Intervals(comm_data)
+
+#   elif command_byte == 0xFF:  
+#       Stop_Sending_Data_Sets()
+
+#   elif command_byte == 0x00:
+#       Send_System_Status()    
+
+#   elif command_byte == 0xF9:  
+#       Alternate_Break()       
 
 
 
 
 def verify_checksum(comm_data):
-	verified = False
-	return verified
+    verified = False
+    return verified
 
 def calculate_checksum(comm_data):
-	checksum = 0x000
-	return checksum	
+    checksum = 0x000
+    return checksum 
 
-def Get_PWM_Duty_Cycle
+def Get_PWM_Duty_Cycle():
+  return dutyCycle
 
 """Purpose: Tells the meter to transmit the current PWM duty cycle value. 
 The 16 bit value represents the duty cycle stored in the meter, 
@@ -181,48 +228,60 @@ Returns:
 
 
 
-def SET_PWM_Duty_Cycle
-"""
-Purpose: Sends a 16 bit PWM duty cycle value to the meter, which replaces the current value with the new value immediately.
+def SET_PWM_Duty_Cycle(pwmDataArray):
+  newDutyCycleFloat = 0.0
+  newDutyCycleInt = bytes_to_int(pwmDataArray)
+  newDutyCycleFloat = 100.0 * (newDutyCycleInt / 0xFFFF)
+  print newDutyCycleFloat
+  return newDutyCycleFloat
+  
+  
+  
+SET_PWM_Duty_Cycle(parseRXcommand(parseRXcommand([0x04, 0x1b, 0xff, 0xff, 0x00]))  
+ 
 
-Command ID: 02
-Parameters: MSB, LSB
+# """
+# Purpose: Sends a 16 bit PWM duty cycle value to the meter, which replaces the current value with the new value immediately.
 
-
---Byte----Function----------------------
-  0x04    Number of bytes to follow
-  0x02    Command ID
-  0xXX    MSB
-  0xXX    LSB
-  0xXX    Checksum
-
-		
-Returns: None
-"""
-
+# Command ID: 02
+# Parameters: MSB, LSB
 
 
+# --Byte----Function----------------------
+#   0x04    Number of bytes to follow
+#   0x02    Command ID
+#   0xXX    MSB
+#   0xXX    LSB
+#   0xXX    Checksum
 
-def Send_Data_Sets_at_1_Sec_Intervals():
-	"""
-
-Command ID: 01
-
-Purpose: Tells the meter to send data sets at one second intervals. See 'Send Current Data Set' for message format.
-Parameters: None
-
-
---Byte----Function----------------------
-  0x02    Number of bytes to follow
-  0x01    Command ID
-  0xXX    Chechsum	
-Returns: None
-"""
+        
+# Returns: None
+# """
 
 
 
 
-def Stop_Sending_Data_Sets
+# def Send_Data_Sets_at_1_Sec_Intervals():
+#   """
+
+# Command ID: 01
+
+# Purpose: Tells the meter to send data sets at one second intervals. See 'Send Current Data Set' for message format.
+# Parameters: None
+
+
+# --Byte----Function----------------------
+#   0x02    Number of bytes to follow
+#   0x01    Command ID
+#   0xXX    Chechsum    
+# Returns: None
+# """
+
+
+
+
+# def Stop_Sending_Data_Sets():
+#   return 0
 """
 Purpose: Tells the meter to stop sending data sets at one second intervals.
 
@@ -245,7 +304,8 @@ Returns: None
 
 
 
-def Send_Current_Data_Set
+def Send_Current_Data_Set():
+  return 0
 
 """Purpose: This command tells the meter to send the current data set. The beam and level values are from a counter that is clocked by the respective signal. The counter counts to 0xFFFF, then rolls over (which of course must be accounted for). The difference between two consecutive values divied by the time interval is the signal frequency. The temperature value is an analog value converted to binary, which can vary from 0 to 255. It is not calibrated, however it is set to about 128 when the meter is at its operating temperature. 
 
@@ -286,6 +346,7 @@ Returns: Beam Freq, Long Level Freq, Cross Level Freq, Thermometer value
 
 
 def Send_System_Status():
+  return 0
 
 """Purpose: This command tells the meter to transmit its system status information. 
 
@@ -348,6 +409,7 @@ Returns: system0, system1, system2, system3
 
 
 def Alternate_Break():
+  return 0
 """
 Purpose:  Performs same initial hand shake function as a break signal. For use with Bluetooth connection.
 
