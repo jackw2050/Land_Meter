@@ -552,6 +552,8 @@ def findBeamPoints():
 
 
 def productionLoop():
+	levelsCheck = False
+	beam = 0
 	#	initialize_land()			
 	initGlobalVars()	# Reads calibration file and assignes global variables	
 	initialize_land()
@@ -559,6 +561,16 @@ def productionLoop():
 	# meterRun = True
 	# while( meterRun == True):
 	# 	print "test"
+	#	levelsCheck = checkLevels()  # Verify Cross and Long are within  ?? arc sec.  levelsCheck must have time out to return here for housekeeping
+	#	updateHeaters()	# Check thermistors and turn on/off heaters
+	#	if levelsCheck:
+			#beam = getBeam()	# Get beam value in Hz
+	#	meterCmd = checkSerial()  # Check serial port for incomming commands
+	#	if len(meterCmd) > 1:
+	#		executeMeterCmd(meterCmd)
+	
+		
+	
 		
 	
 
