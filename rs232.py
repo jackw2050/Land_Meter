@@ -240,23 +240,23 @@ def SET_PWM_Duty_Cycle(pwmDataArray):
 SET_PWM_Duty_Cycle(parseRXcommand(parseRXcommand([0x04, 0x1b, 0xff, 0xff, 0x00]))  
  
 
-# """
-# Purpose: Sends a 16 bit PWM duty cycle value to the meter, which replaces the current value with the new value immediately.
+"""
+Purpose: Sends a 16 bit PWM duty cycle value to the meter, which replaces the current value with the new value immediately.
 
-# Command ID: 02
-# Parameters: MSB, LSB
+Command ID: 02
+Parameters: MSB, LSB
 
 
-# --Byte----Function----------------------
-#   0x04    Number of bytes to follow
-#   0x02    Command ID
-#   0xXX    MSB
-#   0xXX    LSB
-#   0xXX    Checksum
+--Byte----Function----------------------
+  0x04    Number of bytes to follow
+  0x02    Command ID
+  0xXX    MSB
+  0xXX    LSB
+  0xXX    Checksum
 
         
-# Returns: None
-# """
+Returns: None
+"""
 
 
 
@@ -317,14 +317,11 @@ Parameters: None
 
   0x02    Number of bytes to follow
   0x03    Command ID
-
   0xXX    Chechsum
 
 
 
 Returns: Beam Freq, Long Level Freq, Cross Level Freq, Thermometer value
-
-
 
 --Byte----Function----------------------
 
@@ -427,6 +424,6 @@ Parameters: None
 Returns:
 --Byte----Function----------------------
   0x02    Number of bytes to follow
-  0x07    Response ID
+  0x07    Response ID 0x07
   0xXX    Chechsum
 """
