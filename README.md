@@ -18,3 +18,6 @@ Loading connman:
   Add code for air presssure and temp.
   
   Add commands to request date/ time from PDA
+
+
+http://www.kilobaser.com/blog/2014-07-28-beaglebone-black-devicetreeoverlay-generator
