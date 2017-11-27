@@ -21,3 +21,6 @@ Loading connman:
 
 
 http://www.kilobaser.com/blog/2014-07-28-beaglebone-black-devicetreeoverlay-generator
+
+http://klaus.ede.hih.au.dk/index.php/BBB_Enabling_PWM
+
