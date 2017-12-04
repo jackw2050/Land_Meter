@@ -1,7 +1,7 @@
- content of test_sample.py
-import csv, sys
+
+import csv, sys, file_ops
 from datetime import datetime
-import file_ops
+
 
 class Land_Sys:
     'Common base class for for all system control'
@@ -77,34 +77,36 @@ class Land_Sys:
         #CHECK FOR CAL FINE EXISTANCE.
         #IF NONE CREATE IT
         from pathlib import Path
-        print("Checking to see if basic cal file exists")
-        my_file = Path("zls_cal.csv")
-        if my_file.is_file():
-            print(my_file, "exists\n")
-            print(Land_Sys.debug )
-            if Land_Sys.debug == True:
-                print("executing true line")
-                file_ops.read_cal_data("zls_cal.csv")    #Need to check on this error
-        else:
-            file_ops.create_basic_cal_file()    # this should only happen on a new meter
-            my_log_file = Path("create_basic_log_file(log.csv)")
-            if my_log_file.is_file():
-                print("File exixts")
-            else:
-                file_ops.create_basic_log_file()
+        if(self.debug == True):
+            print("Initializing LandMeter Class opject")
+            print("Checking to see if basic cal file exists")
+        # my_file = Path("zls_cal.csv")
+        # if my_file.is_file():
+        #     print(my_file, "exists\n")
+        #     mn = file_ops.read_cal_file()
+        #     if Land_Sys.debug == True:
+        #         print("executing true line")
+        #         file_ops.read_cal_data("zls_cal.csv")    #Need to check on this error
+        # else:
+        #     file_ops.create_basic_cal_file()    # this should only happen on a new meter
+        #     my_log_file = Path("create_basic_log_file(log.csv)")
+        #     if my_log_file.is_file():
+        #         print("File exixts")
+        #     else:
+        #         file_ops.create_basic_log_file()
+
+            file_ops.create_log_entry("broke")
 
 
 
 
-
-
-
-
-
-emp1 = Land_Sys()
-Land_Sys.create_log_entry("This sucks")
-
-
+#
+#
+#
+LS1 = Land_Sys()
+# LS1.create_log_entry("This sucks")
+#
+#
 
 
 # emp2 = Land_Sys("Manni", 5000)

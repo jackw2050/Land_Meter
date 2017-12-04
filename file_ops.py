@@ -160,7 +160,7 @@ def update_cal_file(field, value, comment):
 
 # Log file section
 def create_basic_log_file():
-    print "Creating initial log file"
+    print('Creating initial log file')
     with open('log.csv', 'w') as csvfile:
         fieldnames = ['Date', 'Comment']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -168,7 +168,7 @@ def create_basic_log_file():
         #writer.writeheader()
         writer.writerow({'Date': log_time, 'Comment': 'Initial entry'})
 
-    print "Log file successfully created"
+    print ("Log file successfully created")
     
 def create_log_entry(issue):   
      with open('log.csv', 'a') as csvfile:
@@ -180,3 +180,4 @@ def create_log_entry(issue):
 
 
 
+read_cal_file()
