@@ -1,7 +1,13 @@
+import serial
 
-# import Adafruit_BBIO.UART as UART
-import serial, time
-import checksum
+
+
+class Serial_Comms:
+    'Common base class for for all system control'
+    debug = True
+    empCount = 0
+    # import Adafruit_BBIO.UART as UART
+
 
 # UART.setup("UART1")
 
@@ -22,18 +28,18 @@ port = serial.Serial(port = "/dev/ttyO1", baudrate = 9600)
 # ser.close()
 
 def serialInit():
-  print "test"
+  print( "test")
   
 
 def getSerialData():
   # get the data from the buffer
   # parse the data
   # verify the checksumm
-  cmdLength = ser.read(1)
-  cmdData = ser.read(cmdLength)
+  cmdLength = port.read(1)
+  cmdData = port.read(cmdLength)
   #Need to check if this returns a list of bytes 
   # https://github.com/pyserial/pyserial/blob/master/examples/wxTerminal.py
-  print "test"
+  print ("test")
 
   # while True:
   #   if (port.inWaiting()):
@@ -47,7 +53,16 @@ def getSerialData():
   #   time.sleep(0.1)
 
 
+def verify_checksum(comm_data):
+    verified = False
+    return verified
 
+def calculate_checksum(comm_data):
+    checksum = 0x000
+    return checksum
+
+def Get_PWM_Duty_Cycle():
+  return dutyCycle
 
 
 # --Meter Commands--
@@ -57,7 +72,61 @@ def getSerialData():
 #   Sync Counter - Reset
 #   System Status - Read
 #   Receiver - Send Handshake
+def Alternate_Break():
+  return 0
+"""
+Purpose:  Performs same initial hand shake function as a break signal. For use with Bluetooth connection.
 
+Command ID: F9
+Parameters: None
+
+
+--Byte----Function----------------------
+  0x02    Number of bytes to follow
+  0xF9    Command ID
+  0xXX    Chechsum
+
+
+
+Returns:
+--Byte----Function----------------------
+  0x02    Number of bytes to follow
+  0x07    Response ID 0x07
+  0xXX    Chechsum
+"""
+
+"""Purpose: Tells the meter to transmit the current PWM duty cycle value.
+The 16 bit value represents the duty cycle stored in the meter,
+with 0x0000 = 0% DC and 0xFA00 (64000 decimal) = 100% DC.
+This is the full range of the force feedback system.
+
+
+Command ID: FE
+Parameters: None
+
+--Byte----Function----------------------
+  0x02    Number of bytes to follow
+  0xFE    Command ID
+  0xXX    Checksum
+
+Returns:
+
+--Byte----Function----------------------
+  0x04    Number of bytes to follow
+  0xFE    Respose ID
+  0xXX    MSB
+  0xXX    LSB
+  0xXX    Checksum
+"""
+
+
+def SET_PWM_Duty_Cycle(pwmDataArray):
+    newDutyCycleFloat = 0.0
+    newDutyCycleInt = bytes_to_int(pwmDataArray)
+    newDutyCycleFloat = 100.0 * (newDutyCycleInt / 0xFFFF)
+    print
+    newDutyCycleFloat
+    return newDutyCycleFloat
 
 
 # --Meter Inputs--
@@ -66,6 +135,31 @@ def getSerialData():
 #   Turn On 1 Sec Gravity Data Xmit
 #   Turn Off 1 Sec Gravity Data Xmit
 #   Reset Clock
+
+def parse_commands(command_bytes):
+    command_byte = command_bytes[0]
+
+    if command_byte == 0x00:
+        Send_System_Status()
+    elif command_byte == 0xFE:
+        Get_PWM_Duty_Cycle()
+    elif command_byte == 0x02:
+        SET_PWM_Duty_Cycle(command_bytes)
+    elif command_byte == 0x03:
+        Send_Data_Sets_at_1_Sec_Intervals(command_bytes)
+
+    elif command_byte == 0xFF:
+        Stop_Sending_Data_Sets()
+
+    elif command_byte == 0x00:
+        Send_System_Status()
+
+    elif command_byte == 0xF9:
+        Alternate_Break()
+
+
+
+
 
 
 
@@ -89,11 +183,12 @@ def getSerialData():
                                     
 #   Meter Outputs
 
-#       PWM Duty Cycle
-# Beam Frequency
-#       Cross Level Frequency
-#       Long Level Frequency
-#       Temperature
+#       PWM Duty Cycle          (16bit)
+#       Beam Frequency          (16bit)
+#       Cross Level Frequency   (16bit)
+#       Long Level Frequency    (16bit)
+#       Temperature             (16bit)
+#       Checksum                (8bit)
 
 
 # xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -105,7 +200,7 @@ def getSerialData():
 
 # Byte    Function
 
-# 0       Number of bytes to follow
+# 0       Number of bytes to follow -11
 # 1       Command ID
 # 2       Data
 # .
@@ -113,6 +208,11 @@ def getSerialData():
 # .
 # N       Last data byte
 # N+1     Check sum (EOR of bytes 2 - N)
+
+
+
+
+
 def bytes_to_int(bytes):
     result = 0
     for b in bytes:
@@ -168,73 +268,12 @@ def parseRXcommand(rxByteArray):
 
 
 
-# def get_command(command_byte):
-#   if command_byte == 0xFE
-#       Get_PWM_Duty_Cycle()
-
-#   elif command_byte == 0x02:  
-#       SET_PWM_Duty_Cycle(comm_data)
-
-#   elif command_byte == 0x03:  
-#       Send_Data_Sets_at_1_Sec_Intervals(comm_data)
-
-#   elif command_byte == 0xFF:  
-#       Stop_Sending_Data_Sets()
-
-#   elif command_byte == 0x00:
-#       Send_System_Status()    
-
-#   elif command_byte == 0xF9:  
-#       Alternate_Break()       
 
 
 
 
-def verify_checksum(comm_data):
-    verified = False
-    return verified
-
-def calculate_checksum(comm_data):
-    checksum = 0x000
-    return checksum 
-
-def Get_PWM_Duty_Cycle():
-  return dutyCycle
-
-"""Purpose: Tells the meter to transmit the current PWM duty cycle value. 
-The 16 bit value represents the duty cycle stored in the meter, 
-with 0x0000 = 0% DC and 0xFA00 (64000 decimal) = 100% DC. 
-This is the full range of the force feedback system.
 
 
-Command ID: FE
-Parameters: None
-
---Byte----Function----------------------
-  0x02    Number of bytes to follow
-  0xFE    Command ID
-  0xXX    Checksum
-
-Returns:
-
---Byte----Function----------------------
-  0x04    Number of bytes to follow
-  0xFE    Respose ID
-  0xXX    MSB
-  0xXX    LSB
-  0xXX    Checksum
-"""
-
-
-
-
-def SET_PWM_Duty_Cycle(pwmDataArray):
-  newDutyCycleFloat = 0.0
-  newDutyCycleInt = bytes_to_int(pwmDataArray)
-  newDutyCycleFloat = 100.0 * (newDutyCycleInt / 0xFFFF)
-  print newDutyCycleFloat
-  return newDutyCycleFloat
-  
   
   
 SET_PWM_Duty_Cycle(parseRXcommand(parseRXcommand([0x04, 0x1b, 0xff, 0xff, 0x00]))  
@@ -319,8 +358,6 @@ Parameters: None
   0x03    Command ID
   0xXX    Chechsum
 
-
-
 Returns: Beam Freq, Long Level Freq, Cross Level Freq, Thermometer value
 
 --Byte----Function----------------------
@@ -335,8 +372,6 @@ Returns: Beam Freq, Long Level Freq, Cross Level Freq, Thermometer value
   0xXX    Cross Level LSB
   0xXX    Temperature
   0xXX    Chechsum
-
-
 """
 
 
@@ -346,8 +381,6 @@ def Send_System_Status():
   return 0
 
 """Purpose: This command tells the meter to transmit its system status information. 
-
-
 
   Status Byte 0
 
@@ -405,25 +438,4 @@ Returns: system0, system1, system2, system3
 """
 
 
-def Alternate_Break():
-  return 0
-"""
-Purpose:  Performs same initial hand shake function as a break signal. For use with Bluetooth connection.
 
-Command ID: F9
-Parameters: None
-
-
---Byte----Function----------------------
-  0x02    Number of bytes to follow
-  0xF9    Command ID
-  0xXX    Chechsum
-
-
-
-Returns:
---Byte----Function----------------------
-  0x02    Number of bytes to follow
-  0x07    Response ID 0x07
-  0xXX    Chechsum
-"""
