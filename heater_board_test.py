@@ -9,7 +9,7 @@
 
 import Adafruit_BBIO.GPIO as GPIO
 from Adafruit_BBIO.SPI import SPI
-import MAX11100
+import MAX11100 as MAX11100
 
 
 spi = SPI(0,0)
@@ -50,17 +50,19 @@ GPIO.setup( thermistor_mux_a2, GPIO.OUT)
 
 
 def led_test(option, node):
-    print("Please verify ", node, " LED is ", option, " and all others are off")
+    print"Please verify ", node, " LED is ", option, " and all others are off"
+    user_test = "n"
 
-    i = input(" (y/n)")
-    if i == 'Y':
-        print (node, " ", option, ": PASS")
-    elif   i == 'y':
-        print(node, " ", option, ": PASS")
+    user_test = raw_input(" (y/n)")
+    
+    if user_test == 'Y':
+        print  node, " ", option, ": PASS" 
+    elif   user_test == 'y':
+        print node, " ", option, ": PASS"
     else:
-        print(node, " ", option, ": FAIL")
+        print node, " ", option, ": FAIL"
 
-    return None
+    return 0
 
 
 def set_heater_on(heater):
@@ -86,10 +88,10 @@ GPIO.output( gearbox_heater, GPIO.LOW)
 #   Test all heater LEDs for off
 
 
-led_test("Off", arrestment_heater)
-led_test("Off", conning_tower_heater)
-led_test("Off", meter_heater)
-led_test("Off", gearbox_heater)
+led_test("Off", "arrestment_heater")
+led_test("Off", "conning_tower_heater")
+led_test("Off", "meter_heater")
+led_test("Off", "gearbox_heater")
 
 #   Turn on and test heaters one at a time
 
@@ -147,12 +149,19 @@ def set_thermistor_address(thermistor):
 
 
 
+system_voltage = 5.0  # Make manual measurment and change as necessary
+system_resistor = 6980
+set_thermistor_address(thermistor)
+thermistor_voltge = MAX11100.ReadADC_average(100, 100)
+#
+
+
 
 
 print( "Unplug heater and thermistor test plugs")
-i = input ("Press enter/return when complete")
+i = raw_input ("Press enter/return when complete")
 print("Plug heater and thermistor monitor plugs into Arrestment heater and thermistor")
-i = input ("Press enter/return when complete")
+i = raw_input ("Press enter/return when complete")
 
 
 #   This is for development only.
@@ -169,4 +178,6 @@ i = input ("Press enter/return when complete")
 
 
 
+
 GPIO.cleanup()
+
