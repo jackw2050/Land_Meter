@@ -2,13 +2,13 @@
 
 from Adafruit_BBIO import ADC
 
-AIN0 = "P9_39"  #ZH
+AIN0 = "P9_39"  #+12V
 AIN1 = "P9_40"  #Lid thermistor
-AIN2 = "P9_37"  #+12V
-AIN3 = "P9_38"  #+5V
+AIN2 = "P9_37"  #BBB +5V
+AIN3 = "P9_38"  #N/C
 AIN4 = "P9_33"  #+3.3V
 AIN5 = "P9_36"  # Battery thermistor   
-AIN6 = "P9_35"  # Battery voltage
+AIN6 = "P9_35"  # +5V
 
 
 
@@ -16,13 +16,13 @@ AIN6 = "P9_35"  # Battery voltage
 
 adc_average_count = 100
 
-ADC.ain0_divider = 1.0
+ADC.ain0_divider = 0.090939
 ADC.ain1_divider = 1.0
-ADC.ain2_divider = 1.0
+ADC.ain2_divider = 0.33402
 ADC.ain3_divider = 1.0
-ADC.ain4_divider = 1.0
+ADC.ain4_divider = 0.13069
 ADC.ain5_divider = 1.0
-ADC.ain6_divider = 1.0
+ADC.ain6_divider = 0.33307
 
 #These values should reside in file and loaded at boot
 ADC.ain0_offset = 0.0
