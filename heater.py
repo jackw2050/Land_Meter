@@ -3,6 +3,21 @@ import MAX1300
 import time
 import Adafruit_BBIO.GPIO as GPIO
 
+
+
+class heater:
+
+
+def __inti__(self, name, low_setpoint, high_Setpoint, status, heater_fet, thermistor1, thermistor2):
+    self.name = name
+    self.low_setpoint = low_setpoint
+    self.high_Setpoint = high_Setpoint
+    self.status = status
+    self.heater_fet = heater_fet
+    self.thermistor1 = thermistor1
+    self.thermistor2 = thermistor2
+
+
 #import Adafruit_BBIO.SPI as SPI
 SPI_PORT = 0
 SPI_DEVICE = 0
@@ -24,14 +39,14 @@ icHeaterFET     = "P8_14"
 
 heaterList = [conning_tower_heater, arrestment_heater, meter_heater, gearbox_heater]
 
-def heaterInit():
+def heaterInit(self):
     GPIO.setup(conningTowerFET, GPIO.OUT)
     GPIO.setup(arrestmentFET  , GPIO.OUT)
     GPIO.setup(gearboxFET     , GPIO.OUT)
     GPIO.setup(meterFET       , GPIO.OUT)
     GPIO.setup(icHeaterFET    , GPIO.OUT)
 
-def updateHeater(heater, newStatus):
+def updateHeater(self,heater, newStatus):
     if(heater == 'conning_tower'):
         heaterName = conningTowerFET
     elif(heater == 'Arrestment'):
