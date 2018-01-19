@@ -1,10 +1,11 @@
 import Adafruit_BBIO.GPIO as GPIO
 import time
 
-
+debug = True
 systemPowerEnable   = "P8_22"  #GPIO 1-5
 meterHeaterFET      = "P8_5"
 gearboxHeaterFET    = "P8_6"
+
 arrestmentHeaterFET = "P8_3"
 conningTowerFET     = "P8_4"
 icHeaterFET         = "P8_19"
@@ -24,9 +25,10 @@ FB_MUX_A1			= "P8_26"    #GPIO 1-29  OK
 
 
 
-def zlsInit():
+def zlsInit(debug):
 	#Enable GPIO for system power DC-DC converters
-	print "Initializing GPIO"
+	if (debug):
+		print "Initializing GPIO"
 	GPIO.setup(systemPowerEnable, 	GPIO.OUT)
 
 	#Enable GPIO heater for heater FETs
@@ -67,78 +69,119 @@ def zlsInit():
 	GPIO.output(FB_MUX_A0, 				GPIO.LOW)	
 	GPIO.output(FB_MUX_A1, 				GPIO.LOW)
 	
-def setMux(a0, a1, a2):
+def setMux(a0, a1, a2, debug):
 		if (a0 == 1):
 			GPIO.output(MUX_A0, 				GPIO.HIGH)
-			print "A0 set to high"
+			if (debug):
+				print "MUX_A0 set to high"
 		else:
 			GPIO.output(MUX_A0, 				GPIO.LOW)
+			if (debug):
+				print "MUX_A0 set to low"
 		if (a0 == 1):
 			GPIO.output(MUX_A1, 				GPIO.HIGH)
+			if (debug):
+				print "MUX_A1 set to high"
 		else:
 			GPIO.output(MUX_A1, 				GPIO.LOW)
+			if (debug):
+				print "MUX_A1 set to low"
 		if (a0 == 1):
 			GPIO.output(MUX_A2, 				GPIO.HIGH)
+			if (debug):
+				print "MUX_A2 set to high"
 		else:
 			GPIO.output(MUX_A2, 				GPIO.LOW)	
+			if (debug):
+				print "MUX_A2 set to low"
 		
 
-def setFBMux(a0, a1):
+def setFBMux(a0, a1, debug):
 		if (a0 == 1):
 			GPIO.output(FB_MUX_A0, 				GPIO.HIGH)
-			print "A0 set to high"
+			if (debug):
+				print "FB_MUX_A0 set to high"
 		else:
 			GPIO.output(FB_MUX_A0, 				GPIO.LOW)
+			if (debug):
+				print "FB_MUX_A0 set to low"
 		if (a1 == 1):
 			GPIO.output(FB_MUX_A1, 				GPIO.HIGH)
-			print "A0 set to high"
+			if (debug):
+				print "FB_MUX_A1 set to high"
 		else:
 			GPIO.output(FB_MUX_A1, 				GPIO.LOW)			
-
+			if (debug):print "FB_MUX_A1 set to low"
 			
 			
-def setThermistorMux(a0, a1, a2):
+def setThermistorMux(a0, a1, a2, debug):
 		if (a0 == 1):
 			GPIO.output(thermistor_MUX_A0, 				GPIO.HIGH)
+			if (debug):
+				print "thermistor_MUX_A0 set to high"
 		else:
 			GPIO.output(thermistor_MUX_A0, 				GPIO.LOW)
+			if (debug):
+				print "thermistor_MUX_A0 set to low"
 		if (a0 == 1):
 			GPIO.output(thermistor_MUX_A1, 				GPIO.HIGH)
+			if (debug):
+				print "thermistor_MUX_A1 set to high"
 		else:
 			GPIO.output(thermistor_MUX_A1, 				GPIO.LOW)
+			if (debug):
+				print "thermistor_MUX_A1 set to low"
 		if (a0 == 1):
 			GPIO.output(thermistor_MUX_A2, 				GPIO.HIGH)
+			if (debug):
+				print "thermistor_MUX_A2 set to high"
 		else:
 			GPIO.output(thermistor_MUX_A2, 				GPIO.LOW)
+			if (debug):
+				print "thermistor_MUX_A2 set to low"
 
 
-def setHeater(meterHeater, gearboxHeater,  arrestmentHeater, conningTower):
+def setHeater(meterHeater, gearboxHeater,  arrestmentHeater, conningTowerHeater, debug):
+	
 		if (meterHeater == 1):
 			GPIO.output(meterHeaterFET, 				GPIO.HIGH)
+			if (debug):
+				print "meterHeaterFET set to high"
 		else:
 			GPIO.output(meterHeaterFET, 				GPIO.LOW)
-			
+			if (debug):
+				print "meterHeaterFET set to low"
 		if (gearboxHeater == 1):
 			GPIO.output(gearboxHeaterFET, 				GPIO.HIGH)
+			if (debug):
+				print "gearboxHeater set to high"
 		else:
 			GPIO.output(gearboxHeaterFET, 				GPIO.LOW)
+			if (debug):
+				print "gearboxHeater set to low"
 
 		if (arrestmentHeater == 1):
 			GPIO.output(arrestmentHeaterFET, 			GPIO.HIGH)
+			if (debug):
+				print "arrestmentHeater set to high"
 		else:
 			GPIO.output(arrestmentHeaterFET, 			GPIO.LOW)
+			if (debug):
+				print "arrestmentHeater set to low"
 			
-		if (conningTower == 1):
+		if (conningTowerHeater == 1):
 			GPIO.output(conningTowerFET, 				GPIO.HIGH)
+			if (debug):
+				print "conningTowerHeater set to high"
 		else:
-			GPIO.output(conningTowerFET, 				GPIO.LOW)			
+			GPIO.output(conningTowerFET, 				GPIO.LOW)
+			if (debug):
+				print "conningTowerHeater set to low"
 		
-zlsInit()		
+zlsInit(debug)		
 	   	
-setMux(1,1,1)
-setThermistorMux(1,1,1)
-setFBMux(1,0)
-setHeater(1, 1, 1, 1)
-
-
+# setMux(1,1,1,debug)
+# setThermistorMux(1,1,1,debug)
+# setFBMux(1,1,debug)
+setHeater(1, 0, 0, 0, debug)
 	   	
