@@ -22,6 +22,30 @@ http://www.4dsystems.com.au/product/4D_Workshop_4_IDE/
 
 
 
+Overlays
+BB-I2C2-00A0.dts
+BB-ADC-00A0.dts
+BB-PWM0-00A0.dts
+BB-PWM1-00A0.dts
+BB-SPIDEV0-00A0.dts
+BB-SPIDEV1-00A0.dts
+BB-UART1-00A0.dts
+
+
+
+RTC
+Address:  11010000  Write
+          11010001  Read
+
+
+
+
+Python program auto start:  https://www.engineersgarage.com/contribution/autorun-python-script-beaglebone-black-boot
+
+
+
+
+
 Wifi info:
 pip install python-wifi
 
