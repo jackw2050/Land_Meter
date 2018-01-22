@@ -33,6 +33,11 @@ BB-UART1-00A0.dts
 
 
 
+
+for I2C:  sudo apt-get install build-essential python-dev python-setuptools python-pip python-smbus -y
+
+
+
 RTC
 Address:  11010000  Write
           11010001  Read
