@@ -1,10 +1,11 @@
 import file_ops as file_op
 import BBB_ADC as BBB_ADC
-import heater as heater
+import zlsGpio
+# import heater as heater
 import Adafruit_BBIO.GPIO as GPIO
 import time
 import Levels
-import MAX1300 as MAX1300  # Replace with MAX11100
+import MAX11100 as MAX11100  # Replace with MAX11100
 
 
 
@@ -82,15 +83,11 @@ class zls_land:
 
 
 
-
-
-
 		def __init__(self):
 			# Setup GPIO for system power
-			GPIO.setup(self.systemPowerEnable, GPIO.OUT)  # Enable pin for DC-DC converter
-			GPIO.setup(self.system9VoltEnable, GPIO.OUT)  # Enable pin for DC-DC converter
-
-
+			zlsGpio.zlsInit(False)
+			zlsGpio.systemPower(1, False)
+			
 
 
 		def verifySysVoltages(self):
@@ -152,39 +149,39 @@ class zls_land:
 			print "Battery\t\t",9.0, "\t", round(battVolt,2), "\t", 18.0, "\t", battVoltOk
 			time.sleep(1)
 
-			zhVolt = BBB_ADC.read_adc("zhSys", loop_count, self.zh_divider, self.zh_offset)
-			zhVoltOk = "Pass"
-			if((zhVolt < self.zh_Target - self.zh_Error) or (zhVolt > self.zh_Target + self.zh_Error)):
-				zhVoltOk = "Fail"
-				sysPowerStatus = "Fail"
-				issue = "ZH system voltage" + "\t" + "target: " + str(self.zh_Target) + "\tError:  +/-" + str(self.zh_Error) + "\tMeasured: " + str(round(zhVolt,2)) + "\t" + zhVoltOk
-				file_op.create_log_entry(issue)
-			print "ZH\t\t",5 * .95, "\t", round(zhVolt,2), "\t", 5 * 1.05, "\t", zhVoltOk
-			time.sleep(1)
+			# zhVolt = BBB_ADC.read_adc("zhSys", loop_count, self.zh_divider, self.zh_offset)
+			# zhVoltOk = "Pass"
+			# if((zhVolt < self.zh_Target - self.zh_Error) or (zhVolt > self.zh_Target + self.zh_Error)):
+			# 	zhVoltOk = "Fail"
+			# 	sysPowerStatus = "Fail"
+			# 	issue = "ZH system voltage" + "\t" + "target: " + str(self.zh_Target) + "\tError:  +/-" + str(self.zh_Error) + "\tMeasured: " + str(round(zhVolt,2)) + "\t" + zhVoltOk
+			# 	file_op.create_log_entry(issue)
+			# print "ZH\t\t",5 * .95, "\t", round(zhVolt,2), "\t", 5 * 1.05, "\t", zhVoltOk
+			# time.sleep(1)
 
 
 
 
-			sysn5v = MAX1300.ReadADC_average(1 , 10, .01,  1, 0)
-			# sysn5v = MAX1300.ReadADC(1)
-			sysn5vOk = "Pass"
-			if((sysn5v > -1 * self.n5vTarget - self.p5vError) or (sysn5v < -1 * self.n5vTarget - self.n5vError)):
-				sysn5vOk = "Fail"
-				sysPowerStatus = "Fail"
-				issue = "-5V system voltage" + "\t" + "target: " + str(-1 * self.n5vTarget) + "\tError:  +/-" + str(self.p5vError) + "\tMeasured: " + str(round(sysn5v,2)) + "\t" + sysn5vOk
-				file_op.create_log_entry(issue)
-			print "-5V\t\t",-5.0 * .95, "\t", round(sysn5v,2), "\t", -5.0 * 1.05, "\t", sysn5vOk
-			time.sleep(1)
+			# sysn5v = MAX1300.ReadADC_average(1 , 10, .01,  1, 0)
+			# # sysn5v = MAX1300.ReadADC(1)
+			# sysn5vOk = "Pass"
+			# if((sysn5v > -1 * self.n5vTarget - self.p5vError) or (sysn5v < -1 * self.n5vTarget - self.n5vError)):
+			# 	sysn5vOk = "Fail"
+			# 	sysPowerStatus = "Fail"
+			# 	issue = "-5V system voltage" + "\t" + "target: " + str(-1 * self.n5vTarget) + "\tError:  +/-" + str(self.p5vError) + "\tMeasured: " + str(round(sysn5v,2)) + "\t" + sysn5vOk
+			# 	file_op.create_log_entry(issue)
+			# print "-5V\t\t",-5.0 * .95, "\t", round(sysn5v,2), "\t", -5.0 * 1.05, "\t", sysn5vOk
+			# time.sleep(1)
 
-			zpVolt = MAX1300.ReadADC(2)
-			zhVoltOk = "Pass"
-			if((zpVolt < self.zpTarget - self.zpError) or (zpVolt > self.zpTarget + self.zpError)):
-				zhVoltOk = "Fail"
-				sysPowerStatus = "Fail"
-				issue = "ZP system voltage" + "\t" + "target: " + str(self.zpTarget) + "\tError:  +/-" + str(self.zpError) + "\tMeasured: " + str(round(zpVolt,2)) + "\t" + zhVoltOk
-				file_op.create_log_entry(issue)
-			print "ZP\t\t",24.0 * .999, "\t", round(zpVolt,2), "\t", 24.0 * 1.001, "\t", zhVoltOk
-			time.sleep(1)
+			# zpVolt = MAX1300.ReadADC(2)
+			# zhVoltOk = "Pass"
+			# if((zpVolt < self.zpTarget - self.zpError) or (zpVolt > self.zpTarget + self.zpError)):
+			# 	zhVoltOk = "Fail"
+			# 	sysPowerStatus = "Fail"
+			# 	issue = "ZP system voltage" + "\t" + "target: " + str(self.zpTarget) + "\tError:  +/-" + str(self.zpError) + "\tMeasured: " + str(round(zpVolt,2)) + "\t" + zhVoltOk
+			# 	file_op.create_log_entry(issue)
+			# print "ZP\t\t",24.0 * .999, "\t", round(zpVolt,2), "\t", 24.0 * 1.001, "\t", zhVoltOk
+			# time.sleep(1)
 
 			print "\nSystem power\t\t\t\t",sysPowerStatus
 			print "-----------------------------------------------"
@@ -213,16 +210,16 @@ class zls_land:
 			time.sleep(1)
 			print("DC-DC converters enabled")
 			time.sleep(3)
-			print("Enabling GPIO 2-4 for +9V")
-			GPIO.output(self.system9VoltEnable, GPIO.LOW)
-			time.sleep(1)
-			print("9V LDO converter enabled")
-			time.sleep(1)
+			# print("Enabling GPIO 2-4 for +9V")
+			# GPIO.output(self.system9VoltEnable, GPIO.LOW)
+			# time.sleep(1)
+			# print("9V LDO converter enabled")
+			# time.sleep(1)
 			print "Initializing Land Meter Electronics"
 			time.sleep(1)
 			print "Verifying system voltages"
 			time.sleep(1)
-			verifySysVoltages()
+			self.verifySysVoltages()
 
 
 			print "Initializing Sense clock to ", self.sense_freq, "Hz"
@@ -293,7 +290,7 @@ class zls_land:
 			# BBB_ADC.adc_init()
 			# gpio_init()
 			# pwm.init()
-			MAX1300.ADCinit()
+			# MAX11100.ADCinit()
 			# uart.init()
 			# display_init()
 
@@ -622,5 +619,5 @@ class zls_land:
 				print "Invalid entry"
 
 
-
-		main()
+land = zls_land()
+land.main()
