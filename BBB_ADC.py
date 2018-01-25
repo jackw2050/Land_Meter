@@ -101,7 +101,7 @@ def updateAinOffset(ainChan, offset):
         print "ADC channel not defined.  Offset not updated"
         return 1
 
-def calcAdcValue(self, raw, divider, offset):
+def calcAdcValue( raw, divider, offset):
     adjustedADCvalue = raw * divider + offset
     return adjustedADCvalue
 
@@ -119,7 +119,7 @@ def read_adc(adc_chan, loop_count, divider, offset):
         # divider = ain2_divider
         # offset = ain2_offset
     elif (adc_chan == "p5vSys"):
-        chan = "P9_38"  #+5V
+        chan = "P9_35"  #+5V
         # chan = "ain3 etc."
         # divider = ain3_divider
         # offset = ain3_offset
@@ -133,17 +133,24 @@ def read_adc(adc_chan, loop_count, divider, offset):
         # chan = "ain5 etc."
         # divider = ain5_divider
         # offset = ain5_offset
+    elif (adc_chan == "p5vBBB"):
+        chan = "P9_37"  # Battery thermistor   
+        # chan = "ain5 etc."
+        # divider = ain5_divider
+        # offset = ain5_offset        
 
     adcRange = 1.8
     adc_value = 0.0
 
     for num in range (0, loop_count):
         adc_value += ADC.read(chan)
-        #print adc_value
         #print ADC.read(chan)
 
     adc_value /= loop_count
+    # print adc_value
+
     adc_value *= adcRange
+    print adc_value
     adc_value = calcAdcValue(adc_value, divider, offset)
     return adc_value
 
@@ -187,9 +194,9 @@ def checkLimits(chan, adcValue):
                     
 
 
-# print round(read_adc("p12vSys", 10, 11.01, 0), 3)
-print round(read_adc("p5vSys", 10, 6.05, 0), 3)
-print round(read_adc("p3p3vSys", 10, 2.9568, 0), 3)
+print read_adc("p12vSys", 10, 11.01, 0)
+#print read_adc("p5vSys", 10, 6.05, 0)
+# print read_adc("p3p3vSys", 10, 7.6275, 0)
 
 
 # print ADC.read("P9_37") * 1.8
