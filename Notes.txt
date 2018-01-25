@@ -24,13 +24,18 @@ http://www.4dsystems.com.au/product/4D_Workshop_4_IDE/
 
 Overlays
 BB-I2C2-00A0.dts
-BB-ADC-00A0.dts
+cape_enable=bone_capemgr.enable_partno=/lib/firmware/BB-ADC
 BB-PWM0-00A0.dts
 BB-PWM1-00A0.dts
 BB-SPIDEV0-00A0.dts
 BB-SPIDEV1-00A0.dts
 BB-UART1-00A0.dts
 
+cape_enable=bone_capemgr.enable_partno=/lib/firmware/PyBBIO-gpio1_5
+cape_enable=bone_capemgr.enable_partno=/lib/firmware/PyBBIO-gpio1_6
+cape_enable=bone_capemgr.enable_partno=/lib/firmware/PyBBIO-gpio1_7
+cape_enable=bone_capemgr.enable_partno=/lib/firmware/PyBBIO-gpio1_2
+cape_enable=bone_capemgr.enable_partno=/lib/firmware/PyBBIO-gpio1_3
 
 
 
