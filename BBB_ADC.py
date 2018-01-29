@@ -114,7 +114,7 @@ def read_adc(adc_chan, loop_count, divider, offset):
         # divider = ain1_divider
         # offset = ain1_offset
     elif (adc_chan == "p12vSys"):
-        chan = "P9_37"  #+12V
+        chan = "P9_39"  #+12V
         # chan = "ain2 etc."
         # divider = ain2_divider
         # offset = ain2_offset
@@ -150,53 +150,57 @@ def read_adc(adc_chan, loop_count, divider, offset):
     # print adc_value
 
     adc_value *= adcRange
-    print adc_value
     adc_value = calcAdcValue(adc_value, divider, offset)
     return adc_value
 
-def checkLimits(chan, adcValue):
+def checkLimits(adcValue, vTarget, vLowLimit, vHiLimit):
     chan = "P9_38"
     target = 5.0
     lowLimit = 4.9
     hiLimit = 5.1
 
-    if (adc_chan == "lidThermistorVolt"):
-        chan = "P9_40"  #Lid thermistor
-        target = 5.0
-        lowLimit = 4.9
-        hiLimit = 5.1
-    elif (adc_chan == "p12vSys"):
-        chan = "P9_37"  #+12V
-        target = 5.0
-        lowLimit = 4.9
-        hiLimit = 5.1
-    elif (adc_chan == "p5vSys"):
-        chan = "P9_38"  #+5V
-        target = 5.0
-        lowLimit = 4.9
-        hiLimit = 5.1
-    elif (adc_chan == "p3p3vSys"):
-        chan = "P9_33"  #+3.3V
-        target = 5.0
-        lowLimit = 4.9
-        hiLimit = 5.1
-    elif (adc_chan == "battThermistorVolt"):
-        chan = "P9_36"  # Battery thermistor   
-        target = 5.0
-        lowLimit = 4.9
-        hiLimit = 5.1
+    target = vTarget
+    lowLimit = vLowLimit
+    hiLimit = vHiLimit
+
+    # if (adc_chan == "lidThermistorVolt"):
+    #     chan = "P9_40"  #Lid thermistor
+    #     target = 5.0
+    #     lowLimit = 4.9
+    #     hiLimit = 5.1
+    # elif (adc_chan == "p12vSys"):
+    #     chan = "P9_37"  #+12V
+    #     target = 5.0
+    #     lowLimit = 4.9
+    #     hiLimit = 5.1
+    # elif (adc_chan == "p5vSys"):
+    #     chan = "P9_38"  #+5V
+    #     target = 5.0
+    #     lowLimit = 4.9
+    #     hiLimit = 5.1
+    # elif (adc_chan == "p3p3vSys"):
+    #     chan = "P9_33"  #+3.3V
+    #     target = 5.0
+    #     lowLimit = 4.9
+    #     hiLimit = 5.1
+    # elif (adc_chan == "battThermistorVolt"):
+    #     chan = "P9_36"  # Battery thermistor   
+    #     target = 5.0
+    #     lowLimit = 4.9
+    #     hiLimit = 5.1
 
 
     if (adcValue < lowLimit or adcValue > hiLimit):
-        return -99
+        return "Fail"
     else:
-        return 1
+        return "Pass"
                     
 
 
-print read_adc("p12vSys", 10, 11.01, 0)
-#print read_adc("p5vSys", 10, 6.05, 0)
-# print read_adc("p3p3vSys", 10, 7.6275, 0)
+p12v =  read_adc("p12vSys",   10, 11.086,  0)
+p5v =  read_adc("p5vSys",    10, 3.019,   0)
+p3p3v =  read_adc("p3p3vSys",  10, 7.6275,  0)
+batt_v =  read_adc("p5vBBB",    10, 3.028,   0 )
 
 
 # print ADC.read("P9_37") * 1.8
@@ -217,8 +221,13 @@ print read_adc("p12vSys", 10, 11.01, 0)
 
 # print("ZH voltage                   = {:0.4f}V".format(zh))
 # print("Lid thermistor voltage       = {:0.4f}V".format(lid_thermistor))
-# print("+12V                         = {:0.4f}V".format(p12v))
-# print("+5V                          = {:0.4f}V".format(p5v))
-# print("+3.3V voltage                = {:0.4f}V".format(p3p3v))
-# print("Battery thermistor voltage   = {:0.4f}V".format(batt_thermistor))
-# print("Battery voltage              = {:0.4f}V".format(batt_v))
+print("+12V                         = {:0.4f}V".format(p12v))
+print("+5V                          = {:0.4f}V".format(p5v))
+print("+3.3V voltage                = {:0.4f}V".format(p3p3v))
+print("BBB 5V voltage               = {:0.4f}V".format(batt_v))
+print ""
+print "+12V check \t",   checkLimits(p12v, 12.0, 11.8, 12.5)
+print "+5V check \t",   checkLimits(p5v, 5.0, 4.8, 5.4)
+print "+3.4V check \t",   checkLimits(p3p3v, 3.4, 3.2, 3.6)
+print "BB 5V check \t",   checkLimits(batt_v, 5.0, 4.8, 5.4)
+
