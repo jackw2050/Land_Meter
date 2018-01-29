@@ -51,7 +51,7 @@ def zlsInit(debug):
 	GPIO.setup(FB_MUX_A1, 			GPIO.OUT)	
 	
 	#Initialize GPIOs to low state
-	GPIO.output(systemPowerEnable, 		GPIO.LOW)
+	GPIO.output(systemPowerEnable, 		GPIO.HIGH)
 	GPIO.output(meterHeaterFET, 		GPIO.LOW)
 	GPIO.output(gearboxHeaterFET, 		GPIO.LOW)
 	GPIO.output(arrestmentHeaterFET, 	GPIO.LOW)
@@ -69,6 +69,17 @@ def zlsInit(debug):
 	GPIO.output(FB_MUX_A0, 				GPIO.LOW)	
 	GPIO.output(FB_MUX_A1, 				GPIO.LOW)
 	
+def systemPower(state, debug):
+	if (state == 1):
+		GPIO.output(systemPowerEnable, GPIO.LOW)
+		if (debug):
+			print "System Power Enabled", systemPowerEnable
+	else:
+		GPIO.output(systemPowerEnable, GPIO.HIGH)
+		if (debug):
+			print "System Power Disabled"
+		
+	
 def setMux(a0, a1, a2, debug):
 		if (a0 == 1):
 			GPIO.output(MUX_A0, 				GPIO.HIGH)
@@ -78,7 +89,7 @@ def setMux(a0, a1, a2, debug):
 			GPIO.output(MUX_A0, 				GPIO.LOW)
 			if (debug):
 				print "MUX_A0 set to low"
-		if (a0 == 1):
+		if (a1 == 1):
 			GPIO.output(MUX_A1, 				GPIO.HIGH)
 			if (debug):
 				print "MUX_A1 set to high"
@@ -86,7 +97,7 @@ def setMux(a0, a1, a2, debug):
 			GPIO.output(MUX_A1, 				GPIO.LOW)
 			if (debug):
 				print "MUX_A1 set to low"
-		if (a0 == 1):
+		if (a2 == 1):
 			GPIO.output(MUX_A2, 				GPIO.HIGH)
 			if (debug):
 				print "MUX_A2 set to high"
@@ -178,10 +189,11 @@ def setHeater(meterHeater, gearboxHeater,  arrestmentHeater, conningTowerHeater,
 			if (debug):
 				print "conningTowerHeater set to low"
 		
-zlsInit(debug)		
-	   	
-# setMux(1,1,1,debug)
-# setThermistorMux(1,1,1,debug)
-# setFBMux(1,1,debug)
-setHeater(1, 0, 0, 0, debug)
-	   	
+zlsInit(True)		
+systemPower(1, True)
+setMux(0, 1, 0, True)
+
+# GPIO.setup("P8_22", 	GPIO.OUT)
+# GPIO.output("P8_22", GPIO.HIGH)
+
+# GPIO.cleanup()
