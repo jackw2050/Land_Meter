@@ -1,7 +1,24 @@
 import Adafruit_BBIO.UART as UART
 import serial
 
-UART.setup("UART1")
+# Do not need Adafruit.  only pyserial
+ 
+bt_serial = serial.Serial(port = "/dev/ttyO4", baudrate=9600)
+disp_serial = serial.Serial(port = "/dev/ttyO1", baudrate=9600)
+
+
+print(bt_serial.name) 
+bt_serial.close()
+bt_serial.open()
+if bt_serial.isOpen():
+    print "Serial is open!"
+    while True:
+        bt_serial.write("Hello World!")
+    
+bt_serial.close()
+
+
+#UART.setup("UART1")
 
 ser = serial.Serial(port = "/dev/ttyO1", baudrate=9600)
 ser.close()
