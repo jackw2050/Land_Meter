@@ -1,6 +1,14 @@
 # Land_Meter
 Python code for Beaglebone Black embedded Linux computer.
 
+Linux kernal:
+Image:  bone-debian-8.9-iot-armhf-2017-09-01-4gb.img.xz
+Python: 2.?
+pyserial: 3.?
+Other drivers etc...
+
+
+
 
 Batch file:
 Configure all pins including GPIO
