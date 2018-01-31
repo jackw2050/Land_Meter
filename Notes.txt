@@ -20,6 +20,15 @@ https://luma-oled.readthedocs.io/en/latest/index.html     Luma.OLED: Display dri
 
 http://www.4dsystems.com.au/product/4D_Workshop_4_IDE/
 
+For new overlay system all pins are gpio.
+Need to set them up with batch file first
+config-pin P9.11 uart
+config-pin P9.13 uart
+etc
+
+Batch file & execution:
+
+
 
 
 Overlays
