@@ -46,13 +46,15 @@ GPIO
   active_low  
   device  
   direction  
-    in
-    out
+        in
+        out
   edge  
   power  
   subsystem  
   uevent  
   value
+        high    1
+        low     0
 
 
 Loading connman:
