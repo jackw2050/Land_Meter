@@ -154,3 +154,33 @@ http://zeromq.org/
 
 Threads in python:
 https://www.tutorialspoint.com/python/python_multithreading.htm
+
+
+
+
+Bash command file
+# import subprocess
+ 
+
+
+#!/usr/bin/env python 
+import subprocess
+from subprocess import Popen, PIPE
+ 
+# s = "0"
+# subprocess.check_output(["echo", "config-pin P8.5 high"])
+# print("s = " + s)
+
+# subprocess.call(["ls", "-l"])
+
+# subprocess.call("config-pin P8.5 high")
+
+process = Popen(['echo', 'config-pin P8.5 high'], stdout=PIPE, stderr=PIPE)
+stdout, stderr = process.communicate()
+print stdout
+
+
+>>> import subprocess
+>>> subprocess.call(['./test.sh']) # Thanks @Jim Dennis for suggesting the []
+
+test.sh is the batch file
