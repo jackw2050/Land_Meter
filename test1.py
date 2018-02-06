@@ -61,3 +61,40 @@ print math.ceil(x1)
 # # # setFBMux(1,1,debug)
 # setHeater(1, 1, 0, 0, debug)
 # setMux(1,0,0,debug)
+
+
+
+
+
+# Code for GPIO input detection
+GPIO.setup("P9_15", GPIO.IN)
+
+GPIO.add_event_detect("P9_15", GPIO.FALLING)
+#your amazing code here
+#detect wherever:
+while True:
+    
+    if GPIO.event_detected("P9_15"):
+        print "event detected!"
+	
+	
+	
+	
+	
+# Serial port code
+import Adafruit_BBIO.GPIO as GPIO
+import time
+# import Adafruit_BBIO.UART as UART
+import serial 
+# UART.setup("UART4")
+ 
+# ser = serial.Serial(port = "/dev/ttyO4", baudrate=9600)
+# print(ser.name) 
+# ser.close()
+# ser.open()
+# if ser.isOpen():
+#     print "Serial is open!"
+#     while True:
+#         ser.write("Hello World!")
+    
+# ser.close()
