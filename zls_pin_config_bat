@@ -1,0 +1,88 @@
+config-pin P8.3 gpio
+config-pin P8.4 gpio
+config-pin P8.5 gpio
+config-pin P8.6 gpio
+config-pin P8.14 gpio
+config-pin P8.15 gpio
+config-pin P8.16 gpio
+config-pin P8.22 gpio
+config-pin P8.25 gpio
+config-pin P8.26 gpio
+config-pin P8.28 gpio
+config-pin P8.29 gpio
+config-pin P8.31 gpio
+config-pin P8.32 gpio
+config-pin P8.33 gpio
+config-pin P8.39 gpio
+config-pin P8.40 gpio
+config-pin P8.41 gpio
+config-pin P8.42 gpio
+config-pin P8.43 gpio
+config-pin P8.44 gpio
+
+config-pin P8.3 out
+config-pin P8.4 out
+config-pin P8.5 out
+config-pin P8.6 out
+config-pin P8.14 out
+config-pin P8.15 out
+config-pin P8.16 out
+config-pin P8.22 out
+config-pin P8.25 out
+config-pin P8.26 out
+config-pin P8.28 out
+config-pin P8.29 in+
+config-pin P8.31 out
+config-pin P8.32 out
+config-pin P8.33 out
+config-pin P8.39 out
+config-pin P8.40 out
+config-pin P8.41 out
+config-pin P8.42 out
+config-pin P8.43 out
+config-pin P8.44 out
+
+
+config-pin P8.3 low
+config-pin P8.4 low
+config-pin P8.5 low
+config-pin P8.6 low
+config-pin P8.14 low
+config-pin P8.15 low
+config-pin P8.16 low
+config-pin P8.22 high+
+config-pin P8.25 low
+config-pin P8.26 low
+config-pin P8.28 low
+
+config-pin P8.31 low
+config-pin P8.32 low
+config-pin P8.33 low
+config-pin P8.39 low
+config-pin P8.40 low
+config-pin P8.41 low
+config-pin P8.42 low
+config-pin P8.43 low
+config-pin P8.44 low
+
+
+config-pin P9.15 gpio
+config-pin P9.15 in-
+
+config-pin P8.13 pwm
+config-pin P9.14 pwm
+
+config-pin P9.11 uart
+config-pin P9.13 uart
+config-pin P9.24 uart
+config-pin P9.26 uart
+
+config-pin P9.17 spi
+config-pin P9.18 spi
+config-pin P9.21 spi
+config-pin P9.22 spi
+
+config-pin P9.28 spi
+config-pin P9.29 spi
+config-pin P9.30 spi
+config-pin P9.31 spi
