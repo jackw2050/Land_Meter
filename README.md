@@ -3,6 +3,7 @@ Python code for Beaglebone Black embedded Linux computer.
 
 Linux kernal:
 Image:  bone-debian-8.9-iot-armhf-2017-09-01-4gb.img.xz
+Dogtag:  BeagleBoard.org Debian Image 2017-10-10
 Python: 2.?
 pyserial: 3.?
 Other drivers etc...
