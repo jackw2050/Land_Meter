@@ -184,3 +184,26 @@ print stdout
 >>> subprocess.call(['./test.sh']) # Thanks @Jim Dennis for suggesting the []
 
 test.sh is the batch file
+
+
+
+
+Working version???
+
+https://github.com/adafruit/adafruit-beaglebone-io-python/issues/170
+
+debian@beaglebone:~/ssh/adafruit-beaglebone-io-python/test$ sudo /opt/scripts/tools/version.sh 
+git:/opt/scripts/:[6c2688b0be448b7bb9ca18849b430d496a84acb4]
+eeprom:[A335BNLT000C3014BBBK1316]
+model:[TI_AM335x_BeagleBone_Black]
+dogtag:[BeagleBoard.org Debian Image 2017-10-17]
+bootloader:[microSD-(push-button)]:[/dev/mmcblk0]:[U-Boot 2017.09-00002-g0f3f1c7907]
+bootloader:[eMMC-(default)]:[/dev/mmcblk1]:[U-Boot 2017.09-rc2-00002-g84a7f2]
+kernel:[4.9.57-ti-r71]
+nodejs:[v6.11.4]
+uboot_overlay_options:[enable_uboot_overlays=1]
+uboot_overlay_options:[uboot_overlay_pru=/lib/firmware/AM335X-PRU-RPROC-4-4-TI-00A0.dtbo]
+uboot_overlay_options:[enable_uboot_cape_universal=1]
+pkg:[bb-cape-overlays]:[4.4.20171013.2-0rcnee1~stretch+20171013]
+pkg:[bb-wl18xx-firmware]:[1.20170829-0rcnee1~stretch+20170829]
+pkg:[firmware-ti-connectivity]:[20170823-1rcnee0~stretch+20170830]

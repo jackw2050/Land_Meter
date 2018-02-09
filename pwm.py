@@ -2,10 +2,10 @@ import Adafruit_BBIO.PWM as PWM
 import Adafruit_BBIO.GPIO as GPIO
 import time
 import datetime
-import BBB_ADC
+
 
 #PWM.start(channel, duty, freq=2000, polarity=0)
-PWM.start("P8_46", 50)
+PWM.start("P8_13", 50)
 # PWM.set_frequency("P9_14", 10)
 debug = True
 SENSE_CLOCK = "P9_14"
@@ -15,7 +15,7 @@ SENSE_FREQUENCY = 10000
 FORCE_FREQUENCY = 125
 HEARTBEAT_FREQUENCY = 100
 current_duty_cycle = 0x00
-GPIO.setup("P8_11", GPIO.IN)
+
 
 # add pid code here or in main or in new file
 
@@ -51,7 +51,7 @@ def set_force_duty_cycle(duty_cycle):
 # PWM.start('P8_13', 50.00, 1, 0)
 
 # GPIO.add_event_detect("P8_11", GPIO.RISING) # look for RISING 
-#pwm_init()
+# pwm_init()
 # count = 0
 # while True:
 	

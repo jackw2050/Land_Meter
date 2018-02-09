@@ -1,4 +1,5 @@
 from Adafruit_BBIO.SPI import SPI
+# alt use spidev
 import time
 #https://github.com/adafruit/adafruit-beaglebone-io-python
 # Constants
@@ -72,8 +73,8 @@ def ReadADC(chan, vref):
 # 	# time.sleep(10)
 # 	return False	
 	
-# while (True):
-# 	print ReadADC(0, VREF)
-# 	time.sleep(1)
-# 	RegWrite()
+while (True):
+	print ReadADC(0, VREF)
+	time.sleep(1)
+	RegWrite()
 	

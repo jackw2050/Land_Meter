@@ -1,3 +1,5 @@
+echo Beginning Beaglebone Black pin configuration
+echo Configuring  GPIO pins
 config-pin P8.3 gpio
 config-pin P8.4 gpio
 config-pin P8.5 gpio
@@ -69,13 +71,19 @@ config-pin P8.44 low
 config-pin P9.15 gpio
 config-pin P9.15 in-
 
+echo Configuring PWM pins
+
 config-pin P8.13 pwm
 config-pin P9.14 pwm
+
+echo Configuring UART pins
 
 config-pin P9.11 uart
 config-pin P9.13 uart
 config-pin P9.24 uart
 config-pin P9.26 uart
+
+echo Configuring SPI pins
 
 config-pin P9.17 spi_cs
 config-pin P9.18 spi
@@ -86,3 +94,5 @@ config-pin P9.28 spi_cs
 config-pin P9.29 spi
 config-pin P9.30 spi
 config-pin P9.31 spi_sclk
+
+echo Configuration complete
