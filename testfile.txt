@@ -17,3 +17,11 @@ gearbox_heater_setpoint, 56.5
 meter_heater_setpoint, 65.789
 conning_tower_setpoint, 57.34
 arrestment_heater_setpoint, 55.34
+
+
+
+
+#!/usr/bin/env python 
+import subprocess
+ 
+subprocess.call(['./zls_pin_config_bat']) # Call the batch file for pin configuration

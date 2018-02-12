@@ -80,6 +80,16 @@ class Land_Sys:
         if(self.debug == True):
             print("Initializing LandMeter Class opject")
             print("Checking to see if basic cal file exists")
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
         # my_file = Path("zls_cal.csv")
         # if my_file.is_file():
         #     print(my_file, "exists\n")

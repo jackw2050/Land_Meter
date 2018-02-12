@@ -10,10 +10,10 @@ PWM.start("P8_13", 50)
 debug = True
 SENSE_CLOCK = "P9_14"
 FORCE_PWM = "P8_13"
-HEARTBEAT = "P8_46"
+HEARTBEAT = "P9_42"
 SENSE_FREQUENCY = 10000
 FORCE_FREQUENCY = 125
-HEARTBEAT_FREQUENCY = 100
+HEARTBEAT_FREQUENCY = 1
 current_duty_cycle = 0x00
 
 
@@ -51,7 +51,7 @@ def set_force_duty_cycle(duty_cycle):
 # PWM.start('P8_13', 50.00, 1, 0)
 
 # GPIO.add_event_detect("P8_11", GPIO.RISING) # look for RISING 
-# pwm_init()
+pwm_init()
 # count = 0
 # while True:
 	
@@ -65,4 +65,3 @@ def set_force_duty_cycle(duty_cycle):
 # 		if count >= 60:
 # 			count = 0
 # 			print "Doing one minute stuff"
-

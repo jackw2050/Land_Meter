@@ -8,13 +8,14 @@ import time
 
 
 VREF = 4.096
-	
-spi = SPI(0,0) 
+z = time.time()	
+spi = SPI(1,0) # 1, 0 is what used to be 0,0
 #spi.fd = -1;
 spi.mode = 3;
 spi.bpw = 8;#Bits per word
 spi.msh=1000000
-
+y = time.time()	
+print y - z
 
 
 def ReadADC_average( chan,averages, delay, vref):
@@ -68,13 +69,14 @@ def ReadADC(chan, vref):
 	return data_val
 	
 	
-# def RegWrite():
-# 	spi.xfer2([ 0xFF,0x63]);
-# 	# time.sleep(10)
-# 	return False	
+def RegWrite():
+	spi.xfer2([ 0xFF,0x63]);
+	# time.sleep(10)
+	return False	
 	
-while (True):
-	print ReadADC(0, VREF)
-	time.sleep(1)
-	RegWrite()
+# while (True):
+# 	print ReadADC(0, VREF)
+# 	time.sleep(1)
+# 	RegWrite()
 	
+# spi.xfer2([ 0xFF,0x63]);
