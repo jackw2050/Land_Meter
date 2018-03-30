@@ -1,10 +1,10 @@
-# import subprocess
+import subprocess
 
 # subprocess.call(['pwd'])
-subprocess.call(['ls'])
-# subprocess.call(['./zls_pin_config_bat']) # Call the batch file for pin configuration
+# subprocess.call(['ls'])
+subprocess.call(['Land_Meter_Python/./zls_pin_config_bat']) # Call the batch file for pin configuration
 # subprocess.call("config-pin P8.3 high")
-
+# subprocess.call(["ls", "-l"])
 
 # import Adafruit_BBIO.PWM as PWM
 # #PWM.start(channel, duty, freq=2000, polarity=0)

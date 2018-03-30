@@ -74,7 +74,9 @@ config-pin P9.15 in-
 echo Configuring PWM pins
 
 config-pin P8.13 pwm
+config-pin P8.19 pwm
 config-pin P9.14 pwm
+config-pin P9.42 pwm
 
 echo Configuring UART pins
 

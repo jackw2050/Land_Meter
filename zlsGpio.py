@@ -191,8 +191,8 @@ def setHeater(meterHeater, gearboxHeater,  arrestmentHeater, conningTowerHeater,
 		
 zlsInit(True)		
 systemPower(1, True)
-setMux(0, 1, 0, True)
-
+# setMux(0, 0, 0, True)
+# setFBMux(0, 0, True)
 # GPIO.setup("P8_22", 	GPIO.OUT)
 # GPIO.output("P8_22", GPIO.HIGH)
 

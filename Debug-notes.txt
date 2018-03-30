@@ -1,0 +1,357 @@
+Should I use Linux or RTOS?
+
+http://huesmanbros.com/marc/2017/09/22/getting-ti-rtos-running-on-the-beaglebone-black/
+
+http://www.smxrtos.com/eval/ek_arma.htm#am3358bbb
+
+
+
+
+
+
+
+
+These notes are to ensure I can duplicate all items needed to enable all pins used by the Land Meter program
+
+echo "debian  ALL=NOPASSWD: ALL" >>/etc/sudoers
+
+	Permission denied.
+
+
+
+Running zls_config_pin_bat resulted in errors:  
+	Pin has no cape: P9_18
+	P9_21 pinmux file not found!
+	This is repeated for most of the pins
+	It is clear that no cape is loaded 
+
+
+
+
+
+using comand from Github page: https://github.com/cdsteinkuehler/beaglebone-universal-io
+	https://github.com/cdsteinkuehler/beaglebone-universal-io
+Results in error:	
+	bash: /sys/devices/bone_capemgr.*/slots: No such file or directory
+
+	Again no cape loaded.
+
+
+Kernal information:
+	Linux beaglebone 4.9.80-ti-r98 #1 SMP PREEMPT Wed Feb 7 01:23:46 UTC 2018 armv7l GNU/Linux	
+
+
+Per Beaglebone.org latest image is:
+	Debian 9.3 2018-03-05 4GB SD IoT	
+
+
+cat /etc/os-release:
+
+	PRETTY_NAME="Debian GNU/Linux 9 (stretch)"
+	NAME="Debian GNU/Linux"
+	VERSION_ID="9"
+	VERSION="9 (stretch)"
+	ID=debian
+	HOME_URL="https://www.debian.org/"
+	SUPPORT_URL="https://www.debian.org/support"
+	BUG_REPORT_URL="https://bugs.debian.org/"
+
+It appears to be the latest.
+
+
+First see: 
+
+http://elinux.org/Beagleboard:BeagleBoneBlack_Debian#U-Boot_Overlays 
+
+and verify you are running the latest version of u-boot: 
+
+	cd /opt/scripts/tools/
+	git pull
+	sudo ./version.sh | grep bootloader	
+
+
+From git pull:
+	debian@beaglebone:/opt/scripts/tools$ git pull
+	remote: Counting objects: 34, done.
+	remote: Compressing objects: 100% (16/16), done.
+	remote: Total 34 (delta 22), reused 29 (delta 18), pack-reused 0
+	Unpacking objects: 100% (34/34), done.
+	From https://github.com/RobertCNelson/boot-scripts
+	   aa25770..9d965a5  master     -> origin/master
+	Updating aa25770..9d965a5
+	Fast-forward
+	 boot/generic-startup.sh                                       |  10 +++++
+	 device/bone/capes/DLPDLCR2000/structured_light/Makefile       |  52 +++++++++++++++++++++
+	 device/bone/capes/DLPDLCR2000/structured_light/README.md      |  14 ++++++
+	 device/bone/capes/DLPDLCR2000/structured_light/display_app.c  | 292 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	 device/bone/capes/DLPDLCR2000/structured_light/display_app.h  |  47 +++++++++++++++++++
+	 device/bone/capes/DLPDLCR2000/structured_light/display_core.c | 342 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	 device/bone/capes/DLPDLCR2000/structured_light/display_core.h |  58 ++++++++++++++++++++++++
+	 device/bone/capes/DLPDLCR2000/structured_light/open_bmp.c     | 195 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	 device/bone/capes/DLPDLCR2000/structured_light/open_bmp.h     |  50 +++++++++++++++++++++
+	 tools/eMMC/bbb-eMMC-flasher-eewiki-12mb.sh                    |   8 ++--
+	 tools/eMMC/bbb-eMMC-flasher-eewiki-ext4.sh                    |   8 ++--
+	 tools/eMMC/functions.sh                                       |  18 ++++----
+	 tools/grow_partition.sh                                       |   7 ++-
+	 tools/update_kernel.sh                                        |   7 ++-
+	 14 files changed, 1089 insertions(+), 19 deletions(-)
+	 create mode 100644 device/bone/capes/DLPDLCR2000/structured_light/Makefile
+	 create mode 100644 device/bone/capes/DLPDLCR2000/structured_light/README.md
+	 create mode 100644 device/bone/capes/DLPDLCR2000/structured_light/display_app.c
+	 create mode 100644 device/bone/capes/DLPDLCR2000/structured_light/display_app.h
+	 create mode 100644 device/bone/capes/DLPDLCR2000/structured_light/display_core.c
+	 create mode 100644 device/bone/capes/DLPDLCR2000/structured_light/display_core.h
+	 create mode 100644 device/bone/capes/DLPDLCR2000/structured_light/open_bmp.c
+	 create mode 100644 device/bone/capes/DLPDLCR2000/structured_light/open_bmp.h
+
+From sudo ./version.sh | grep bootloader:
+	bootloader:[microSD-(push-button)]:[/dev/mmcblk0]:[U-Boot 2018.01-00002-g9aa111a004]:[location: dd MBR]
+	bootloader:[eMMC-(default)]:[/dev/mmcblk1]:[U-Boot 2016.11-rc3-00002-g73df7f]:[location: dd MBR]
+
+It should be:
+	bootloader:[microSD-(push-button)]:[/dev/mmcblk0]:[U-Boot 2018.01-rc2-00002-g23388d]
+
+It is clearly out of date.		
+
+To update:
+
+	cd /opt/scripts/tools/developers/
+	sudo ./update_bootloader.sh
+	sudo reboot
+
+
+
+	bootloader:[/dev/mmcblk0]:[U-Boot 2018.01-00002-g9aa111a004]
+	Bootloader Recovery
+
+	Downloading Device's Bootloader
+	-----------------------------
+	2018-03-22 15:46:55 URL:https://rcn-ee.com/repos/bootloader/latest/bootloader-ng [10359/10359] -> "/tmp/tmp.h4h3bF8qAz/dl/bootloader-ng" [1]
+	2018-03-22 15:46:56 URL:https://rcn-ee.com/repos/bootloader/am335x_evm/MLO-am335x_evm-v2018.03-r5 [91812/91812] -> "/tmp/tmp.h4h3bF8qAz/dl/MLO-am335x_evm-v2018.03-r5" [1]
+	SPL Bootloader: MLO-am335x_evm-v2018.03-r5
+	--2018-03-22 15:46:56--  https://rcn-ee.com/repos/bootloader/am335x_evm/u-boot-am335x_evm-v2018.03-r5.img
+	Resolving rcn-ee.com (rcn-ee.com)... 45.33.2.10, 2600:3c00::f03c:91ff:fe37:6ad5
+	Connecting to rcn-ee.com (rcn-ee.com)|45.33.2.10|:443... connected.
+	HTTP request sent, awaiting response... 200 OK
+	Length: 431952 (422K)
+	Saving to: ‘/tmp/tmp.h4h3bF8qAz/dl/u-boot-am335x_evm-v2018.03-r5.img’
+
+	u-boot-am335x_evm-v2018.03-r5.img                   100%[===================================================================================================================>] 421.83K  1.41MB/s    in 0.3s
+
+	2018-03-22 15:46:57 (1.41 MB/s) - ‘/tmp/tmp.h4h3bF8qAz/dl/u-boot-am335x_evm-v2018.03-r5.img’ saved [431952/431952]
+
+	UBOOT Bootloader: u-boot-am335x_evm-v2018.03-r5.img
+	-----------------------------
+	Warning: this script will flash your bootloader with:
+	u-boot-mmc-spl.bin: [MLO-am335x_evm-v2018.03-r5]
+	u-boot.bin: [u-boot-am335x_evm-v2018.03-r5.img]
+	for: [am335x_evm]
+	-----------------------------
+	log: dd if=/tmp/tmp.h4h3bF8qAz/dl/MLO-am335x_evm-v2018.03-r5 of=/dev/mmcblk0 seek=1 bs=128k
+	log: dd if=/tmp/tmp.h4h3bF8qAz/dl/u-boot-am335x_evm-v2018.03-r5.img of=/dev/mmcblk0 seek=1 bs=384k
+
+	Are you 100% sure, on selecting [am335x_evm] (y/n)? y
+	log: dd if=/tmp/tmp.h4h3bF8qAz/dl/MLO-am335x_evm-v2018.03-r5 of=/dev/mmcblk0 seek=1 bs=128k
+	0+1 records in
+	0+1 records out
+	91812 bytes (92 kB, 90 KiB) copied, 0.00759815 s, 12.1 MB/s
+	log: dd if=/tmp/tmp.h4h3bF8qAz/dl/u-boot-am335x_evm-v2018.03-r5.img of=/dev/mmcblk0 seek=1 bs=384k
+	1+1 records in
+	1+1 records out
+	431952 bytes (432 kB, 422 KiB) copied, 0.0212958 s, 20.3 MB/s
+	-----------------------------
+	Bootloader Updated
+	Bootloader Recovery Complete
+
+
+
+Add line to uEnv.txt:
+
+	cape_enable=capemgr.enable_partno=cape-universaln 
+
+	Did not work.  Removed.
+
+
+cat /etc/dogtag 
+	BeagleBoard.org Debian Image 2018-02-11
+
+cat /etc/debian_version 
+	9.3
+
+cat /proc/cmdline 
+	console=ttyO0,115200n8 root=/dev/mmcblk0p1 ro rootfstype=ext4 rootwait coherent_pool=1M net.ifnames=0 quiet
+
+cat /sys/devices/platform/bone_capemgr/slots
+
+	 0: PF----  -1
+	 1: PF----  -1
+	 2: PF----  -1
+	 3: PF----  -1
+
+
+Tried:
+	sudo apt update
+
+The update overlays.  This should do nothing as this is the latests release.
+	sudo apt install bb-cape-overlays
+	
+
+
+
+Next:
+
+sudo apt-get update
+
+
+·         sudo apt install bb-cape-overlays
+·         cd /opt/scripts/tools
+·         sudo git pull
+·         sudo ./update_kernel.sh --lts-4_4 --ti-channel
+·         git clone https://github.com/beagleboard/bb.org-overlays
+·         cd ./bb.org-overlays
+·         ./install.sh
+·         sudo reboot
+·         cd bb.org-overlays/tools/pinmux-generator
+·         sudo nano BeagleBone_Black_config-pin.txt		
+
+Does not work.  pinmux-generator does not exist.
+
+
+
+Added to uEnv.txt:
+	dtb_overlay=/lib/firmware/BB-PWM0-00A0.dtbo 
+
+	Does not work
+
+sudo apt-get install build-essential python-dev python-pip -y
+
+	Too many updates to list.
+
+sudo pip install --upgrade Adafruit_BBIO
+
+	Requirement already up-to-date: Adafruit_BBIO in /usr/local/lib/python2.7/dist-packages/Adafruit_BBIO-1.0.10-py2.7-linux-armv7l.egg
+
+
+Latest:
+	@bmcilw1 The Linux 4.14 kernel should resolve the issue of non-root access to the PWM outputs. Please try installing 4.14 kernel build by @RobertCNelson with:
+
+	sudo apt-get update
+	sudo apt-get upgrade
+	sudo /opt/scripts/tools/update_kernel.sh --lts-4_14
+	sudo reboot				
+
+
+No luck.
+
+
+Trying new image as recommended by https://github.com/adafruit/adafruit-beaglebone-io-python/issues/185#issuecomment-340870632
+
+
+
+		Stretch Snapshot iot
+		Flasher: (stretch-iot) (All BeagleBone Variants with a 4GB eMMC)
+		Kernel: 4.9.88-ti-r107
+		Get prebuilt image:
+
+		wget https://rcn-ee.com/rootfs/bb.org/testing/2018-03-25/stretch-iot/BBB-blank-debian-9.4-iot-armhf-2018-03-25-4gb.img.xz
+		Verify Image with:
+
+		sha256sum BBB-blank-debian-9.4-iot-armhf-2018-03-25-4gb*
+		1044872d4c4b437540a344abe2273c5f8566eecb559b0387d2785f920662ed89  BBB-blank-debian-9.4-iot-armhf-2018-03-25-4gb.img.xz
+		Windows/Mac/Linux gui
+
+		http://etcher.io
+		Linux: (dd)
+
+		xzcat BBB-blank-debian-9.4-iot-armhf-2018-03-25-4gb.img.xz | sudo dd of=/dev/sdX
+		microSD/Standalone: (stretch-iot) (All BeagleBone Variants & PocketBeagle)
+		Kernel: 4.9.88-ti-r107
+		Get prebuilt image:
+
+		wget https://rcn-ee.com/rootfs/bb.org/testing/2018-03-25/stretch-iot/bone-debian-9.4-iot-armhf-2018-03-25-4gb.img.xz
+		Verify Image with:
+
+		sha256sum bone-debian-9.4-iot-armhf-2018-03-25-4gb*
+		97bf890989dc58fbb774c6d06dec77e9555b0e6056a94ebba255dde2bde51de2  bone-debian-9.4-iot-armhf-2018-03-25-4gb.img.xz	
+
+I will try both the flasher and SD images.
+Flashing image on Beagle Bone Blue.  
+	No luck
+
+SD image
+	First pass no luck
+
+Adding:
+	sudo apt-get update
+	sudo apt-get install build-essential python-dev python-pip -y
+	git clone git://github.com/adafruit/adafruit-beaglebone-io-python.git
+	cd adafruit-beaglebone-io-python
+	sudo python setup.py install		
+
+Then neede to update to Linux kernal 4.14:
+	sudo apt-get update
+	sudo apt-get upgrade
+	sudo /opt/scripts/tools/update_kernel.sh --lts-4_14
+	sudo reboot
+
+No joy
+Checking U-Boot Overlays:
+	cd /opt/scripts/tools/
+	git pull
+	sudo ./version.sh | grep bootloader
+	bootloader:[microSD-(push-button)]:[/dev/mmcblk0]:[U-Boot 2018.01-rc2-00002-g23388d]
+
+Actual:
+	bootloader:[microSD-(push-button)]:[/dev/mmcblk0]:[U-Boot 2018.03-00002-g254339602c]:[location: dd MBR]
+	bootloader:[eMMC-(default)]:[/dev/mmcblk1]:[U-Boot 2016.11-rc3-00002-g73df7f]:[location: dd MBR]	
+
+Not sure if the eMMC is an issue.  Disabbling eMMC in uEnv.txt prior to reboot.
+Upgrade version of U-Boot just to be sure:
+	cd /opt/scripts/tools/developers/
+	sudo ./update_bootloader.sh
+	sudo reboot
+
+Also disabled audio and HTMI in uEnv.txt.
+
+Still no joy.
+
+
+Robert Nelson responded.
+
+
+	uboot_overlay_pru=/lib/firmware/AM335X-PRU-RPROC-4-14-TI-00A0.dtbo
+	This needs to match the Linux kernal.
+	There are several in uENv.txt and the correct one must be enabled.
+
+
+
+bb-cape-overlays is already the newest version (4.4.20180322.0-0rcnee0~stretch+20180322).
+0 upgraded, 0 newly installed, 0 to remove and 22 not upgraded.
+
+
+This fixed the overlay loading issue.
+
+Now can't change the frequency of pwm
+
+Try:
+	sudo apt-get install build-essential python-dev python-pip -y
+	git clone git://github.com/adafruit/adafruit-beaglebone-io-python.git
+	cd adafruit-beaglebone-io-python
+	sudo python setup.py install	
+	sudo pip install --update Adafruit_BBIO
+	
+	
+Adafruit BBIO only works correctly if run using sudo python pwm.py
+There was supposed to be an update for Linux kernal 4.14.  I will investigate.
+
+
+P8-13 does not like to be set above 125Hz
+Will try configuring PWMs one at a time then change frequency
+
+
+
+    cd /opt/source/adafruit-beaglebone-io-python/
+    git pull 
+    sudo make install
+	
+After running config script no errors were reported

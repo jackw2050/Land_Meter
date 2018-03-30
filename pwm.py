@@ -5,14 +5,15 @@ import datetime
 
 
 #PWM.start(channel, duty, freq=2000, polarity=0)
-PWM.start("P8_13", 50)
+# PWM.start("P8_13", 50)
 # PWM.set_frequency("P9_14", 10)
 debug = True
 SENSE_CLOCK = "P9_14"
-FORCE_PWM = "P8_13"
-HEARTBEAT = "P9_42"
+FORCE_PWM	= "P8_13"
+SDM_PWM 	= "P8_19"
+HEARTBEAT	= "P9_42"
 SENSE_FREQUENCY = 10000
-FORCE_FREQUENCY = 125
+FORCE_FREQUENCY = 50000
 HEARTBEAT_FREQUENCY = 1
 current_duty_cycle = 0x00
 
@@ -27,12 +28,20 @@ def pwm_init():
 	if debug:
 		print "Initializing sense clock to ", SENSE_FREQUENCY, "Hz.   ","Duty cycle:  50.0%"
 		print "Initializing force clock to ", FORCE_FREQUENCY, "Hz.   ","Duty cycle:  50.0%"
-		print "Initializing heart beat clock to 1Hz.   ","Duty cycle:  50.0%"
+		# print "Initializing syn clock to ", FORCE_FREQUENCY, "Hz.   ","Duty cycle:  50.0%"
+		# print "Initializing heart beat clock to 1Hz.   ","Duty cycle:  50.0%"
 		
-	PWM.start(SENSE_CLOCK, 50, SENSE_FREQUENCY, 0)
-	PWM.start(FORCE_PWM, 50, FORCE_FREQUENCY, 0)
-	PWM.start(HEARTBEAT, 50.00, HEARTBEAT_FREQUENCY, 0)
-
+	# PWM.start(SENSE_CLOCK,50, SENSE_FREQUENCY, 0)
+	# PWM.start(FORCE_PWM,50, FORCE_FREQUENCY, 0)
+	# # PWM.start(SDM_PWM,50, FORCE_FREQUENCY, 1)
+	# PWM.start(HEARTBEAT,50, HEARTBEAT_FREQUENCY, 0)
+	# PWM.stop(HEARTBEAT)
+	
+	
+	PWM.start("P8_13", 50, 10000, 0)
+	PWM.start("P8_19", 50, 10000, 1)
+	PWM.start("P9_14", 50, 125, 0)
+	PWM.start("P9_42", 50, 1, 0)
 
 
 

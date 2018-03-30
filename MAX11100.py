@@ -1,4 +1,5 @@
 from Adafruit_BBIO.SPI import SPI
+import zlsGpio
 # alt use spidev
 import time
 #https://github.com/adafruit/adafruit-beaglebone-io-python
@@ -65,6 +66,12 @@ def ReadADC(chan, vref):
 	# rVolt = 5.0 - data_val
 	# iVal = rVolt / 6980.0
 	# rVal = data_val / iVal
+	if (chan == 1):
+		print "1", data_val
+		data_val *= 11.604
+	elif (chan == 2):
+		print "2", data_val
+		data_val *= 11.604	
 	
 	return data_val
 	
@@ -74,8 +81,24 @@ def RegWrite():
 	# time.sleep(10)
 	return False	
 	
+
+zlsGpio.setMux(0, 0, 0, False)	
+	
 # while (True):
-# 	print ReadADC(0, VREF)
+# zlsGpio.setFBMux(0, 0, False)	
+# print ReadADC(0, VREF)
+zlsGpio.setFBMux(0, 0, False)
+print ReadADC(1, VREF)
+zlsGpio.setFBMux(0, 1, False)
+print ReadADC(1, VREF)
+zlsGpio.setFBMux(1, 0, False)	
+print ReadADC(1, VREF)
+zlsGpio.setFBMux(1, 1, False)	
+print ReadADC(1, VREF)
+
+
+
+
 # 	time.sleep(1)
 # 	RegWrite()
 	
