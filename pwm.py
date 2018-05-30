@@ -4,13 +4,23 @@ import time
 import datetime
 
 
+
+
+# P9_14	EHRPWM1A
+# P9_16	EHRPWM1B
+# P9_42	ECAPPWM0
+# P8_13	EHRPWM2B	Sense
+# P8_19	EHRPWM2A
+
 #PWM.start(channel, duty, freq=2000, polarity=0)
 # PWM.start("P8_13", 50)
 # PWM.set_frequency("P9_14", 10)
 debug = True
-SENSE_CLOCK = "P9_14"
+
 FORCE_PWM	= "P8_13"
-SDM_PWM 	= "P8_19"
+SDM_PWM 	= "P9_16"
+SENSE_CLOCK = "P9_14"
+
 HEARTBEAT	= "P9_42"
 SENSE_FREQUENCY = 10000
 FORCE_FREQUENCY = 50000
@@ -38,10 +48,10 @@ def pwm_init():
 	# PWM.stop(HEARTBEAT)
 	
 	
-	PWM.start("P8_13", 50, 10000, 0)
-	PWM.start("P8_19", 50, 10000, 1)
-	PWM.start("P9_14", 50, 125, 0)
-	PWM.start("P9_42", 50, 1, 0)
+	PWM.start("P8_13", 50, FORCE_FREQUENCY, 0)
+	PWM.start("P8_19", 50, SENSE_FREQUENCY, 1)
+	PWM.start("P9_14", 50, SENSE_FREQUENCY, 0)
+	PWM.start("P9_42", 50, HEARTBEAT_FREQUENCY, 0)
 
 
 

@@ -28,6 +28,22 @@ etc
 
 Batch file & execution:
 
+Bluetooth:
+
+
+https://www.pcsuggest.com/linux-bluetooth-setup-hcitool-bluez/
+https://people.csail.mit.edu/albert/bluez-intro/c212.html
+https://github.com/pybluez/pybluez
+https://github.com/EnableTech/raspberry-bluetooth-demo
+
+
+Setup
+pip install PyBluez - does not work
+sudo apt-get install python-bluez
+
+
+
+
 
 
 
