@@ -28,6 +28,15 @@ etc
 
 Batch file & execution:
 
+
+
+
+
+
+
+pinmux file not found:   sudo dd if=/dev/zero of=/dev/mmcblk1 bs=1M count=100
+
+
 Bluetooth:
 
 
@@ -38,8 +47,7 @@ https://github.com/EnableTech/raspberry-bluetooth-demo
 
 
 Setup
-pip install PyBluez - does not work
-sudo apt-get install python-bluez
+pip install PyBluez - does not wo
 
 
 

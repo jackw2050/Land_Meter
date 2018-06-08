@@ -17,6 +17,24 @@ class myThread (threading.Thread):
       print_time(self.name, self.counter, 5)
       print "Exiting " + self.name
 
+
+class myThread2 (threading.Thread):
+   def __init__(self, threadID, name, counter):
+      threading.Thread.__init__(self)
+      self.threadID = threadID
+      self.name = name
+      self.counter = counter
+   def run(self):
+      print "Starting " + self.name
+      
+      print_time(self.name, self.counter, 1)
+      print "Exiting " + self.name
+
+
+
+
+
+
 def print_time(threadName, counter, delay):
    while counter:
       if exitFlag:
@@ -27,7 +45,7 @@ def print_time(threadName, counter, delay):
 
 # Create new threads
 thread1 = myThread(1, "Thread-1", 1)
-thread2 = myThread(2, "Thread-2", 2)
+thread2 = myThread2(2, "Thread-2", 2)
 
 # Start new Threads
 thread1.start()
