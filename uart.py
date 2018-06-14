@@ -24,7 +24,7 @@ ser = serial.Serial(port = "/dev/ttyO1", baudrate=9600)
 ser.close()
 ser.open()
 if ser.isOpen():
-	print "Serial is open!"
+    print "Serial is open!"
     ser.write("Hello World!")
 ser.close()
 
@@ -66,12 +66,12 @@ def setup_bbb_uart(self):
 # http://pyserial.readthedocs.io/en/latest/shortintro.html
 
 
-import serial
-import time
-import datetime
-import re
+# import serial
+# import time
+# import datetime
+# import re
 
-serial = serial.Serial("/dev/ttyO1", baudrate=38400)
+# serial = serial.Serial("/dev/ttyO1", baudrate=38400)
 
 
 

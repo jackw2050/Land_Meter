@@ -85,6 +85,7 @@ Parameters: None
   0x02    Number of bytes to follow
   0xF9    Command ID
   0xXX    Chechsum
+  01F9XX
 
 
 
@@ -93,6 +94,8 @@ Returns:
   0x02    Number of bytes to follow
   0x07    Response ID 0x07
   0xXX    Chechsum
+  0307XX
+  
 """
 
 """Purpose: Tells the meter to transmit the current PWM duty cycle value.

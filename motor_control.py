@@ -6,7 +6,7 @@ import time
 
 mgal = 1
 steps = 70 * mgal
-step_size = 100000
+step_size = 1
 turns = step_size * 1
 speed = 10
 
