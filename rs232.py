@@ -86,6 +86,9 @@ Parameters: None
   0xF9    Command ID
   0xXX    Chechsum
   01F9XX
+  
+  
+  00000001 ‭11111001‬
 
 
 
@@ -94,7 +97,7 @@ Returns:
   0x02    Number of bytes to follow
   0x07    Response ID 0x07
   0xXX    Chechsum
-  0307XX
+  0207XX
   
 """
 
@@ -122,8 +125,14 @@ Returns:
   0xXX    Checksum
 """
 
+# [4, 2, 243, 49, 196] = 5%       F331
+# [4, 2, 230, 100, 132] = 10%     E664
+# [4, 2, 127, 255, 134]  = 50%    7FFF
+# [4, 2, 25, 153, 134] = 90%      1999
+# [4, 2, 5, 30, 29] = 98%         051E
 
 def SET_PWM_Duty_Cycle(pwmDataArray):
+  # 100% = 65635
     newDutyCycleFloat = 0.0
     newDutyCycleInt = bytes_to_int(pwmDataArray)
     newDutyCycleFloat = 100.0 * (newDutyCycleInt / 0xFFFF)

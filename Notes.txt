@@ -7,23 +7,27 @@ There could be more than one status value e.g. divider cal, offset cal, beam ran
 Also need to set an interrupt for the BBB power down switch that saves the files and powers down the meter safely
 
 
-For finding read line meter is tilted in cross and long directions and output is measured with pwm from 10 to 90 %
-use numpy.py to find curve function.
+PWM:
 
-Reading line is the first derivative  of this function.
-Use sympy to calculate derivative 
+Adafruit_BBIO is limited to 12 bits for duty cycle.
+Will need to migrate to PRU for better accuracy.  http://beagleboard.org/pru
+May need to go to class etc.
 
-Use Pyplot to show graph (matplotlib.org)
 
-OLED:
-https://luma-oled.readthedocs.io/en/latest/index.html     Luma.OLED: Display drivers for SSD1306 / SSD1322 / SSD1325 / SSD1331 / SH1106
 
-http://www.4dsystems.com.au/product/4D_Workshop_4_IDE/
 
 
 UART:
 
 apt install bb-cape-overlays
+Change in /boot/uEnv.txt, to get the correct pru overlay.
+
+uboot_overlay_pru=/lib/firmware/AM335X-PRU-RPROC-4-9-TI-00A0.dtbo
+to
+uboot_overlay_pru=/lib/firmware/AM335X-PRU-RPROC-4-14-TI-00A0.dtbo
+
+
+For development use rs232.py, uart.py and csum.py
 
 
 

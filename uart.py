@@ -1,5 +1,6 @@
 import Adafruit_BBIO.UART as UART
 import serial
+import binascii
 
 # Do not need Adafruit.  only pyserial
  
@@ -7,26 +8,63 @@ bt_serial = serial.Serial(port = "/dev/ttyO4", baudrate=9600)
 disp_serial = serial.Serial(port = "/dev/ttyO1", baudrate=9600)
 
 
+
+# handshake  02F9FB  number of bytes, command, checksumm
+nbytes1 = []
 print(bt_serial.name) 
 bt_serial.close()
 bt_serial.open()
 if bt_serial.isOpen():
     print "Serial is open!"
-    while True:
-        bt_serial.write("Hello World!")
+    t = 0
+    while t == 0:
+        # t = 1
+        # bt_serial.write("Hello World!")
+        cmdData = bt_serial.read(1)
+        nbytes = hex(ord(cmdData))
+        nbytes1.append(ord(cmdData))
+        # print "Bytes: ", nbytes
+        # print "Bytes: ", nbytes1
+
+        if nbytes1[0] > 0:
+            print "2 Bytes"
+            for xx in range(nbytes1[0] ):
+                cmdData = bt_serial.read(1)
+                nbytes1.append(ord(cmdData))
+            print nbytes1
+            # nbytes = hex(ord(cmdData))
+        # print "Bytes: ", nbytes
+        
+        # cmdData = bt_serial.read(1)
+        # nbytes = hex(ord(cmdData))
+        # print "Bytes: ", nbytes
+        # if nbytes == 2:
+        #     cmdData1 = bt_serial.read(1)
+        #     print "Commnad #: ", cmdData1
+        #     cmdData2 = bt_serial.read(1)
+        #     print "Checksum: ", cmdData2
+        
+      
+        nbytes1 = []
+        # print "Hello World!"
+        x = 0x020705
+        to_send = [0x02,0x07,0x05]
+        # to_send = b'\x02'
+        # print "Sending : ", to_send
+        bt_serial.write(to_send)
     
 bt_serial.close()
 
 
 #UART.setup("UART1")
 
-ser = serial.Serial(port = "/dev/ttyO1", baudrate=9600)
-ser.close()
-ser.open()
-if ser.isOpen():
-    print "Serial is open!"
-    ser.write("Hello World!")
-ser.close()
+# ser = serial.Serial(port = "/dev/ttyO1", baudrate=9600)
+# ser.close()
+# ser.open()
+# if ser.isOpen():
+#     print "Serial is open!"
+#     ser.write("Hello World!")
+# ser.close()
 
 
 
