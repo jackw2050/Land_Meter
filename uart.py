@@ -4,8 +4,8 @@ import binascii
 
 # Do not need Adafruit.  only pyserial
  
-bt_serial = serial.Serial(port = "/dev/ttyO4", baudrate=9600)
-disp_serial = serial.Serial(port = "/dev/ttyO1", baudrate=9600)
+bt_serial = serial.Serial(port = "/dev/ttyO5", baudrate=256000)
+# disp_serial = serial.Serial(port = "/dev/ttyO1", baudrate=9600)
 
 
 
@@ -13,25 +13,33 @@ disp_serial = serial.Serial(port = "/dev/ttyO1", baudrate=9600)
 nbytes1 = []
 print(bt_serial.name) 
 bt_serial.close()
+
+print bt_serial.name, " Closed"
 bt_serial.open()
 if bt_serial.isOpen():
     print "Serial is open!"
+    to_send = [0xAA, 0xAA]
+        # to_send = b'\x02'
+        # print "Sending : ", to_send
+    bt_serial.write(to_send)
+    print "Sent ", to_send
+    
     t = 0
     while t == 0:
-        # t = 1
+        t = 1
         # bt_serial.write("Hello World!")
-        cmdData = bt_serial.read(1)
-        nbytes = hex(ord(cmdData))
-        nbytes1.append(ord(cmdData))
-        # print "Bytes: ", nbytes
-        # print "Bytes: ", nbytes1
+        # cmdData = bt_serial.read(1)
+        # nbytes = hex(ord(cmdData))
+        # nbytes1.append(ord(cmdData))
+        # # print "Bytes: ", nbytes
+        # # print "Bytes: ", nbytes1
 
-        if nbytes1[0] > 0:
-            print "2 Bytes"
-            for xx in range(nbytes1[0] ):
-                cmdData = bt_serial.read(1)
-                nbytes1.append(ord(cmdData))
-            print nbytes1
+        # if nbytes1[0] > 0:
+        #     print "2 Bytes"
+        #     for xx in range(nbytes1[0] ):
+        #         cmdData = bt_serial.read(1)
+        #         nbytes1.append(ord(cmdData))
+        #     print nbytes1
             # nbytes = hex(ord(cmdData))
         # print "Bytes: ", nbytes
         
