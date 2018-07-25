@@ -1,6 +1,14 @@
 # Land_Meter
 Python code for Beaglebone Black embedded Linux computer.
 
+REQUIREMENTS
+ZLS user with SU permissions
+login to ZLS on boot - auto
+run setup/ config on boot - auto
+
+
+
+
 Linux kernal:
 Image:  bone-debian-8.9-iot-armhf-2017-09-01-4gb.img.xz
 Dogtag:  BeagleBoard.org Debian Image 2017-10-10
