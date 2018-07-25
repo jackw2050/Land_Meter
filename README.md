@@ -1,9 +1,12 @@
 # Land_Meter
 Python code for Beaglebone Black embedded Linux computer.
 
-REQUIREMENTS
+REQUIREMENTS:
+
 ZLS user with SU permissions
+
 login to ZLS on boot - auto
+
 run setup/ config on boot - auto
 
 
